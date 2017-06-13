@@ -3,8 +3,10 @@ package utils;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -50,22 +52,60 @@ public class FireBaseHandler {
     }
 
 
+    public void uploadSaloonInfo(String saloonUID , String saloonKeyValue , String value , final OnSaloonDownload onSaloonDownload){
+
+        mDatabase.getReference().child("saloon/"+ saloonUID +"/"+saloonKeyValue).setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                onSaloonDownload.onSaloonValueUploaded(true);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                onSaloonDownload.onSaloonValueUploaded(false);
+            }
+        });
+
+
+    }
+
+    public void uploadSaloon(String saloonUID ,Saloon saloon, final OnSaloonDownload onSaloonDownload){
+
+        mDatabase.getReference().child("saloon/"+ saloonUID ).setValue(saloon).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                onSaloonDownload.onSaloonValueUploaded(true);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                onSaloonDownload.onSaloonValueUploaded(false);
+            }
+        });
+
+
+    }
+
     public void isRegisteredSaloon(String saloonUID, final OnSaloonInfoCheckListner onSaloonInfoCheckListner) {
-        DatabaseReference myRef = mDatabase.getReference().child("registeredsaloon");
+        DatabaseReference myRef = mDatabase.getReference().child("saloon/"+ saloonUID );
 
-        Query myref2 = myRef.orderByChild("saloonUID").equalTo(saloonUID);
+        //Query myref2 = myRef.orderByChild("saloonUID").equalTo(saloonUID);
 
-        myref2.addListenerForSingleValueEvent(new ValueEventListener() {
+        myRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                String saloonName = dataSnapshot.child("saloonName").getValue(String.class);
+                Saloon saloon = dataSnapshot.getValue(Saloon.class);
 
-                if (saloonName != null) {
-                    if (!saloonName.isEmpty()) {
+                if (saloon.getSaloonName() != null) {
+                    if (!saloon.getSaloonName().isEmpty()) {
 
 
-                        onSaloonInfoCheckListner.onIsRegistered(true, saloonName);
+                        onSaloonInfoCheckListner.onIsRegistered(true, saloon.getSaloonName());
 
                     } else {
 
@@ -102,8 +142,9 @@ public class FireBaseHandler {
 
                 //String saloonName = dataSnapshot.child("saloonName").getValue(String.class);
 
+                Saloon saloon = dataSnapshot.getValue(Saloon.class);
 
-                onSaloonDownload.onSaloon();
+                onSaloonDownload.onSaloon(saloon);
             }
 
             @Override
@@ -183,7 +224,9 @@ public class FireBaseHandler {
     }
 
     public interface OnSaloonDownload {
-        public void onSaloon();
+        public void onSaloon(Saloon saloon);
+        public void onSaloonValueUploaded(boolean isSucessful);
+
 
     }
 

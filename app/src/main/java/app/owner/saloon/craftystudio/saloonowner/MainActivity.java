@@ -1,9 +1,11 @@
 package app.owner.saloon.craftystudio.saloonowner;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -13,9 +15,15 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
+import utils.FireBaseHandler;
+import utils.Saloon;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    boolean isRegistered =false ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +49,126 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+
+        FireBaseHandler fireBaseHandler =new FireBaseHandler();
+        fireBaseHandler.downloadSaloon("bbb", new FireBaseHandler.OnSaloonDownload() {
+            @Override
+            public void onSaloon(Saloon saloon) {
+
+                if(saloon!= null) {
+                    saloonCheck(saloon);
+                }else{
+                    showExitDialogue();
+                }
+            }
+
+            @Override
+            public void onSaloonValueUploaded(boolean isSucessful) {
+
+            }
+        });
+
+    }
+
+    private void saloonCheck(Saloon saloon) {
+        //check values of saloon obj and redirect to desiered screen
+
+        if(saloon.getSaloonName() !=null){
+            if(!saloon.getSaloonName().isEmpty()){
+
+                if(saloon.getSaloonPoint() >1){
+
+                }else if(saloon.getSaloonPoint() == -10){
+                    openSaloonProfileActivity();
+                }else if(saloon.getSaloonPoint()== -1){
+                    openSaloonImageActivity();
+                }else if(saloon.getSaloonPoint() == -100){
+                    showSuspendedDialog();
+                }else if(saloon.getSaloonPoint()==0){
+                    showExitDialogue();
+                }else{
+                    showSomethingWrongDialogue();
+                }
+
+            }else{
+                showExitDialogue();
+            }
+        }else{
+            showExitDialogue();
+        }
+
+
+
+    }
+
+    private void openSaloonProfileActivity() {
+
+        Intent intent =new Intent(MainActivity.this , SaloonProfile.class);
+        startActivity(intent);
+
+    }
+
+    private void openSaloonImageActivity() {
+
+        Intent intent =new Intent(MainActivity.this , SaloonImageActivity.class);
+        startActivity(intent);
+    }
+
+    private void showSuspendedDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplication());
+        builder.setTitle("Suspended")
+                .setMessage("Your Acoount has been suspended \n Contact Admin")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        /*account suspended
+                        * contact via email or call option
+                        * or exit()*/
+                    }
+                }).setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //exit
+                finish();
+            }
+        });
+
+        builder.create();
+        builder.show();
+    }
+
+    private void showSomethingWrongDialogue() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(getApplication());
+        builder.setTitle("Something Went Wrong")
+                .setMessage("Please Try again later")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                });
+
+        // Create the AlertDialog object and return it
+        builder.create();
+        builder.show();
+
+
+    }
+
+    private void showExitDialogue() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false)
+                .setTitle("Exit")
+                .setMessage("You are not a registered saloon \n Contact Admin")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                });
+
+        // Create the AlertDialog object and return it
+        builder.create();
+        builder.show();
+
     }
 
     @Override
@@ -83,6 +211,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
+            Intent intent =new Intent(MainActivity.this , SaloonProfile.class);
+            startActivity(intent);
         } else if (id == R.id.nav_gallery) {
             Intent intent =new Intent(MainActivity.this , SaloonImageActivity.class);
             startActivity(intent);

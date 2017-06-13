@@ -1,5 +1,8 @@
 package utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * Created by bunny on 12/06/17.
  */
@@ -11,8 +14,10 @@ public class Saloon {
     String saloonPhoneNumber ;//input
     String saloonAddress;//input
     String saloonLocation ;//input in background
-    String saloonPoint ;
+    int saloonPoint ;
     int saloonRating ;
+    Map<String ,String> saloonImageList ;
+
     //timing
     //images
 
@@ -61,11 +66,11 @@ public class Saloon {
         this.saloonLocation = saloonLocation;
     }
 
-    public String getSaloonPoint() {
+    public int getSaloonPoint() {
         return saloonPoint;
     }
 
-    public void setSaloonPoint(String saloonPoint) {
+    public void setSaloonPoint(int saloonPoint) {
         this.saloonPoint = saloonPoint;
     }
 
@@ -76,4 +81,51 @@ public class Saloon {
     public void setSaloonRating(int saloonRating) {
         this.saloonRating = saloonRating;
     }
+
+    public boolean isSaloonUpdated(){
+
+        if(saloonPhoneNumber == null || saloonLocation==null || saloonAddress==null ||saloonName ==null){
+            return false;
+        }
+
+        if (!saloonName.isEmpty()){
+
+            if(!saloonPhoneNumber.isEmpty()){
+
+                if(!saloonAddress.isEmpty()){
+
+                    if(!saloonLocation.isEmpty()){
+
+                        return true ;
+
+                    }else{
+                        return false;
+                    }
+
+                }else {
+                    return false;
+                }
+
+            }else{
+                return false;
+            }
+
+        }else{
+            return false;
+        }
+
+    }
+
+    public boolean isSaloonImageUpdated(){
+        if(saloonImageList != null) {
+            if (!saloonImageList.get("profile_image").isEmpty()) {
+                return true;
+            } else {
+                return false;
+            }
+        }else{
+            return false;
+        }
+    }
+
 }

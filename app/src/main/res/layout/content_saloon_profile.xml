@@ -19,6 +19,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="Saloon Name"
+        android:inputType="text"
         android:id="@+id/saloonprofile_saloonName_editText"
         />
 
@@ -63,6 +64,13 @@
             />
     </android.support.design.widget.TextInputLayout>
 
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:onClick="onSaveButtonClick"
+
+        />
 
 
 </LinearLayout>
