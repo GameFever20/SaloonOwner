@@ -17,6 +17,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import utils.FireBaseHandler;
 import utils.Saloon;
 
@@ -52,7 +55,7 @@ public class MainActivity extends AppCompatActivity
 
 
         FireBaseHandler fireBaseHandler =new FireBaseHandler();
-        fireBaseHandler.downloadSaloon("bbb", new FireBaseHandler.OnSaloonDownload() {
+        fireBaseHandler.downloadSaloon("abc", new FireBaseHandler.OnSaloonDownload() {
             @Override
             public void onSaloon(Saloon saloon) {
 
@@ -218,6 +221,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.nav_slideshow) {
+            resolveDateDummy();
 
         } else if (id == R.id.nav_manage) {
 
@@ -230,5 +234,16 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+
+    public void resolveDateDummy(){
+        String dateFormat = "dd/MM/yyyy hh:mm";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+
+        Date date = new Date();
+
+        String str= simpleDateFormat.format(date);
+        Toast.makeText(this, "Date is " + str, Toast.LENGTH_SHORT).show();
     }
 }

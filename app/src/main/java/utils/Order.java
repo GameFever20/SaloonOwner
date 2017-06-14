@@ -1,5 +1,8 @@
 package utils;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 /**
  * Created by bunny on 12/06/17.
  */
@@ -98,8 +101,12 @@ public class Order {
     }
 
     public String resolveOrderDate() {
+         String dateFormat = "dd/MM/yyyy  hh:mm";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
 
+        Date date = new Date();
+        date.setTime(orderTime);
+        return simpleDateFormat.format(date);
 
-        return null;
     }
 }
