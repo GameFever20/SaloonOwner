@@ -6,12 +6,16 @@ package utils;
 
 public class Order {
 
-    String saloonID ;
-    String userID;
-    String serviceID;
-    String orderStatus;
-    String saloonName ;
-    long orderTime = 0 ;
+    private String saloonID ;
+    private String userID;
+    private String serviceID;
+    private int orderStatus;
+    private String saloonName ;
+    private long orderTime = 0 ;
+    private int orderPrice =0 ;
+    private String orderServiceName ="" ;
+
+
 
     public Order() {
     }
@@ -41,11 +45,11 @@ public class Order {
         this.serviceID = serviceID;
     }
 
-    public String getOrderStatus() {
+    public int getOrderStatus() {
         return orderStatus;
     }
 
-    public void setOrderStatus(String orderStatus) {
+    public void setOrderStatus(int orderStatus) {
         this.orderStatus = orderStatus;
     }
 
@@ -63,5 +67,39 @@ public class Order {
 
     public void setOrderTime(long orderTime) {
         this.orderTime = orderTime;
+    }
+
+    public int getOrderPrice() {
+        return orderPrice;
+    }
+
+    public void setOrderPrice(int orderPrice) {
+        this.orderPrice = orderPrice;
+    }
+
+    public String getOrderServiceName() {
+        return orderServiceName;
+    }
+
+    public void setOrderServiceName(String orderServiceName) {
+        this.orderServiceName = orderServiceName;
+    }
+
+    public String resolveOrderStatus() {
+        if (orderStatus == 1){
+            return "Placed";
+        } else if (orderStatus ==2) {
+            return "Accepted";
+        }else if(orderStatus == 3){
+            return "completed";
+        }else{
+            return "";
+        }
+    }
+
+    public String resolveOrderDate() {
+
+
+        return null;
     }
 }
