@@ -27,6 +27,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     boolean isRegistered =false ;
+    public static Saloon SALOON =null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onSaloon(Saloon saloon) {
 
+                MainActivity.SALOON =saloon;
                 if(saloon!= null) {
                     saloonCheck(saloon);
                 }else{

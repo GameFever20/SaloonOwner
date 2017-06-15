@@ -171,4 +171,9 @@ public class SaloonImageActivity extends AppCompatActivity {
                 "Select Picture"), SELECT_IMAGE_1);
 
     }
+
+    public void selectImageFromGallery(View view) {
+
+
+    }
 }

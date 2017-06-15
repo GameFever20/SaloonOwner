@@ -40,8 +40,9 @@ public class SaloonProfile extends AppCompatActivity {
             }
         });
 
+        saloon = MainActivity.SALOON;
 
-        fireBaseHandler = new FireBaseHandler();
+      /*  fireBaseHandler = new FireBaseHandler();
         fireBaseHandler.downloadSaloon("abc", new FireBaseHandler.OnSaloonDownload() {
             @Override
             public void onSaloon(Saloon saloon) {
@@ -53,7 +54,7 @@ public class SaloonProfile extends AppCompatActivity {
 
                 Toast.makeText(SaloonProfile.this, "Uploaded", Toast.LENGTH_SHORT).show();
             }
-        });
+        });*/
 
         saloonNameEditText = (EditText) findViewById(R.id.saloonprofile_saloonName_editText);
         saloonAddressEditText = (EditText) findViewById(R.id.saloonprofile_saloonAddress_editText);
@@ -83,10 +84,13 @@ public class SaloonProfile extends AppCompatActivity {
 
     public void onSaveButtonClick(View view) {
 
+
         saloon.setSaloonName(saloonNameEditText.getText().toString().trim());
         saloon.setSaloonAddress(saloonAddressEditText.getText().toString().trim());
         saloon.setSaloonPhoneNumber(saloonPhoneNumberEditText.getText().toString().trim());
         saloon.setSaloonLocation(saloonLocationEditText.getText().toString().trim());
+
+
 
         if (saloon.getSaloonPoint() == -10 || saloon.getSaloonPoint() == -1 || saloon.getSaloonPoint() > 0) {
 
