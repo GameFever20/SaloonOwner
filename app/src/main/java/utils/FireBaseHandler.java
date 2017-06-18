@@ -20,6 +20,8 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Created by bunny on 12/06/17.
@@ -50,7 +52,7 @@ public class FireBaseHandler {
 
     public void downloadOrderList(String saloonUID, int limitTo, final OnOrderListener onOrderListener) {
 
-        DatabaseReference myRef = mDatabase.getReference().child("Orders/"+saloonUID);
+        DatabaseReference myRef = mDatabase.getReference().child("Orders/" + saloonUID);
 
         Query myref2 = myRef.limitToLast(limitTo);
         myref2.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -77,9 +79,9 @@ public class FireBaseHandler {
 
     }
 
-    public void downloadOrderList(String saloonUID , int limitTo , String lastOrderId , final OnOrderListener onOrderListener){
+    public void downloadOrderList(String saloonUID, int limitTo, String lastOrderId, final OnOrderListener onOrderListener) {
 
-        DatabaseReference myRef = mDatabase.getReference().child("Orders/"+saloonUID);
+        DatabaseReference myRef = mDatabase.getReference().child("Orders/" + saloonUID);
 
         Query myref2 = myRef.orderByKey().endAt(lastOrderId).limitToLast(limitTo);
         myref2.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -95,7 +97,7 @@ public class FireBaseHandler {
                     orderArrayList.add(order);
                 }
 
-                orderArrayList.remove(orderArrayList.size()-1);
+                orderArrayList.remove(orderArrayList.size() - 1);
 
                 onOrderListener.onOrderList(orderArrayList);
             }
@@ -292,6 +294,62 @@ public class FireBaseHandler {
 
     }
 
+    public void updateOrderstatus(String saloonUID, String orderId, final int orderStatus, final OnOrderStatusUpdateListener onOrderStatusUpdate) {
+
+        DatabaseReference ref = mDatabase.getReference();
+
+
+// Create the data we want to update
+        Map post = new HashMap();
+        post.put("Orders/" + saloonUID + "/" + orderId + "/" + "orderStatus", orderStatus);
+
+
+
+// Do a deep-path update
+        ref.updateChildren(post).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                onOrderStatusUpdate.onOrderStatusUpdate(orderStatus, true);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                onOrderStatusUpdate.onOrderStatusUpdate(0 , false);
+
+            }
+        });
+    }
+
+    public void updateOrderstatus(String saloonUID, String orderId, final int orderStatus,int saloonPoint , final OnOrderStatusUpdateListener onOrderStatusUpdate) {
+
+        DatabaseReference ref = mDatabase.getReference();
+
+
+// Create the data we want to update
+        Map post = new HashMap();
+        post.put("Orders/" + saloonUID + "/" + orderId + "/" + "orderStatus", orderStatus);
+        post.put("saloon/" + saloonUID+"/"+"saloonPoint", saloonPoint+1);
+
+
+
+
+// Do a deep-path update
+        ref.updateChildren(post).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                onOrderStatusUpdate.onOrderStatusUpdate(orderStatus, true);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                onOrderStatusUpdate.onOrderStatusUpdate(0 , false);
+
+            }
+        });
+    }
+
 
     public interface OnSaloonInfoCheckListner {
 
@@ -323,6 +381,10 @@ public class FireBaseHandler {
 
     public interface OnOrderListener {
         public void onOrderList(ArrayList<Order> orderArrayList);
+    }
+
+    public interface OnOrderStatusUpdateListener {
+        public void onOrderStatusUpdate(int newStatus, boolean isSuccesful);
     }
 
 
