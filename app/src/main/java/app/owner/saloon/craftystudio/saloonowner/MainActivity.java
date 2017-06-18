@@ -141,7 +141,8 @@ public class MainActivity extends AppCompatActivity
 
                 //Reverse arraylist
                 MainActivity.this.orderArrayList = orderArrayList;
-                orderAdapter.notifyDataSetChanged();
+                orderAdapter = new OrderAdapter(MainActivity.this.orderArrayList);
+                initializeRecyclerView();
 
             }
         });
