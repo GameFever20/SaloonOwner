@@ -52,6 +52,7 @@ public class ServiceListActivity extends AppCompatActivity {
             @Override
             public void onSeviceUpload(boolean isSuccesful) {
 
+
             }
 
             @Override
