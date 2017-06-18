@@ -112,6 +112,7 @@ public class ServiceListActivity extends AppCompatActivity {
 
     private void openAddSaloonServiceActivity(int position) {
 
+
     }
 
     private void onScrolledToBottom() {
