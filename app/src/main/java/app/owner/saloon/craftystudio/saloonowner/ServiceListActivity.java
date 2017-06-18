@@ -46,6 +46,7 @@ public class ServiceListActivity extends AppCompatActivity {
         });
 
 
+
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
         fireBaseHandler.downloadServiceList("abc", 30, new FireBaseHandler.OnServiceListener() {
             @Override
