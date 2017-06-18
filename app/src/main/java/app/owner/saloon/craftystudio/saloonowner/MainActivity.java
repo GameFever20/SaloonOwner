@@ -94,7 +94,7 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-        initializeRecyclerView();
+
 
 
     }
@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity
     private void saloonOrderFetch() {
 
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
-        fireBaseHandler.downloadOrderList(LoginActivity.saloonUID, 20, new FireBaseHandler.OnOrderListener() {
+        fireBaseHandler.downloadOrderList("priyank", 20, new FireBaseHandler.OnOrderListener() {
             @Override
             public void onOrderList(ArrayList<Order> orderArrayList) {
 
@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity
                 MainActivity.this.orderArrayList = orderArrayList;
                 orderAdapter = new OrderAdapter(MainActivity.this.orderArrayList);
                 initializeRecyclerView();
+                Toast.makeText(MainActivity.this, "orderList Fetched", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -170,7 +171,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initializeRecyclerView() {
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.mainActivity_orderList_recyclerView);
 
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
@@ -340,6 +341,8 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
 
+            Intent intent = new Intent(MainActivity.this , ServiceListActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_send) {
 
         }

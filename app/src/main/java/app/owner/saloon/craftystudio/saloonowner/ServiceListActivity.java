@@ -1,5 +1,6 @@
 package app.owner.saloon.craftystudio.saloonowner;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -20,10 +21,12 @@ import utils.RecyclerTouchListener;
 import utils.Service;
 import utils.ServiceAdapter;
 
+import static app.owner.saloon.craftystudio.saloonowner.LoginActivity.saloonUID;
+
 public class ServiceListActivity extends AppCompatActivity {
 
     ArrayList<Service> serviceArrayList = new ArrayList<>();
-    ServiceAdapter serviceAdapter ;
+    ServiceAdapter serviceAdapter;
 
 
     @Override
@@ -44,7 +47,7 @@ public class ServiceListActivity extends AppCompatActivity {
 
 
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
-        fireBaseHandler.downloadServiceList(LoginActivity.saloonUID, 30, new FireBaseHandler.OnServiceListener() {
+        fireBaseHandler.downloadServiceList("abc", 30, new FireBaseHandler.OnServiceListener() {
             @Override
             public void onSeviceUpload(boolean isSuccesful) {
 
@@ -56,6 +59,7 @@ public class ServiceListActivity extends AppCompatActivity {
                     ServiceListActivity.this.serviceArrayList = serviceArrayList;
                     serviceAdapter = new ServiceAdapter(ServiceListActivity.this.serviceArrayList);
                     initializeRecycler();
+                    Toast.makeText(ServiceListActivity.this, "Fecthed service list", Toast.LENGTH_SHORT).show();
                 } else {
 
                     Toast.makeText(ServiceListActivity.this, "Error", Toast.LENGTH_SHORT).show();
@@ -67,7 +71,7 @@ public class ServiceListActivity extends AppCompatActivity {
     }
 
     private void initializeRecycler() {
-        RecyclerView recyclerView= (RecyclerView)findViewById(R.id.serviceList_service_recyclerView);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.serviceList_service_recyclerView);
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -80,6 +84,7 @@ public class ServiceListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view, int position) {
 
+                openAddSaloonServiceActivity(position);
 
             }
 
@@ -103,9 +108,17 @@ public class ServiceListActivity extends AppCompatActivity {
 
     }
 
+    private void openAddSaloonServiceActivity(int position) {
+
+    }
+
     private void onScrolledToBottom() {
 
     }
 
 
+    public void openAddServiceActivity(View view) {
+        Intent intent =new Intent(ServiceListActivity.this , AddSaloonServiceActivity.class);
+        startActivity(intent);
+    }
 }

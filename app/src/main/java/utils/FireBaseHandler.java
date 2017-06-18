@@ -295,7 +295,7 @@ public class FireBaseHandler {
 
     public void downloadServiceList(String saloonUID , int limitTo  , final OnServiceListener onServiceListener){
 
-        DatabaseReference myRef = mDatabase.getReference().child("Orders/"+saloonUID);
+        DatabaseReference myRef = mDatabase.getReference().child("services/");
 
         Query myref2 = myRef.orderByChild("saloonUID").equalTo(saloonUID).limitToLast(limitTo);
         myref2.addListenerForSingleValueEvent(new ValueEventListener() {
