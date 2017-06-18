@@ -13,7 +13,6 @@
     <string name="service_type_prompt">Select Service Type</string>
 
 
-
     <string-array name="service_type">
         <item>Select Service Type</item>
         <item>Hair Cut</item>
@@ -23,5 +22,6 @@
         <item>Threading</item>
 
     </string-array>
+    <string name="title_activity_service_list">ServiceListActivity</string>
 
 </resources>

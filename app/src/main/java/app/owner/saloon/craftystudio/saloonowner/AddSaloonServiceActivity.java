@@ -12,6 +12,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
 import utils.FireBaseHandler;
 import utils.Saloon;
 import utils.Service;
@@ -60,6 +62,11 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
             @Override
             public void onSeviceUpload(boolean isSuccesful) {
                 Toast.makeText(AddSaloonServiceActivity.this, "Uploaded Service", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onServiceList(ArrayList<Service> serviceArrayList, boolean isSuccesful) {
+
             }
         });
 

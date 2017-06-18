@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="app.owner.saloon.craftystudio.saloonowner.ServiceListActivity"
+    tools:showIn="@layout/activity_service_list">
+
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Max 30 services "
+        />
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/serviceList_service_recyclerView"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        >
+
+
+    </android.support.v7.widget.RecyclerView>
+
+
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Add More "
+        android:onClick="openAddServiceActivity"
+        />
+
+</LinearLayout>

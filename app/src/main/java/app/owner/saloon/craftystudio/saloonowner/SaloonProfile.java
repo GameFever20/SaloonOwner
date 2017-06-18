@@ -63,6 +63,18 @@ public class SaloonProfile extends AppCompatActivity {
         saloonLocationEditText = (EditText) findViewById(R.id.saloonprofile_saloonLocation_editText);
         saloonPhoneNumberEditText = (EditText) findViewById(R.id.saloonprofile_saloonPhoneNumber_editText);
 
+
+        if (saloon.getSaloonPoint() != 0) {
+            try {
+                saloonNameEditText.setText(saloon.getSaloonName());
+                saloonPhoneNumberEditText.setText(saloon.getSaloonPhoneNumber());
+                saloonLocationEditText.setText(saloon.getSaloonLocation());
+                saloonAddressEditText.setText(saloon.getSaloonAddress());
+            } catch (Exception e) {
+                Toast.makeText(this, "Something went wrong ", Toast.LENGTH_SHORT).show();
+            }
+        }
+
         fireBaseHandler = new FireBaseHandler();
 
     }
@@ -129,7 +141,7 @@ public class SaloonProfile extends AppCompatActivity {
             // account blocked alert
 
 
-        }else if (saloon.getSaloonPoint() == 0){
+        } else if (saloon.getSaloonPoint() == 0) {
             //saloon not fetched
         }
 
