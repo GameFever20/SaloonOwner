@@ -143,6 +143,7 @@ public class MainActivity extends AppCompatActivity
                 MainActivity.this.orderArrayList = orderArrayList;
                 orderAdapter = new OrderAdapter(MainActivity.this.orderArrayList);
                 initializeRecyclerView();
+
                 Toast.makeText(MainActivity.this, "orderList Fetched", Toast.LENGTH_SHORT).show();
 
             }
