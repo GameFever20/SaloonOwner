@@ -12,6 +12,7 @@ public class Order {
     private String saloonID ;
     private String userID;
     private String serviceID;
+    private String orderID;
     private int orderStatus;
     private String saloonName ;
     private long orderTime = 0 ;
@@ -82,6 +83,14 @@ public class Order {
 
     public String getOrderServiceName() {
         return orderServiceName;
+    }
+
+    public String getOrderID() {
+        return orderID;
+    }
+
+    public void setOrderID(String orderID) {
+        this.orderID = orderID;
     }
 
     public void setOrderServiceName(String orderServiceName) {

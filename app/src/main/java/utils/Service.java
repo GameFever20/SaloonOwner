@@ -6,13 +6,16 @@ package utils;
 
 public class Service {
 
-    String saloonUID ;
+
     String serviceUID ;
-    int serviceType ;
     int servicePrice;
-    String serviceDuration ;
     String serviceName ;//input
+    String serviceDuration ;
     String serviceDescription ;
+    String saloonUID ;
+    String saloonName ;
+    int serviceType ;
+    String serviceTypeName ;
 
     public Service() {
     }
@@ -71,5 +74,21 @@ public class Service {
 
     public void setServiceDescription(String serviceDescription) {
         this.serviceDescription = serviceDescription;
+    }
+
+    public String getSaloonName() {
+        return saloonName;
+    }
+
+    public void setSaloonName(String saloonName) {
+        this.saloonName = saloonName;
+    }
+
+    public String getServiceTypeName() {
+        return serviceTypeName;
+    }
+
+    public void setServiceTypeName(String serviceTypeName) {
+        this.serviceTypeName = serviceTypeName;
     }
 }

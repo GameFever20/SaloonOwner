@@ -1,27 +1,25 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="app.owner.saloon.craftystudio.saloonowner.SaloonProfile"
-    tools:showIn="@layout/activity_saloon_profile"
-    android:orientation="vertical"
-    >
+    tools:showIn="@layout/activity_saloon_profile">
 
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Saloon Name"
-        android:inputType="text"
-        android:id="@+id/saloonprofile_saloonName_editText"
-        />
+
+        <EditText
+            android:id="@+id/saloonprofile_saloonName_editText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Saloon Name"
+            android:inputType="text" />
 
     </android.support.design.widget.TextInputLayout>
 
@@ -29,11 +27,12 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <EditText
+            android:id="@+id/saloonprofile_saloonAddress_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Saloon Address"
-            android:id="@+id/saloonprofile_saloonAddress_editText"
 
             />
     </android.support.design.widget.TextInputLayout>
@@ -41,34 +40,133 @@
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <EditText
+            android:id="@+id/saloonprofile_saloonLocation_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Saloon Location"
-            android:id="@+id/saloonprofile_saloonLocation_editText"
 
             />
     </android.support.design.widget.TextInputLayout>
-
 
 
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
+
         <EditText
+            android:id="@+id/saloonprofile_saloonPhoneNumber_editText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Saloon Phone Number"
-            android:id="@+id/saloonprofile_saloonPhoneNumber_editText"
 
             />
     </android.support.design.widget.TextInputLayout>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:onClick="selectOpeningTime"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Saloon opening Time"
+                android:textAlignment="center"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/saloonProfile_openingTime_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+        android:onClick="selectClosingTime"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Saloon closing Time"
+                android:textAlignment="center"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/saloonProfile_closingTime_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_marginTop="16dp"
+        android:onClick="selectLocationClick"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Select location"
+                android:textAlignment="center"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/saloonProfile_saloonLocation_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAlignment="center"
+                android:textSize="16sp" />
+
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
+
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Save"
         android:onClick="onSaveButtonClick"
+        android:text="Save"
 
         />
 

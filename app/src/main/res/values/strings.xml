@@ -8,4 +8,20 @@
     <string name="title_activity_saloon_profile">SaloonProfile</string>
     <string name="title_activity_saloon_image">SaloonImageActivity</string>
     <string name="title_activity_login">LoginActivity</string>
+    <string name="title_activity_add_saloon_service">AddSaloonServiceActivity</string>
+
+    <string name="service_type_prompt">Select Service Type</string>
+
+
+
+    <string-array name="service_type">
+        <item>Select Service Type</item>
+        <item>Hair Cut</item>
+        <item>SPA</item>
+        <item>Massage</item>
+        <item>Waxing</item>
+        <item>Threading</item>
+
+    </string-array>
+
 </resources>
