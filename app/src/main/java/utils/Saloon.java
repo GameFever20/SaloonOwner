@@ -9,17 +9,19 @@ import java.util.Map;
 
 public class Saloon {
 
-    String saloonUID ;
-    String saloonName ; //input
-    String saloonPhoneNumber ;//input
-    String saloonAddress;//input
-    String saloonLocation ;//input in background
-    int saloonPoint ;
-    int saloonRating ;
-    Map<String ,String> saloonImageList ;
+    private String saloonUID ;
+    private String saloonName ; //input
+    private String saloonPhoneNumber ;//input
+    private String saloonAddress;//input
+    private String saloonLocation ;//input in background
+    private int saloonPoint ;
+    private int saloonRating ;
+    //images
+
+    private Map<String ,String> saloonImageList ;
 
     //timing
-    //images
+    private int openingTimeHour , openingTimeMinute , closingTimeHour ,closingTimeMinute ;
 
 
     public Saloon() {
@@ -82,6 +84,47 @@ public class Saloon {
         this.saloonRating = saloonRating;
     }
 
+    public Map<String, String> getSaloonImageList() {
+        return saloonImageList;
+    }
+
+    public void setSaloonImageList(Map<String, String> saloonImageList) {
+        this.saloonImageList = saloonImageList;
+    }
+
+
+    public int getOpeningTimeHour() {
+        return openingTimeHour;
+    }
+
+    public void setOpeningTimeHour(int openingTimeHour) {
+        this.openingTimeHour = openingTimeHour;
+    }
+
+    public int getOpeningTimeMinute() {
+        return openingTimeMinute;
+    }
+
+    public void setOpeningTimeMinute(int openingTimeMinute) {
+        this.openingTimeMinute = openingTimeMinute;
+    }
+
+    public int getClosingTimeHour() {
+        return closingTimeHour;
+    }
+
+    public void setClosingTimeHour(int closingTimeHour) {
+        this.closingTimeHour = closingTimeHour;
+    }
+
+    public int getClosingTimeMinute() {
+        return closingTimeMinute;
+    }
+
+    public void setClosingTimeMinute(int closingTimeMinute) {
+        this.closingTimeMinute = closingTimeMinute;
+    }
+
     public boolean isSaloonUpdated(){
 
         if(saloonPhoneNumber == null || saloonLocation==null || saloonAddress==null ||saloonName ==null){
@@ -116,7 +159,7 @@ public class Saloon {
 
     }
 
-    public boolean isSaloonImageUpdated(){
+    public boolean checkSaloonImageUpdated(){
         if(saloonImageList != null) {
             if (!saloonImageList.get("profile_image").isEmpty()) {
                 return true;

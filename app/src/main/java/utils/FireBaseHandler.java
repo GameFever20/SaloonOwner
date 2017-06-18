@@ -19,6 +19,7 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
+import java.util.ArrayList;
 
 /**
  * Created by bunny on 12/06/17.
@@ -47,14 +48,71 @@ public class FireBaseHandler {
 
     }
 
-    public void downloadOrderList() {
+    public void downloadOrderList(String saloonUID, int limitTo, final OnOrderListener onOrderListener) {
+
+        DatabaseReference myRef = mDatabase.getReference().child("Orders/"+saloonUID);
+
+        Query myref2 = myRef.limitToLast(limitTo);
+        myref2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                ArrayList<Order> orderArrayList = new ArrayList<Order>();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                    Order order = snapshot.getValue(Order.class);
+                    order.setOrderID(snapshot.getKey());
+                    orderArrayList.add(order);
+                }
+
+                onOrderListener.onOrderList(orderArrayList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+    public void downloadOrderList(String saloonUID , int limitTo , String lastOrderId , final OnOrderListener onOrderListener){
+
+        DatabaseReference myRef = mDatabase.getReference().child("Orders/"+saloonUID);
+
+        Query myref2 = myRef.orderByKey().endAt(lastOrderId).limitToLast(limitTo);
+        myref2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                ArrayList<Order> orderArrayList = new ArrayList<Order>();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                    Order order = snapshot.getValue(Order.class);
+                    order.setOrderID(snapshot.getKey());
+                    orderArrayList.add(order);
+                }
+
+                orderArrayList.remove(orderArrayList.size()-1);
+
+                onOrderListener.onOrderList(orderArrayList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
 
     }
 
 
-    public void uploadSaloonInfo(String saloonUID , String saloonKeyValue , String value , final OnSaloonDownload onSaloonDownload){
+    public void uploadSaloonInfo(String saloonUID, String saloonKeyValue, String value, final OnSaloonDownload onSaloonDownload) {
 
-        mDatabase.getReference().child("saloon/"+ saloonUID +"/"+saloonKeyValue).setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase.getReference().child("saloon/" + saloonUID + "/" + saloonKeyValue).setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
@@ -71,9 +129,9 @@ public class FireBaseHandler {
 
     }
 
-    public void uploadSaloon(String saloonUID ,Saloon saloon, final OnSaloonDownload onSaloonDownload){
+    public void uploadSaloon(String saloonUID, Saloon saloon, final OnSaloonDownload onSaloonDownload) {
 
-        mDatabase.getReference().child("saloon/"+ saloonUID ).setValue(saloon).addOnCompleteListener(new OnCompleteListener<Void>() {
+        mDatabase.getReference().child("saloon/" + saloonUID).setValue(saloon).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 
@@ -91,7 +149,7 @@ public class FireBaseHandler {
     }
 
     public void isRegisteredSaloon(String saloonUID, final OnSaloonInfoCheckListner onSaloonInfoCheckListner) {
-        DatabaseReference myRef = mDatabase.getReference().child("saloon/"+ saloonUID );
+        DatabaseReference myRef = mDatabase.getReference().child("saloon/" + saloonUID);
 
         //Query myref2 = myRef.orderByChild("saloonUID").equalTo(saloonUID);
 
@@ -143,6 +201,7 @@ public class FireBaseHandler {
                 //String saloonName = dataSnapshot.child("saloonName").getValue(String.class);
 
                 Saloon saloon = dataSnapshot.getValue(Saloon.class);
+                saloon.setSaloonUID(dataSnapshot.getKey());
 
                 onSaloonDownload.onSaloon(saloon);
             }
@@ -157,7 +216,7 @@ public class FireBaseHandler {
 
     }
 
-    public void uploadSaloonShwcaseImage(Uri imageUri, String saloonUID, String imageName , final OnSaloonImageListner onSaloonImageListner) {
+    public void uploadSaloonShwcaseImage(Uri imageUri, String saloonUID, String imageName, final OnSaloonImageListner onSaloonImageListner) {
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
 
@@ -170,28 +229,28 @@ public class FireBaseHandler {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle unsuccessful uploads
-                onSaloonImageListner.onImageUploaded(false ,null);
+                onSaloonImageListner.onImageUploaded(false, null);
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
                 Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                onSaloonImageListner.onImageUploaded(true , downloadUrl);
+                onSaloonImageListner.onImageUploaded(true, downloadUrl);
             }
         });
 
     }
 
-    public void downloadSaloonShwcaseImage(String saloonUID, String imageName , final OnSaloonImageListner onSaloonImageListner) {
+    public void downloadSaloonShwcaseImage(String saloonUID, String imageName, final OnSaloonImageListner onSaloonImageListner) {
 
         FirebaseStorage storage = FirebaseStorage.getInstance();
         StorageReference storageRef = storage.getReference();
 
         StorageReference islandRef = storageRef.child("saloon_image/" + saloonUID + "/" + imageName);
-         File localFile =null;
+        File localFile = null;
         try {
-             localFile = File.createTempFile("images", "jpg");
+            localFile = File.createTempFile("images", "jpg");
         } catch (Exception exception) {
 
         }
@@ -201,14 +260,33 @@ public class FireBaseHandler {
             @Override
             public void onSuccess(FileDownloadTask.TaskSnapshot taskSnapshot) {
                 // Local temp file has been created
-                onSaloonImageListner.onImageDownLoaded(true , finalLocalFile);
+                onSaloonImageListner.onImageDownLoaded(true, finalLocalFile);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
                 // Handle any errors
-                onSaloonImageListner.onImageDownLoaded(false , null);
+                onSaloonImageListner.onImageDownLoaded(false, null);
 
+            }
+        });
+
+    }
+
+    public void uploadService(Service service, final OnServiceListener onServiceListener) {
+
+
+        mDatabase.getReference().child("services/").push().setValue(service).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+
+                onServiceListener.onSeviceUpload(true);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                onServiceListener.onSeviceUpload(false);
             }
         });
 
@@ -225,16 +303,26 @@ public class FireBaseHandler {
 
     public interface OnSaloonDownload {
         public void onSaloon(Saloon saloon);
+
         public void onSaloonValueUploaded(boolean isSucessful);
 
 
     }
 
 
-    public interface OnSaloonImageListner{
-        public void onImageDownLoaded(boolean isSucessful ,File imageFile);
-        public void onImageUploaded(boolean isSucessful ,Uri downloadUri);
+    public interface OnSaloonImageListner {
+        public void onImageDownLoaded(boolean isSucessful, File imageFile);
 
+        public void onImageUploaded(boolean isSucessful, Uri downloadUri);
+
+    }
+
+    public interface OnServiceListener {
+        public void onSeviceUpload(boolean isSuccesful);
+    }
+
+    public interface OnOrderListener {
+        public void onOrderList(ArrayList<Order> orderArrayList);
     }
 
 

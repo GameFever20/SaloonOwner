@@ -6,6 +6,11 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,17 +22,29 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 
+import utils.ClickListener;
 import utils.FireBaseHandler;
+import utils.Order;
+import utils.OrderAdapter;
+import utils.RecyclerTouchListener;
 import utils.Saloon;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    boolean isRegistered =false ;
-    public static Saloon SALOON =null;
+    boolean isRegistered = false;
+    public static Saloon SALOON = null;
+
+
+    ArrayList<Order> orderArrayList = new ArrayList<>();
+    OrderAdapter orderAdapter = new OrderAdapter(orderArrayList);
+    private boolean isLoadingMoreOrder =false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +64,7 @@ public class MainActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-            this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
@@ -55,15 +72,17 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-        FireBaseHandler fireBaseHandler =new FireBaseHandler();
+        FireBaseHandler fireBaseHandler = new FireBaseHandler();
         fireBaseHandler.downloadSaloon("abc", new FireBaseHandler.OnSaloonDownload() {
             @Override
             public void onSaloon(Saloon saloon) {
 
-                MainActivity.SALOON =saloon;
-                if(saloon!= null) {
+                MainActivity.SALOON = saloon;
+                if (saloon != null) {
                     saloonCheck(saloon);
-                }else{
+                    //saloon.setSaloonUID(LoginActivity.saloonUID);
+                    Toast.makeText(MainActivity.this, "Saloon fetched ", Toast.LENGTH_SHORT).show();
+                } else {
                     showExitDialogue();
                 }
             }
@@ -74,49 +93,138 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+
+        initializeRecyclerView();
+
+
     }
 
     private void saloonCheck(Saloon saloon) {
         //check values of saloon obj and redirect to desiered screen
 
-        if(saloon.getSaloonName() !=null){
-            if(!saloon.getSaloonName().isEmpty()){
+        if (saloon.getSaloonName() != null) {
+            if (!saloon.getSaloonName().isEmpty()) {
 
-                if(saloon.getSaloonPoint() >1){
+                if (saloon.getSaloonPoint() > 1) {
 
-                }else if(saloon.getSaloonPoint() == -10){
+                    saloonOrderFetch();
+
+                } else if (saloon.getSaloonPoint() == -10) {
                     openSaloonProfileActivity();
-                }else if(saloon.getSaloonPoint()== -1){
+                } else if (saloon.getSaloonPoint() == -1) {
                     openSaloonImageActivity();
-                }else if(saloon.getSaloonPoint() == -100){
+                } else if (saloon.getSaloonPoint() == -100) {
+                    saloonOrderFetch();
                     showSuspendedDialog();
-                }else if(saloon.getSaloonPoint()==0){
+                } else if (saloon.getSaloonPoint() == 0) {
                     showExitDialogue();
-                }else{
+                } else {
                     showSomethingWrongDialogue();
                 }
 
-            }else{
+            } else {
                 showExitDialogue();
             }
-        }else{
+        } else {
             showExitDialogue();
         }
 
 
+    }
 
+    private void saloonOrderFetch() {
+
+        FireBaseHandler fireBaseHandler = new FireBaseHandler();
+        fireBaseHandler.downloadOrderList(LoginActivity.saloonUID, 20, new FireBaseHandler.OnOrderListener() {
+            @Override
+            public void onOrderList(ArrayList<Order> orderArrayList) {
+
+                //Reverse arraylist
+                MainActivity.this.orderArrayList = orderArrayList;
+                orderAdapter.notifyDataSetChanged();
+
+            }
+        });
+
+    }
+
+    private void saloonMoreOrderFetch() {
+        FireBaseHandler fireBaseHandler = new FireBaseHandler();
+        fireBaseHandler.downloadOrderList(LoginActivity.saloonUID, 20
+                , orderArrayList.get(orderArrayList.size() - 1).getOrderID()
+                , new FireBaseHandler.OnOrderListener() {
+                    @Override
+                    public void onOrderList(ArrayList<Order> orderArrayList) {
+
+                        for (int i = orderArrayList.size() - 1; i >= 0; i--) {
+                            MainActivity.this.orderArrayList.add(orderArrayList.get(i));
+
+                        }
+
+                        isLoadingMoreOrder=false;
+                        orderAdapter.notifyDataSetChanged();
+
+                    }
+                });
+    }
+
+    private void initializeRecyclerView() {
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.recyclerview);
+
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+
+        recyclerView.setAdapter(orderAdapter);
+
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(getApplicationContext(), recyclerView, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+
+            }
+        }));
+
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                if (!recyclerView.canScrollVertically(1)) {
+                    onScrolledToBottom();
+                    Toast.makeText(MainActivity.this, "Refreshing", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void onScrolledToBottom() {
+        if (isLoadingMoreOrder) {
+
+        } else {
+
+            isLoadingMoreOrder= true;
+            saloonMoreOrderFetch();
+        }
     }
 
     private void openSaloonProfileActivity() {
 
-        Intent intent =new Intent(MainActivity.this , SaloonProfile.class);
+        Intent intent = new Intent(MainActivity.this, SaloonProfile.class);
         startActivity(intent);
 
     }
 
     private void openSaloonImageActivity() {
 
-        Intent intent =new Intent(MainActivity.this , SaloonImageActivity.class);
+        Intent intent = new Intent(MainActivity.this, SaloonImageActivity.class);
         startActivity(intent);
     }
 
@@ -216,16 +324,18 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_camera) {
             // Handle the camera action
-            Intent intent =new Intent(MainActivity.this , SaloonProfile.class);
+            Intent intent = new Intent(MainActivity.this, SaloonProfile.class);
             startActivity(intent);
         } else if (id == R.id.nav_gallery) {
-            Intent intent =new Intent(MainActivity.this , SaloonImageActivity.class);
+            Intent intent = new Intent(MainActivity.this, SaloonImageActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_slideshow) {
             resolveDateDummy();
 
         } else if (id == R.id.nav_manage) {
+            Intent intent = new Intent(MainActivity.this, AddSaloonServiceActivity.class);
+            startActivity(intent);
 
         } else if (id == R.id.nav_share) {
 
@@ -239,13 +349,13 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void resolveDateDummy(){
+    public void resolveDateDummy() {
         String dateFormat = "dd/MM/yyyy hh:mm";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
 
         Date date = new Date();
 
-        String str= simpleDateFormat.format(date);
+        String str = simpleDateFormat.format(date);
         Toast.makeText(this, "Date is " + str, Toast.LENGTH_SHORT).show();
     }
 }

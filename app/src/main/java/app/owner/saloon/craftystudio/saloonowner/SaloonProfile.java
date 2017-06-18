@@ -1,5 +1,6 @@
 package app.owner.saloon.craftystudio.saloonowner;
 
+import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import utils.FireBaseHandler;
@@ -61,6 +63,7 @@ public class SaloonProfile extends AppCompatActivity {
         saloonLocationEditText = (EditText) findViewById(R.id.saloonprofile_saloonLocation_editText);
         saloonPhoneNumberEditText = (EditText) findViewById(R.id.saloonprofile_saloonPhoneNumber_editText);
 
+        fireBaseHandler = new FireBaseHandler();
 
     }
 
@@ -91,13 +94,12 @@ public class SaloonProfile extends AppCompatActivity {
         saloon.setSaloonLocation(saloonLocationEditText.getText().toString().trim());
 
 
-
         if (saloon.getSaloonPoint() == -10 || saloon.getSaloonPoint() == -1 || saloon.getSaloonPoint() > 0) {
 
 
             if (saloon.getSaloonPoint() == -10 || saloon.getSaloonPoint() == -1) {
                 if (saloon.isSaloonUpdated()) {
-                    if (saloon.isSaloonImageUpdated()) {
+                    if (saloon.checkSaloonImageUpdated()) {
                         saloon.setSaloonPoint(10);
                     } else {
                         saloon.setSaloonPoint(-1);
@@ -127,7 +129,55 @@ public class SaloonProfile extends AppCompatActivity {
             // account blocked alert
 
 
+        }else if (saloon.getSaloonPoint() == 0){
+            //saloon not fetched
         }
+
+
+    }
+
+    public void selectClosingTime(View view) {
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                new TimePickerDialog.OnTimeSetListener() {
+
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                          int minute) {
+
+                        TextView textView = (TextView) findViewById(R.id.saloonProfile_closingTime_textView);
+                        textView.setText(hourOfDay + ":" + minute);
+                        saloon.setClosingTimeHour(hourOfDay);
+                        saloon.setClosingTimeMinute(minute);
+
+                        //Toast.makeText(SaloonProfile.this, "Time is "+hourOfDay +"minutes "+minute, Toast.LENGTH_SHORT).show();
+
+                    }
+                }, 21, 00, false);
+        timePickerDialog.show();
+
+    }
+
+    public void selectOpeningTime(View view) {
+
+        TimePickerDialog timePickerDialog = new TimePickerDialog(this,
+                new TimePickerDialog.OnTimeSetListener() {
+
+                    @Override
+                    public void onTimeSet(TimePicker view, int hourOfDay,
+                                          int minute) {
+                        TextView textView = (TextView) findViewById(R.id.saloonProfile_openingTime_textView);
+                        textView.setText(hourOfDay + ":" + minute);
+                        saloon.setOpeningTimeHour(hourOfDay);
+                        saloon.setOpeningTimeMinute(minute);
+
+
+                    }
+                }, 10, 00, false);
+        timePickerDialog.show();
+
+    }
+
+    public void selectLocationClick(View view) {
 
 
     }
