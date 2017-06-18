@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -27,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
     Button mSignInButton;
     ProgressDialog progressDialog;
 
-    public static String saloonUID = "abc" ;
+    public static String saloonUID = "abc";
 
     // [START declare_auth]
     private FirebaseAuth mAuth;
@@ -37,8 +38,14 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        //remove actionbar
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
 
         //Instantiating views and buttons
         mEmailEditText = (EditText) findViewById(R.id.login_Email_EditText);
@@ -48,7 +55,6 @@ public class LoginActivity extends AppCompatActivity {
 
         // [START initialize_auth]
         mAuth = FirebaseAuth.getInstance();
-
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -65,7 +71,7 @@ public class LoginActivity extends AppCompatActivity {
         mSignInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                signIn(mEmailEditText.getText().toString().trim(),mPasswordEditText.getText().toString().trim());
+                signIn(mEmailEditText.getText().toString().trim(), mPasswordEditText.getText().toString().trim());
             }
         });
 
@@ -74,7 +80,6 @@ public class LoginActivity extends AppCompatActivity {
 
 
     }
-
 
 
     private void signIn(String email, String password) {
@@ -118,7 +123,7 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
-            Intent intent=new Intent(this,MainActivity.class);
+            Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
@@ -164,8 +169,13 @@ public class LoginActivity extends AppCompatActivity {
         super.onStart();
         // Check if user is signed in (non-null) and update UI accordingly.
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        saloonUID =currentUser.getUid();
-        updateUI(currentUser);
+        if (currentUser == null) {
+            return;
+        }else{
+            saloonUID = currentUser.getUid();
+            updateUI(currentUser);
+        }
+
     }
 
 }
