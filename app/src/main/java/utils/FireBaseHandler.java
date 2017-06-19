@@ -44,6 +44,8 @@ public class FireBaseHandler {
 
     public void downloadOrder() {
 
+
+
     }
 
     public void uploadOrderList() {
@@ -423,6 +425,9 @@ public class FireBaseHandler {
     public interface OnOrderStatusUpdateListener {
         public void onOrderStatusUpdate(int newStatus, boolean isSuccesful);
     }
+
+
+
 
 
 

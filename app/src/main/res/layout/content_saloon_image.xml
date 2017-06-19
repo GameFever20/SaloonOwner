@@ -4,89 +4,171 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/updateprofilebg1"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="app.owner.saloon.craftystudio.saloonowner.SaloonImageActivity"
     tools:showIn="@layout/activity_saloon_image">
 
-    <ImageView
-        android:id="@+id/saloonimage_showcase_imageView"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:minHeight="200dp" />
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        >
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="addShowcasePhotoClick"
-        android:text="Add Showcase photo" />
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-            android:text="Click to add Image #1"
-            android:textAlignment="center" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_marginTop="10dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:fontFamily="serif"
+                android:textAlignment="center"
+                android:text="Profile Image"
+                android:textColor="@color/skin"
+                android:textSize="20sp" />
+
 
             <ImageView
-                android:id="@+id/saloonimage_image1_imageView"
-                android:layout_width="0dp"
+                android:id="@+id/saloonimage_showcase_imageView"
+                android:layout_width="208dp"
+                android:layout_height="127dp"
+                android:src="@drawable/imageviewbordercustomize"
+                android:layout_gravity="center"
+                android:layout_marginBottom="10dp"
+                android:minHeight="200dp" />
+
+            <Button
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:minHeight="100dp"
-                android:onClick="addImage1PhotoClick"
+                android:layout_marginBottom="15dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="30dp"
+                android:layout_marginRight="30dp"
+                android:background="@drawable/roundbuttoncustomize"
+                android:onClick="addShowcasePhotoClick"
+                android:text="Add Profile photo" />
 
-                />
-
-            <ImageView
-                android:id="@+id/saloonimage_image2_imageView"
-                android:layout_width="0dp"
+            <TextView
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:minHeight="100dp"
-                android:onClick="addImage1PhotoClick"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="30dp"
+                android:fontFamily="serif"
+                android:text="ShowCase Image"
+                android:textColor="@color/skin"
+                android:textSize="20sp" />
 
-                />
-
-            <ImageView
-                android:id="@+id/saloonimage_image3_imageView"
-                android:layout_width="0dp"
+            <FrameLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:minHeight="100dp"
-                android:onClick="addImage1PhotoClick"
+                android:visibility="visible">
 
-                />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2dp"
+                    android:background="@color/whitish"></View>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/whitish"></View>
+
+
+                    <ImageView
+                        android:id="@+id/saloonimage_image1_imageView"
+                        android:layout_width="130dp"
+                        android:layout_height="140dp"
+                        android:minHeight="100dp"
+                        android:onClick="addImage1PhotoClick"
+
+                        />
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/whitish"></View>
+
+                    <ImageView
+                        android:id="@+id/saloonimage_image2_imageView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1.00"
+                        android:minHeight="100dp"
+                        android:onClick="addImage1PhotoClick"
+
+                        />
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/whitish"></View>
+
+
+                    <ImageView
+                        android:id="@+id/saloonimage_image3_imageView"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:minHeight="100dp"
+                        android:onClick="addImage1PhotoClick"
+
+                        />
+
+                    <View
+                        android:layout_width="2dp"
+                        android:layout_height="match_parent"
+                        android:background="@color/whitish"></View>
+
+
+                </LinearLayout>
+
+
+            </FrameLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="2dp"
+                android:layout_gravity="bottom"
+                android:layout_marginBottom="10dp"
+                android:background="@color/whitish"></View>
+
+
+            <Button
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
+                android:layout_marginLeft="40dp"
+                android:layout_marginRight="40dp"
+                android:background="@drawable/roundbuttoncustomize"
+                android:onClick="selectImageFromGallery"
+                android:text="Add ShowCase Photo"
+                android:visibility="visible" />
+
+
 
 
         </LinearLayout>
-
-
-    </FrameLayout>
-
-
-
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:onClick="selectImageFromGallery"
-        android:text="Selct image " />
-
+    </ScrollView>
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:onClick="uploadImageToFireBase"
-        android:text="Upload Images " />
-
-
+        android:text="Upload Images "
+        android:textColor="@color/purple"
+        android:background="@color/white"
+        />
 
 </LinearLayout>

@@ -39,7 +39,7 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
             }
         });
 
-        Spinner spinner =(Spinner)findViewById(R.id.addSaloonService_serviceType_spinner);
+        Spinner spinner = (Spinner) findViewById(R.id.addSaloonService_serviceType_spinner);
 
         adapter = ArrayAdapter.createFromResource(this,
                 R.array.service_type, android.R.layout.simple_spinner_item);
@@ -47,17 +47,15 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
         spinner.setAdapter(adapter);
 
 
-
-
     }
 
     public void addServiceClick(View view) {
-        if(saloon.getSaloonPoint() ==0 ||saloon.getSaloonPoint()==-1500){
+        if (saloon.getSaloonPoint() == 0 || saloon.getSaloonPoint() == -1500) {
             return;
         }
-        Service service= createService();
+        Service service = createService();
 
-        FireBaseHandler fireBaseHandler =new FireBaseHandler();
+        FireBaseHandler fireBaseHandler = new FireBaseHandler();
         fireBaseHandler.uploadService(service, new FireBaseHandler.OnServiceListener() {
             @Override
             public void onSeviceUpload(boolean isSuccesful) {
@@ -76,23 +74,23 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
 
         Service service = new Service();
 
-        EditText editText =(EditText)findViewById(R.id.addSaloonService_serviceName_editText);
+        EditText editText = (EditText) findViewById(R.id.addSaloonService_serviceName_editText);
         String serviceName = editText.getText().toString().trim();
-        if(serviceName.isEmpty()){
+        if (serviceName.isEmpty()) {
             Toast.makeText(this, "Enter service name ", Toast.LENGTH_SHORT).show();
             return null;
-        }else{
+        } else {
 
             service.setServiceName(serviceName);
 
         }
 
-        editText =(EditText)findViewById(R.id.addSaloonService_servicePrice_editText);
+        editText = (EditText) findViewById(R.id.addSaloonService_servicePrice_editText);
         String servicePrice = editText.getText().toString().trim();
-        if(servicePrice.isEmpty()){
+        if (servicePrice.isEmpty()) {
             Toast.makeText(this, "Enter service price ", Toast.LENGTH_SHORT).show();
             return null;
-        }else{
+        } else {
             int servicePriceint = Integer.valueOf(servicePrice);
 
             service.setServicePrice(servicePriceint);
@@ -100,24 +98,21 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
         }
 
 
-        Spinner spinner =(Spinner)findViewById(R.id.addSaloonService_serviceType_spinner);
-        if(spinner.getSelectedItemPosition() == 0){
+        Spinner spinner = (Spinner) findViewById(R.id.addSaloonService_serviceType_spinner);
+        if (spinner.getSelectedItemPosition() == 0) {
             Toast.makeText(this, "Select service type", Toast.LENGTH_SHORT).show();
             return null;
-        }else {
+        } else {
 
-            String serviceTypeName = String.valueOf(adapter.getItem(spinner.getSelectedItemPosition() ));
+            String serviceTypeName = String.valueOf(adapter.getItem(spinner.getSelectedItemPosition()));
             service.setServiceTypeName(serviceTypeName);
-            service.setServiceType(spinner.getSelectedItemPosition() );
-            Log.d("spinner" , service.getServiceType()+service.getServiceTypeName());
+            service.setServiceType(spinner.getSelectedItemPosition());
+            Log.d("spinner", service.getServiceType() + service.getServiceTypeName());
 
         }
 
         service.setSaloonUID(saloon.getSaloonUID());
         service.setSaloonName(saloon.getSaloonName());
-
-
-
 
 
         return service;

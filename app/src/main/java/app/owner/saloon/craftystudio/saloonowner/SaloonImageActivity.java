@@ -61,8 +61,7 @@ public class SaloonImageActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                //uploadImageToFireBase();
             }
         });
 
@@ -234,11 +233,14 @@ public class SaloonImageActivity extends AppCompatActivity {
 
         // in onCreate or any event where your want the user to
         // select a file
-        Intent intent = new Intent();
-        intent.setType("image/*");
-        intent.setAction(Intent.ACTION_GET_CONTENT);
-        startActivityForResult(Intent.createChooser(intent,
-                "Select Picture"), SELECT_IMAGE_1);
+        Matisse.from(SaloonImageActivity.this)
+                .choose(MimeType.allOf())
+                .countable(true)
+                .maxSelectable(3)
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                .thumbnailScale(0.85f)
+                .imageEngine(new GlideEngine())
+                .forResult(REQUEST_EXTRA_IMAGE);
 
     }
 

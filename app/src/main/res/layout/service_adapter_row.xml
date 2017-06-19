@@ -1,37 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
-    <TextView
+    <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/serviceAdapterRow_serviceName_textview"
-        />
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
+        android:elevation="2dp"
+        app:cardBackgroundColor="@color/whitish"
+        app:cardCornerRadius="4dp"
+        >
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/serviceAdapterRow_serviceTypeName_textview"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/serviceAdapterRow_servicePrice_textview"
-        />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="12dp"
+            android:orientation="vertical">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/serviceAdapterRow_serviceSaloonName_textview"
-        />
+            <TextView
+                android:id="@+id/serviceAdapterRow_serviceName_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Service Name"
+                android:textAlignment="center"
+                android:textColor="@color/purplish"
+                android:textSize="18dp"
+                android:textStyle="bold|italic" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/serviceAdapterRow_serviceId_textview"
-        />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
+                <TextView
+                    android:id="@+id/serviceAdapterRow_serviceTypeName_textview"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif"
+                    android:text="Service Type"
+                    android:textColor="@color/purple"
+                    android:textSize="15dp"
+                    android:textStyle="normal" />
+
+                <TextView
+                    android:id="@+id/serviceAdapterRow_servicePrice_textview"
+                    android:layout_width="match_parent"
+                    android:textColor="@color/purple"
+                    android:textSize="15dp"
+                    android:textAlignment="viewEnd"
+                    android:layout_height="wrap_content"
+                    android:text="servicePrice" />
+            </LinearLayout>
+
+
+            <TextView
+                android:id="@+id/serviceAdapterRow_serviceSaloonName_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="serviceTypeName"
+                android:visibility="gone" />
+
+            <TextView
+                android:id="@+id/serviceAdapterRow_serviceId_textview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/lightblack"
+                android:textSize="15dp"
+                android:text="serviceID" />
+        </LinearLayout>
+
+
+    </android.support.v7.widget.CardView>
 
 
 </LinearLayout>

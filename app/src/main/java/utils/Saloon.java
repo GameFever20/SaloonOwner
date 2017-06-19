@@ -48,8 +48,8 @@ public class Saloon {
         return saloonPhoneNumber;
     }
 
-    public void setSaloonPhoneNumber(String saloonPhoneNumber) {
-        this.saloonPhoneNumber = saloonPhoneNumber;
+    public void setSaloonPhoneNumber(String saloonPhoneNo) {
+        this.saloonPhoneNumber = saloonPhoneNo;
     }
 
     public String getSaloonAddress() {

@@ -4,171 +4,253 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/updateprofilebg1"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="app.owner.saloon.craftystudio.saloonowner.SaloonProfile"
     tools:showIn="@layout/activity_saloon_profile">
 
 
-    <android.support.design.widget.TextInputLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_weight="1">
 
-        <EditText
-            android:id="@+id/saloonprofile_saloonName_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Saloon Name"
-            android:inputType="text" />
-
-    </android.support.design.widget.TextInputLayout>
-
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/saloonprofile_saloonAddress_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Saloon Address"
-
-            />
-    </android.support.design.widget.TextInputLayout>
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/saloonprofile_saloonLocation_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Saloon Location"
-
-            />
-    </android.support.design.widget.TextInputLayout>
-
-
-    <android.support.design.widget.TextInputLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <EditText
-            android:id="@+id/saloonprofile_saloonPhoneNumber_editText"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Saloon Phone Number"
-
-            />
-    </android.support.design.widget.TextInputLayout>
-
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:onClick="selectOpeningTime"
-        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <TextView
+
+            <ImageView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Saloon opening Time"
-                android:textAlignment="center"
-                android:textSize="16sp" />
+                android:layout_marginTop="50dp"
+                android:src="@drawable/logoforsaloon" />
 
-            <TextView
-                android:id="@+id/saloonProfile_openingTime_textView"
+
+            <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text=""
-                android:textAlignment="center"
-                android:textSize="16sp" />
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:theme="@style/EditTextHint">
 
+                <EditText
+                    android:id="@+id/saloonprofile_saloonName_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Saloon Name"
+                    android:inputType="text"
+                    android:textColor="@color/white" />
+
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:theme="@style/EditTextHint">
+
+                <EditText
+                    android:id="@+id/saloonprofile_saloonAddress_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Saloon Address"
+                    android:textColor="@color/white"
+
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:theme="@style/EditTextHint">
+
+                <EditText
+                    android:id="@+id/saloonprofile_saloonLocation_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Saloon Location"
+                    android:textColor="@color/white"
+
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:theme="@style/EditTextHint">
+
+                <EditText
+                    android:id="@+id/saloonprofile_saloonPhoneNumber_editText"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Saloon Phone Number"
+                    android:textColor="@color/white"
+
+                    />
+            </android.support.design.widget.TextInputLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="10dp"
+                android:orientation="horizontal">
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    app:cardCornerRadius="0dp"
+                    app:cardBackgroundColor="@color/yellow"
+                    app:cardElevation="5dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginRight="5dp"
+                        android:layout_marginTop="5dp"
+                        android:onClick="selectOpeningTime"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text="  Opening Time  "
+                            android:textAlignment="center"
+                            android:textColor="@color/purplish"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/saloonProfile_openingTime_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textAlignment="center"
+                            android:textColor="@color/red"
+                            android:textSize="16sp" />
+
+
+                    </LinearLayout>
+                </android.support.v7.widget.CardView>
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    app:cardBackgroundColor="@color/yellow"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="5dp">
+
+                    <ImageView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/ic_action_clock" />
+                </android.support.v7.widget.CardView>
+
+
+                <android.support.v7.widget.CardView
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    app:cardBackgroundColor="@color/yellow"
+                    app:cardCornerRadius="0dp"
+                    app:cardElevation="5dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginRight="8dp"
+                        android:layout_marginTop="5dp"
+                        android:onClick="selectClosingTime"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="  Closing Time  "
+                            android:textColor="@color/purplish"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:id="@+id/saloonProfile_closingTime_textView"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:text=""
+                            android:textAlignment="center"
+                            android:textColor="@color/red"
+                            android:textSize="16sp" />
+
+
+                    </LinearLayout>
+
+
+                </android.support.v7.widget.CardView>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/imageviewbordercustomize"
+                android:onClick="selectLocationClick"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Select location"
+                    android:textAlignment="center"
+
+                    android:textColor="@color/white"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:id="@+id/saloonProfile_saloonLocation_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text=""
+                    android:textAlignment="center"
+                    android:textSize="16sp" />
+
+
+            </LinearLayout>
 
         </LinearLayout>
 
-
-    </android.support.v7.widget.CardView>
-
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_marginTop="16dp"
-        android:onClick="selectClosingTime"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Saloon closing Time"
-                android:textAlignment="center"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/saloonProfile_closingTime_textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textAlignment="center"
-                android:textSize="16sp" />
-
-
-        </LinearLayout>
-
-
-    </android.support.v7.widget.CardView>
-
-    <android.support.v7.widget.CardView
-        android:layout_width="match_parent"
-        android:layout_marginTop="16dp"
-        android:onClick="selectLocationClick"
-        android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="Select location"
-                android:textAlignment="center"
-                android:textSize="16sp" />
-
-            <TextView
-                android:id="@+id/saloonProfile_saloonLocation_textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""
-                android:textAlignment="center"
-                android:textSize="16sp" />
-
-
-        </LinearLayout>
-
-
-    </android.support.v7.widget.CardView>
+    </ScrollView>
 
 
     <Button
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
         android:onClick="onSaveButtonClick"
         android:text="Save"
+        android:textColor="@color/purplish"
 
         />
-
 
 </LinearLayout>
