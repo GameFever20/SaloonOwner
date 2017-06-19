@@ -14,7 +14,6 @@
 
 
     <string-array name="service_type">
-        <item>Select Service Type</item>
         <item>Hair Cut</item>
         <item>SPA</item>
         <item>Massage</item>
@@ -23,5 +22,6 @@
 
     </string-array>
     <string name="title_activity_service_list">ServiceListActivity</string>
+    <string name="camera_and_location_rationale">Get permission</string>
 
 </resources>

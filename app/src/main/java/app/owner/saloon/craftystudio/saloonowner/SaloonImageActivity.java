@@ -33,10 +33,12 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
 import utils.FireBaseHandler;
 import utils.Saloon;
 
-public class SaloonImageActivity extends AppCompatActivity {
+public class SaloonImageActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
 
     private static final int SELECT_PICTURE = 0;
     private static final int SELECT_IMAGE_1 = 1;
@@ -48,6 +50,7 @@ public class SaloonImageActivity extends AppCompatActivity {
     String saloonUID = "abc";
     
     int statusProfileUpload ,statusImage1Upload ,statusImage2Upload , statusImage3Upload;
+    private final int RC_CAMERA_AND_LOCATION=10;
 
 
     @Override
@@ -133,11 +136,13 @@ public class SaloonImageActivity extends AppCompatActivity {
                 .into(imageView1);
 
 
+        methodRequiresTwoPermission();
 
 
     }
 
     public void addShowcasePhotoClick(View view) {
+
 
         Matisse.from(SaloonImageActivity.this)
                 .choose(MimeType.allOf())
@@ -245,6 +250,8 @@ public class SaloonImageActivity extends AppCompatActivity {
     }
 
     public void selectImageFromGallery(View view) {
+
+
 
         Matisse.from(SaloonImageActivity.this)
                 .choose(MimeType.allOf())
@@ -388,5 +395,42 @@ public class SaloonImageActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+
+
+
+
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        // Forward results to EasyPermissions
+        EasyPermissions.onRequestPermissionsResult(requestCode, permissions, grantResults, this);
+    }
+
+    @AfterPermissionGranted(RC_CAMERA_AND_LOCATION)
+    private void methodRequiresTwoPermission() {
+        String[] perms = {Manifest.permission.READ_EXTERNAL_STORAGE, Manifest.permission.WRITE_EXTERNAL_STORAGE};
+        if (EasyPermissions.hasPermissions(this, perms)) {
+            // Already have permission, do the thing
+            // ...
+        } else {
+            // Do not have permissions, request them now
+            EasyPermissions.requestPermissions(this, getString(R.string.camera_and_location_rationale),
+                    RC_CAMERA_AND_LOCATION, perms);
+        }
+    }
+
+    @Override
+    public void onPermissionsGranted(int requestCode, List<String> perms) {
+
+
+    }
+
+    @Override
+    public void onPermissionsDenied(int requestCode, List<String> perms) {
+
     }
 }

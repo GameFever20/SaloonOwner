@@ -1,8 +1,10 @@
 package app.owner.saloon.craftystudio.saloonowner;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -10,6 +12,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -22,6 +25,7 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
 
     Saloon saloon = MainActivity.SALOON;
     ArrayAdapter<CharSequence> adapter;
+    Service service = new Service();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +76,7 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
 
     private Service createService() {
 
-        Service service = new Service();
+
 
         EditText editText = (EditText) findViewById(R.id.addSaloonService_serviceName_editText);
         String serviceName = editText.getText().toString().trim();
@@ -98,6 +102,15 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
         }
 
 
+        if(service.getServiceType()>0){
+
+        }else{
+            Toast.makeText(this, "Service type not selected", Toast.LENGTH_SHORT).show();
+            return null;
+        }
+
+
+/*
         Spinner spinner = (Spinner) findViewById(R.id.addSaloonService_serviceType_spinner);
         if (spinner.getSelectedItemPosition() == 0) {
             Toast.makeText(this, "Select service type", Toast.LENGTH_SHORT).show();
@@ -109,13 +122,44 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
             service.setServiceType(spinner.getSelectedItemPosition());
             Log.d("spinner", service.getServiceType() + service.getServiceTypeName());
 
-        }
+        }*/
 
         service.setSaloonUID(saloon.getSaloonUID());
         service.setSaloonName(saloon.getSaloonName());
 
 
         return service;
+
+
+    }
+
+    public void selectServiceType(View view) {
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select Service Type")
+                .setItems(R.array.service_type, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // The 'which' argument contains the index position
+                        // of the selected item
+
+
+
+                        String serviceTypeName = getResources().getStringArray(R.array.service_type)[which];
+                        service.setServiceTypeName(serviceTypeName);
+                        service.setServiceType(which+1);
+                        Log.d("spinner", service.getServiceType() + service.getServiceTypeName());
+
+
+                        TextView textView = (TextView)findViewById(R.id.addSaloonService_serviceType_textView);
+                        textView.setText(serviceTypeName);
+
+
+
+                    }
+                });
+        builder.create();
+        builder.show();
 
 
     }

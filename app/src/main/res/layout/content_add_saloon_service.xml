@@ -91,6 +91,7 @@
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
                 android:layout_marginTop="30dp"
+                android:onClick="selectServiceType"
                 >
 
                 <TextView
@@ -105,9 +106,18 @@
                     android:layout_height="wrap_content"
                     android:dropDownWidth="wrap_content"
                     android:prompt="@string/service_type_prompt"
+                    android:visibility="gone"
                     android:spinnerMode="dialog">
 
+
                 </Spinner>
+
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/addSaloonService_serviceType_textView"
+                    />
             </LinearLayout>
 
 
