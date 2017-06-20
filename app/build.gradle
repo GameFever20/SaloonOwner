@@ -11,6 +11,9 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
+
+
+
     buildTypes {
         release {
             minifyEnabled false
@@ -42,6 +45,8 @@ dependencies {
     testCompile 'junit:junit:4.12'
 
     compile 'pub.devrel:easypermissions:0.4.2'
+
+
 
 }
 apply plugin: 'com.google.gms.google-services'

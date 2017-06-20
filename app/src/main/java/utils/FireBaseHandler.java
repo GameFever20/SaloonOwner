@@ -42,9 +42,32 @@ public class FireBaseHandler {
 
     }
 
-    public void downloadOrder() {
+    public void downloadOrder(String saloonUID , String orderID , final OnOrderDownloadListner onOrderDownloadListner ) {
+
+        DatabaseReference mDatabaseRef = mDatabase.getReference().child("Orders/" + saloonUID+"/"+orderID);
 
 
+        mDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                //String saloonName = dataSnapshot.child("saloonName").getValue(String.class);
+
+                Order order = dataSnapshot.getValue(Order.class);
+                if(order != null) {
+                    order.setOrderID(dataSnapshot.getKey());
+                }
+                onOrderDownloadListner.onOrder(order);
+
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+
+            }
+        });
 
     }
 
@@ -426,7 +449,11 @@ public class FireBaseHandler {
         public void onOrderStatusUpdate(int newStatus, boolean isSuccesful);
     }
 
+    public interface OnOrderDownloadListner {
+        public void onOrder(Order order);
 
+
+    }
 
 
 

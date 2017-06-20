@@ -12,6 +12,8 @@
 
     <string name="service_type_prompt">Select Service Type</string>
 
+    <string name="google_android_map_api_key">AIzaSyBiVUzi_lT7pzXPzYEo9aHQxQBCoIb-4LQ</string>
+
 
     <string-array name="service_type">
         <item>Hair Cut</item>
@@ -23,5 +25,7 @@
     </string-array>
     <string name="title_activity_service_list">ServiceListActivity</string>
     <string name="camera_and_location_rationale">Get permission</string>
+    <string name="title_activity_full_detail">FullDetailActivity</string>
+    <string name="section_format">Hello World from section: %1$d</string>
 
 </resources>

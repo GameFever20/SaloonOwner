@@ -1,12 +1,15 @@
 package app.owner.saloon.craftystudio.saloonowner;
 
 import android.app.TimePickerDialog;
+import android.content.Intent;
+import android.location.Address;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
@@ -14,6 +17,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
 
 import utils.FireBaseHandler;
 import utils.Saloon;
@@ -193,7 +197,21 @@ public class SaloonProfile extends AppCompatActivity {
     }
 
     public void selectLocationClick(View view) {
+        double latitude , longitude ;
+
+        if (saloon.getSaloonLocationLatitude() == 0 && saloon.getSaloonLocationLongitude() == 0){
+            latitude=22.624853;
+            longitude= 88.408329;
+        }else{
+            latitude=saloon.getSaloonLocationLatitude();
+            longitude= saloon.getSaloonLocationLongitude();
+        }
+
 
 
     }
+
+
+
+
 }

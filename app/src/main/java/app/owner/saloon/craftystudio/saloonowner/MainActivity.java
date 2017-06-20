@@ -135,7 +135,7 @@ public class MainActivity extends AppCompatActivity
     private void saloonOrderFetch() {
 
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
-        fireBaseHandler.downloadOrderList("priyank", 20, new FireBaseHandler.OnOrderListener() {
+        fireBaseHandler.downloadOrderList("abc", 20, new FireBaseHandler.OnOrderListener() {
             @Override
             public void onOrderList(ArrayList<Order> orderArrayList) {
 
@@ -159,13 +159,15 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onOrderList(ArrayList<Order> orderArrayList) {
 
-                        for (int i = orderArrayList.size() - 1; i >= 0; i--) {
-                            MainActivity.this.orderArrayList.add(orderArrayList.get(i));
+                        if(orderArrayList.size()>0) {
+                            for (int i = orderArrayList.size() - 1; i >= 0; i--) {
+                                MainActivity.this.orderArrayList.add(orderArrayList.get(i));
 
+                            }
+                            orderAdapter.notifyDataSetChanged();
                         }
-
                         isLoadingMoreOrder=false;
-                        orderAdapter.notifyDataSetChanged();
+
 
                     }
                 });
@@ -186,6 +188,18 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View view, int position) {
 
+                Order order = orderArrayList.get(position);
+
+                //passing data to detail activity
+                Bundle bundle = new Bundle();
+                bundle.putString("SaloonID", order.getSaloonID());
+                bundle.putString("OrderID", order.getOrderID());
+                bundle.putString("UserID", order.getUserID());
+                bundle.putString("ServiceID", order.getServiceID());
+
+                Intent intent = new Intent(MainActivity.this, FullDetailActivity.class);
+                intent.putExtras(bundle);
+                startActivity(intent);
 
             }
 

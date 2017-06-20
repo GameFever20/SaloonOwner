@@ -18,6 +18,10 @@ public class Saloon {
     private int saloonRating ;
     //images
 
+    double saloonLocationLatitude ;
+    double saloonLocationLongitude ;
+
+
     private Map<String ,String> saloonImageList ;
 
     //timing
@@ -123,6 +127,22 @@ public class Saloon {
 
     public void setClosingTimeMinute(int closingTimeMinute) {
         this.closingTimeMinute = closingTimeMinute;
+    }
+
+    public double getSaloonLocationLatitude() {
+        return saloonLocationLatitude;
+    }
+
+    public void setSaloonLocationLatitude(double saloonLocationLatitude) {
+        this.saloonLocationLatitude = saloonLocationLatitude;
+    }
+
+    public double getSaloonLocationLongitude() {
+        return saloonLocationLongitude;
+    }
+
+    public void setSaloonLocationLongitude(double saloonLocationLongitude) {
+        this.saloonLocationLongitude = saloonLocationLongitude;
     }
 
     public boolean isSaloonUpdated(){

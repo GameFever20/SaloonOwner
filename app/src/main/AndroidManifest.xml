@@ -41,6 +41,15 @@
         <activity
             android:name=".ServiceListActivity"
             android:label="@string/title_activity_service_list"
+            android:theme="@style/AppTheme.NoActionBar" />
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="@string/google_android_map_api_key" />
+
+        <activity
+            android:name=".FullDetailActivity"
+            android:label="@string/title_activity_full_detail"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
