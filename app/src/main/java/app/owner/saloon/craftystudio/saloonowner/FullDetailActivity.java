@@ -20,6 +20,9 @@ import android.view.ViewGroup;
 
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import utils.FireBaseHandler;
 
 public class FullDetailActivity extends AppCompatActivity {
 
@@ -108,6 +111,18 @@ public class FullDetailActivity extends AppCompatActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void acceptOrderClick(View view) {
+        FireBaseHandler fireBaseHandler = new FireBaseHandler();
+        fireBaseHandler.updateOrderstatus(SaloonID, OrderID, 2, new FireBaseHandler.OnOrderStatusUpdateListener() {
+            @Override
+            public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
+                if (isSuccesful){
+                    Toast.makeText(FullDetailActivity.this, "Order accepted", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     /**

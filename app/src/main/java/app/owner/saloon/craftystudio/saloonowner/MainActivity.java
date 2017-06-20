@@ -165,8 +165,9 @@ public class MainActivity extends AppCompatActivity
 
                             }
                             orderAdapter.notifyDataSetChanged();
+                            isLoadingMoreOrder=false;
                         }
-                        isLoadingMoreOrder=false;
+
 
 
                     }
