@@ -1,5 +1,6 @@
 package app.owner.saloon.craftystudio.saloonowner;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -27,6 +28,8 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
     ArrayAdapter<CharSequence> adapter;
     Service service = new Service();
 
+    ProgressDialog progressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,14 +46,11 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
             }
         });
 
-        Spinner spinner = (Spinner) findViewById(R.id.addSaloonService_serviceType_spinner);
 
-        adapter = ArrayAdapter.createFromResource(this,
-                R.array.service_type, android.R.layout.simple_spinner_item);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinner.setAdapter(adapter);
+        progressDialog = new ProgressDialog(this);
 
 
+        //initialze service to service to be editted and call reinitialize
     }
 
     public void addServiceClick(View view) {
@@ -59,11 +59,16 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
         }
         Service service = createService();
 
+        showProgressDialog("Adding new Service", "");
+
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
         fireBaseHandler.uploadService(service, new FireBaseHandler.OnServiceListener() {
             @Override
             public void onSeviceUpload(boolean isSuccesful) {
                 Toast.makeText(AddSaloonServiceActivity.this, "Uploaded Service", Toast.LENGTH_SHORT).show();
+                closeProgressDialog();
+
+                showExitDialogue("Service Added succesfully", "Do you want to add more service ");
             }
 
             @Override
@@ -74,8 +79,46 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
 
     }
 
-    private Service createService() {
+    private void showExitDialogue(String title, String message) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setCancelable(false)
+                .setTitle(title)
+                .setMessage(message)
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        service = new Service();
+                        reInitializeActivity();
+                    }
+                })
+                .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
 
+                        finish();
+                    }
+                });
+
+        // Create the AlertDialog object and return it
+        builder.create();
+        builder.show();
+
+    }
+
+    private void reInitializeActivity() {
+        EditText editText = (EditText) findViewById(R.id.addSaloonService_serviceName_editText);
+        editText.setText(service.getServiceName());
+        editText = (EditText) findViewById(R.id.addSaloonService_servicePrice_editText);
+        editText.setText(service.getServicePrice()+"");
+
+        TextView textView = (TextView) findViewById(R.id.addSaloonService_serviceType_textView);
+        textView.setText(service.getServiceTypeName());
+
+
+
+
+    }
+
+    private Service createService() {
 
 
         EditText editText = (EditText) findViewById(R.id.addSaloonService_serviceName_editText);
@@ -102,9 +145,9 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
         }
 
 
-        if(service.getServiceType()>0){
+        if (service.getServiceType() > 0) {
 
-        }else{
+        } else {
             Toast.makeText(this, "Service type not selected", Toast.LENGTH_SHORT).show();
             return null;
         }
@@ -144,16 +187,14 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
                         // of the selected item
 
 
-
                         String serviceTypeName = getResources().getStringArray(R.array.service_type)[which];
                         service.setServiceTypeName(serviceTypeName);
-                        service.setServiceType(which+1);
+                        service.setServiceType(which + 1);
                         Log.d("spinner", service.getServiceType() + service.getServiceTypeName());
 
 
-                        TextView textView = (TextView)findViewById(R.id.addSaloonService_serviceType_textView);
+                        TextView textView = (TextView) findViewById(R.id.addSaloonService_serviceType_textView);
                         textView.setText(serviceTypeName);
-
 
 
                     }
@@ -163,4 +204,17 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
 
 
     }
+
+
+    public void showProgressDialog(String title, String message) {
+        progressDialog.setMessage(message);
+        progressDialog.setTitle(title);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    public void closeProgressDialog() {
+        progressDialog.dismiss();
+    }
+
 }

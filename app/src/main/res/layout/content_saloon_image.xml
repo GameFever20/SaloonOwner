@@ -29,7 +29,7 @@
                 android:background="@color/whitish"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
-                android:onClick="addShowcasePhotoClick"
+                android:onClick="selectProfileImage"
                 android:orientation="horizontal">
 
                 <ImageView
@@ -90,6 +90,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
+                        android:onClick="selectImage1PhotoClick"
+
                         android:orientation="horizontal">
 
 
@@ -101,7 +103,6 @@
                             android:maxHeight="50dp"
                             android:maxWidth="100dp"
                             android:minHeight="20dp"
-                            android:onClick="addImage1PhotoClick"
 
                             />
 
@@ -123,6 +124,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
+                        android:onClick="addImage2PhotoClick"
                         android:orientation="horizontal">
 
 
@@ -134,7 +136,7 @@
                             android:maxHeight="50dp"
                             android:maxWidth="100dp"
                             android:minHeight="20dp"
-                            android:onClick="addImage1PhotoClick" />
+                             />
 
                         <TextView
                             android:layout_width="match_parent"
@@ -154,6 +156,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="5dp"
+                        android:onClick="addImage3PhotoClick"
+
                         android:orientation="horizontal">
 
                         <ImageView
@@ -164,7 +168,6 @@
                             android:maxHeight="50dp"
                             android:maxWidth="100dp"
                             android:minHeight="20dp"
-                            android:onClick="addImage1PhotoClick"
 
                             />
 

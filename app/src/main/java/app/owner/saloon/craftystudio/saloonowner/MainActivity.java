@@ -1,5 +1,6 @@
 package app.owner.saloon.craftystudio.saloonowner;
 
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -46,6 +47,8 @@ public class MainActivity extends AppCompatActivity
     OrderAdapter orderAdapter = new OrderAdapter(orderArrayList);
     private boolean isLoadingMoreOrder =false;
 
+    ProgressDialog progressDialog ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,17 +74,22 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+        progressDialog =new ProgressDialog(this);
+
+        showProgressDialog("Fetching Details" , "wait..");
 
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
         fireBaseHandler.downloadSaloon("abc", new FireBaseHandler.OnSaloonDownload() {
             @Override
             public void onSaloon(Saloon saloon) {
 
+                closeProgressDialog();
                 MainActivity.SALOON = saloon;
                 if (saloon != null) {
                     saloonCheck(saloon);
                     //saloon.setSaloonUID(LoginActivity.saloonUID);
                     Toast.makeText(MainActivity.this, "Saloon fetched ", Toast.LENGTH_SHORT).show();
+
                 } else {
                     showExitDialogue();
                 }
@@ -378,4 +386,18 @@ public class MainActivity extends AppCompatActivity
         String str = simpleDateFormat.format(date);
         Toast.makeText(this, "Date is " + str, Toast.LENGTH_SHORT).show();
     }
+
+
+    public void showProgressDialog(String title,String message){
+        progressDialog.setMessage(message);
+        progressDialog.setTitle(title);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    public void closeProgressDialog(){
+        progressDialog.dismiss();
+    }
+
+
 }

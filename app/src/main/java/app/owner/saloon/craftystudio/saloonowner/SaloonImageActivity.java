@@ -1,5 +1,7 @@
 package app.owner.saloon.craftystudio.saloonowner;
 
+import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Bitmap;
@@ -8,6 +10,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -40,18 +43,24 @@ import utils.Saloon;
 
 public class SaloonImageActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
 
-    private static final int SELECT_PICTURE = 0;
-    private static final int SELECT_IMAGE_1 = 1;
-    private static final int REQUEST_EXTRA_IMAGE = 10;
+
+
     private static final int REQUEST_PROFILE_IMAGE = 15;
+    private static final int REQUEST_EXTRA_IMAGE1 = 10;
+    private static final int REQUEST_EXTRA_IMAGE2 = 11;
+    private static final int REQUEST_EXTRA_IMAGE3 = 12;
 
 
     Uri profileImageUri, image1Uri, image2Uri, image3Uri;
     String saloonUID = "abc";
     
     int statusProfileUpload ,statusImage1Upload ,statusImage2Upload , statusImage3Upload;
-    private final int RC_CAMERA_AND_LOCATION=10;
+    private final int RC_CAMERA_AND_LOCATION=20;
 
+
+    ProgressDialog progressDialog ;
+
+    Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +77,7 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
             }
         });
 
+        progressDialog =new ProgressDialog(this);
 
         final ImageView imageView = (ImageView) findViewById(R.id.saloonimage_showcase_imageView);
 
@@ -141,87 +151,11 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
 
     }
 
-    public void addShowcasePhotoClick() {
 
-
-        Matisse.from(SaloonImageActivity.this)
-                .choose(MimeType.allOf())
-                .countable(true)
-                .maxSelectable(1)
-                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                .thumbnailScale(0.85f)
-                .imageEngine(new GlideEngine())
-                .forResult(REQUEST_PROFILE_IMAGE);
-
-    }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (resultCode == RESULT_OK) {
-            if (requestCode == SELECT_PICTURE) {
-                Uri selectedImageUri = data.getData();
-                //selectedImagePath = getPath(selectedImageUri);
-
-                ImageView imageView = (ImageView) findViewById(R.id.saloonimage_showcase_imageView);
-                imageView.setImageURI(selectedImageUri);
-
-                FireBaseHandler fireBaseHandler = new FireBaseHandler();
-                fireBaseHandler.uploadSaloonShwcaseImage(selectedImageUri, "abc", "profile_image", new FireBaseHandler.OnSaloonImageListner() {
-                    @Override
-                    public void onImageDownLoaded(boolean isSucessful, File imageFile) {
-                        Toast.makeText(SaloonImageActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onImageUploaded(boolean isSucessful, Uri downloadUri) {
-                        Toast.makeText(SaloonImageActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-
-
-            } else if (requestCode == SELECT_IMAGE_1) {
-
-                Uri selectedImageUri = data.getData();
-                //selectedImagePath = getPath(selectedImageUri);
-
-                ImageView imageView = (ImageView) findViewById(R.id.saloonimage_image1_imageView);
-                imageView.setImageURI(selectedImageUri);
-
-                FireBaseHandler fireBaseHandler = new FireBaseHandler();
-                fireBaseHandler.uploadSaloonShwcaseImage(selectedImageUri, "abc", "image_1", new FireBaseHandler.OnSaloonImageListner() {
-                    @Override
-                    public void onImageDownLoaded(boolean isSucessful, File imageFile) {
-                        Toast.makeText(SaloonImageActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onImageUploaded(boolean isSucessful, Uri downloadUri) {
-                        Toast.makeText(SaloonImageActivity.this, "Image uploaded", Toast.LENGTH_SHORT).show();
-
-                    }
-                });
-
-            } else if (requestCode == REQUEST_EXTRA_IMAGE) {
-                List<Uri> mSelected = Matisse.obtainResult(data);
-                Log.d("Matisse", "mSelected: " + mSelected);
-                if (mSelected.size() >= 1) {
-                    image1Uri =mSelected.get(0);
-                    ImageView imageView = (ImageView) findViewById(R.id.saloonimage_image1_imageView);
-                    imageView.setImageURI(image1Uri);
-                }
-                if (mSelected.size() >= 2) {
-                    image2Uri= mSelected.get(1);
-                    ImageView imageView = (ImageView) findViewById(R.id.saloonimage_image2_imageView);
-                    imageView.setImageURI(image2Uri);
-                }
-                if (mSelected.size() >= 3) {
-                    image3Uri = mSelected.get(2);
-                    ImageView imageView = (ImageView) findViewById(R.id.saloonimage_image3_imageView);
-                    imageView.setImageURI(image3Uri);
-                }
-
-
-            } else if (requestCode == REQUEST_PROFILE_IMAGE) {
+             if (requestCode == REQUEST_PROFILE_IMAGE) {
 
                 List<Uri> mSelectedProfileImage = Matisse.obtainResult(data);
                 profileImageUri = mSelectedProfileImage.get(0);
@@ -230,24 +164,35 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
                 imageView.setImageURI(profileImageUri);
 
 
-            }
+            }else if (requestCode == REQUEST_EXTRA_IMAGE1) {
+                 List<Uri> mSelectedProfileImage = Matisse.obtainResult(data);
+                 image1Uri = mSelectedProfileImage.get(0);
+                 Log.d("Matisse", "mSelected: " + profileImageUri);
+                 ImageView imageView = (ImageView) findViewById(R.id.saloonimage_image1_imageView);
+                 imageView.setImageURI(image1Uri);
+
+
+            } else if(requestCode == REQUEST_EXTRA_IMAGE2){
+                 List<Uri> mSelectedProfileImage = Matisse.obtainResult(data);
+                 image2Uri = mSelectedProfileImage.get(0);
+                 Log.d("Matisse", "mSelected: " + profileImageUri);
+                 ImageView imageView = (ImageView) findViewById(R.id.saloonimage_image2_imageView);
+                 imageView.setImageURI(image2Uri);
+
+             }
+            else if (requestCode == REQUEST_EXTRA_IMAGE3){
+                 List<Uri> mSelectedProfileImage = Matisse.obtainResult(data);
+                 image3Uri = mSelectedProfileImage.get(0);
+                 Log.d("Matisse", "mSelected: " + profileImageUri);
+                 ImageView imageView = (ImageView) findViewById(R.id.saloonimage_image3_imageView);
+                 imageView.setImageURI(image3Uri);
+
+             }
+
         }
     }
 
-    public void addImage1PhotoClick(View view) {
 
-        // in onCreate or any event where your want the user to
-        // select a file
-        Matisse.from(SaloonImageActivity.this)
-                .choose(MimeType.allOf())
-                .countable(true)
-                .maxSelectable(3)
-                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
-                .thumbnailScale(0.85f)
-                .imageEngine(new GlideEngine())
-                .forResult(REQUEST_EXTRA_IMAGE);
-
-    }
 
     public void selectImageFromGallery(View view) {
 
@@ -260,7 +205,7 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
                 .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
                 .thumbnailScale(0.85f)
                 .imageEngine(new GlideEngine())
-                .forResult(REQUEST_EXTRA_IMAGE);
+                .forResult(REQUEST_EXTRA_IMAGE1);
 
     }
 
@@ -272,6 +217,7 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
         } else if (saloon.getSaloonPoint() == -1) {
             if (profileImageUri != null) {
                 saloon.setSaloonPoint(10);
+                intent = new Intent(SaloonImageActivity.this , AddSaloonServiceActivity.class);
             }
         }
 
@@ -283,6 +229,13 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
         }
 
         final FireBaseHandler fireBaseHandler = new FireBaseHandler();
+
+
+        if (profileImageUri != null ||image1Uri!=null || image2Uri!= null ||image3Uri!=null){
+            progressDialog.show();
+        }else{
+            Toast.makeText(this, "Images not selected", Toast.LENGTH_SHORT).show();
+        }
 
         if (profileImageUri != null) {
 
@@ -380,7 +333,8 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
 
     private void checkForProgress(FireBaseHandler fireBaseHandler) {
         if(!(statusProfileUpload == 1 || statusImage1Upload ==1 || statusImage2Upload==1 ||statusImage3Upload==1)){
-            Toast.makeText(this, "Upload saloon", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Updating saloon details", Toast.LENGTH_SHORT).show();
+
 
             fireBaseHandler.uploadSaloon(saloonUID, MainActivity.SALOON, new FireBaseHandler.OnSaloonDownload() {
                 @Override
@@ -392,6 +346,8 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
                 public void onSaloonValueUploaded(boolean isSucessful) {
 
                     Toast.makeText(SaloonImageActivity.this, "Uploaded images ", Toast.LENGTH_SHORT).show();
+                    closeProgressDialog();
+                    showExitDialogue();
                 }
             });
         }
@@ -433,4 +389,91 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
     public void onPermissionsDenied(int requestCode, List<String> perms) {
 
     }
+
+    public void selectProfileImage(View view) {
+        Matisse.from(SaloonImageActivity.this)
+                .choose(MimeType.allOf())
+                .countable(true)
+                .maxSelectable(1)
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                .thumbnailScale(0.85f)
+                .imageEngine(new GlideEngine())
+                .forResult(REQUEST_PROFILE_IMAGE);
+    }
+
+
+    public void selectImage1PhotoClick(View view) {
+
+        // in onCreate or any event where your want the user to
+        // select a file
+        Matisse.from(SaloonImageActivity.this)
+                .choose(MimeType.allOf())
+                .countable(true)
+                .maxSelectable(1)
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                .thumbnailScale(0.85f)
+                .imageEngine(new GlideEngine())
+                .forResult(REQUEST_EXTRA_IMAGE1);
+
+    }
+
+    public void addImage2PhotoClick(View view) {
+        Matisse.from(SaloonImageActivity.this)
+                .choose(MimeType.allOf())
+                .countable(true)
+                .maxSelectable(1)
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                .thumbnailScale(0.85f)
+                .imageEngine(new GlideEngine())
+                .forResult(REQUEST_EXTRA_IMAGE2);
+    }
+
+    public void addImage3PhotoClick(View view) {
+        Matisse.from(SaloonImageActivity.this)
+                .choose(MimeType.allOf())
+                .countable(true)
+                .maxSelectable(1)
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                .thumbnailScale(0.85f)
+                .imageEngine(new GlideEngine())
+                .forResult(REQUEST_EXTRA_IMAGE3);
+    }
+
+
+    public void showProgressDialog(String title,String message){
+        progressDialog.setMessage(message);
+        progressDialog.setTitle(title);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    public void closeProgressDialog(){
+        progressDialog.dismiss();
+    }
+
+
+    private void showExitDialogue() {
+        if(intent==null) {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(false)
+                    .setTitle("Image Uploaded sucessfully ")
+                    .setMessage("Press yes to exit")
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            finish();
+                        }
+                    });
+
+            // Create the AlertDialog object and return it
+            builder.create();
+            builder.show();
+        }else{
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
+
+    }
+
 }

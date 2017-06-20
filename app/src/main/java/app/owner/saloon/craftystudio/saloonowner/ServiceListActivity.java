@@ -122,6 +122,8 @@ public class ServiceListActivity extends AppCompatActivity {
 
     public void openAddServiceActivity(View view) {
         Intent intent =new Intent(ServiceListActivity.this , AddSaloonServiceActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 }
