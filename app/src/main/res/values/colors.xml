@@ -1,26 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#78467c</color>
-    <color name="colorPrimaryDark">#401e42</color>
+    <color name="colorPrimary">#f5444a</color>
+    <color name="colorPrimaryDark">#cc1d1d</color>
     <color name="colorAccent">#e6c716</color>
+
     <color name="yellow">#e7fffdf4</color>
-    <color name="lightblack">#9d000000</color>
-    <color name="whitish">#e4e2e2</color>
+    <color name="whitish">#fafafc</color>
     <color name="white">#ffffff</color>
+    <color name="lightwhite">#f1eff4</color>
+
+
     <color name="bluish">#1e2738</color>
     <color name="light_blue">#98a3b9</color>
+    <color name="blue">#00bde4</color>
+
     <color name="skin">#e5c2a6</color>
+
     <color name="purplish">#270831</color>
     <color name="lightpurple">#AD91B3</color>
     <color name="purple">#3a1339</color>
     <color name="cardpurple">#f7641662</color>
 
-    <color name="red">#ea0800</color>
     <color name="black">#000000</color>
     <color name="blackish">#1e1d1d</color>
+    <color name="lightblack">#96000000</color>
     <color name="greyish">#545454</color>
 
+    <color name="red">#ea0800</color>
+    <color name="light_red">#bbea0800</color>
+    <color name="redishdark">#cc1d1d</color>
+    <color name="redish">#f55056</color>
+    <color name="redishbutton">#e43f3f</color>
+
+    <color name="green">#47ec00</color>
+    <color name="yellow1">#f9f501</color>
+
+
+
     <color name="pink">#FFFF4081</color>
+
+
 
 
 

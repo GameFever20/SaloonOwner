@@ -11,13 +11,10 @@
     tools:context="app.owner.saloon.craftystudio.saloonowner.ServiceListActivity"
     tools:showIn="@layout/activity_service_list">
 
-
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="150dp"
+        android:layout_marginTop="0dp"
         android:orientation="vertical">
 
 
@@ -32,7 +29,7 @@
             android:id="@+id/serviceList_service_recyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1">
+            android:layout_weight="2.73">
 
 
         </android.support.v7.widget.RecyclerView>
@@ -43,7 +40,7 @@
             android:layout_height="wrap_content"
             android:onClick="openAddServiceActivity"
             android:textColor="@color/white"
-            android:background="@color/purple"
+            android:background="@color/redishdark"
             android:text="Add More Services " />
 
 
@@ -52,8 +49,9 @@
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="180dp"
-        android:scaleType="fitXY"
-        android:src="@drawable/service_list_bg" />
+        android:layout_height="75dp"
+        android:scaleType="centerCrop"
+        android:visibility="gone"
+        android:src="@drawable/service_display_bg" />
 
 </FrameLayout>

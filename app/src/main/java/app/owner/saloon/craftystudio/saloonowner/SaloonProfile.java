@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
@@ -35,6 +36,8 @@ public class SaloonProfile extends EasyLocationActivity {
 
     EditText saloonNameEditText, saloonAddressEditText, saloonLocationEditText, saloonPhoneNumberEditText;
     String saloonName, saloonAddress, saloonLocation, saloonPhoneNumber;
+
+    TextView saloonNameTextView;
 
 
     FireBaseHandler fireBaseHandler;
@@ -76,15 +79,19 @@ public class SaloonProfile extends EasyLocationActivity {
 
             //saloonNameEditText = (EditText) findViewById(R.id.saloonprofile_saloonName_editText);
             saloonAddressEditText = (EditText) findViewById(R.id.saloonprofile_saloonAddress_editText);
-            saloonLocationEditText = (EditText) findViewById(R.id.saloonprofile_saloonLocation_editText);
+           // saloonLocationEditText = (EditText) findViewById(R.id.saloonprofile_saloonLocation_editText);
             saloonPhoneNumberEditText = (EditText) findViewById(R.id.saloonprofile_saloonPhoneNumber_editText);
+            saloonNameTextView=(TextView)findViewById(R.id.saloonprofile_saloonName_textView);
+
+
 
 
             if (saloon.getSaloonPoint() != 0) {
                 try {
                    // saloonNameEditText.setText(saloon.getSaloonName());
+                    saloonNameTextView.setText(saloon.getSaloonName());
                     saloonPhoneNumberEditText.setText(saloon.getSaloonPhoneNumber());
-                    saloonLocationEditText.setText(saloon.getSaloonLocation());
+                   // saloonLocationEditText.setText(saloon.getSaloonLocation());
                     saloonAddressEditText.setText(saloon.getSaloonAddress());
 
                     TextView textView = (TextView)findViewById(R.id.saloonProfile_openingTime_textView);

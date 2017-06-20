@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/updateprofilebg1"
+    android:background="@color/redishbutton"
     android:orientation="vertical"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="app.owner.saloon.craftystudio.saloonowner.SaloonProfile"
@@ -24,28 +24,42 @@
 
 
             <ImageView
+                android:layout_width="267dp"
+                android:layout_height="127dp"
+                android:layout_gravity="center"
+                android:layout_marginTop="30dp"
+                android:src="@drawable/saloon_icon" />
+
+            <TextView
+                android:id="@+id/saloonprofile_saloonName_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 android:layout_marginTop="50dp"
-                android:src="@drawable/logoforsaloon" />
+                android:text="Saloon Name"
+                android:textColor="@color/white"
 
+                />
 
             <android.support.design.widget.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
                 android:layout_marginRight="20dp"
                 android:theme="@style/EditTextHint">
 
                 <EditText
-                    android:id="@+id/saloonprofile_saloonName_editText"
+                    android:id="@+id/saloonprofile_saloonPhoneNumber_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Saloon Name"
-                    android:inputType="text"
-                    android:textColor="@color/white" />
+                    android:hint="Saloon Phone Number"
+                    android:textColor="@color/white"
 
+                    />
             </android.support.design.widget.TextInputLayout>
 
 
@@ -62,43 +76,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Saloon Address"
-                    android:textColor="@color/white"
-
-                    />
-            </android.support.design.widget.TextInputLayout>
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:theme="@style/EditTextHint">
-
-                <EditText
-                    android:id="@+id/saloonprofile_saloonLocation_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Saloon Location"
-                    android:textColor="@color/white"
-
-                    />
-            </android.support.design.widget.TextInputLayout>
-
-
-            <android.support.design.widget.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="20dp"
-                android:theme="@style/EditTextHint">
-
-                <EditText
-                    android:id="@+id/saloonprofile_saloonPhoneNumber_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Saloon Phone Number"
+                    android:layout_marginTop="5dp"
                     android:textColor="@color/white"
 
                     />
@@ -117,8 +95,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    app:cardCornerRadius="0dp"
                     app:cardBackgroundColor="@color/yellow"
+                    app:cardCornerRadius="0dp"
                     app:cardElevation="5dp">
 
                     <LinearLayout
@@ -135,7 +113,7 @@
                             android:layout_height="wrap_content"
                             android:text="  Opening Time  "
                             android:textAlignment="center"
-                            android:textColor="@color/purplish"
+                            android:textColor="@color/redishdark"
                             android:textSize="16sp" />
 
                         <TextView
@@ -162,7 +140,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
-                        android:src="@drawable/ic_action_clock" />
+                        android:src="@drawable/ic_action_clockicon" />
                 </android.support.v7.widget.CardView>
 
 
@@ -187,7 +165,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="  Closing Time  "
-                            android:textColor="@color/purplish"
+                            android:textColor="@color/redishdark"
                             android:textSize="16sp" />
 
                         <TextView
@@ -232,6 +210,7 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textAlignment="center"
+                    android:textColor="@color/white"
                     android:textSize="16sp" />
 
 
@@ -246,10 +225,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:background="@color/white"
+        android:background="@color/redishdark"
+        android:fontFamily="sans-serif"
         android:onClick="onSaveButtonClick"
+
         android:text="Save"
-        android:textColor="@color/purplish"
+        android:textColor="@color/white"
 
         />
 
