@@ -26,9 +26,9 @@
         </android.support.v7.widget.Toolbar>
 
         <ImageView
+            android:id="@+id/full_detail_showcase_imageview"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:id="@+id/full_detail_showcase_imageview"
             android:scaleType="centerCrop"
             android:src="@drawable/d4" />
 
@@ -52,5 +52,15 @@
         android:layout_gravity="end|bottom"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:layout_marginTop="20dp"
+        android:background="@color/white"
+        android:onClick="acceptOrderClick"
+        android:text="Accept"
+        android:textColor="@color/purplish" />
 
 </android.support.design.widget.CoordinatorLayout>

@@ -122,8 +122,9 @@ public class FireBaseHandler {
                     orderArrayList.add(order);
                 }
 
-                orderArrayList.remove(orderArrayList.size() - 1);
-
+                if(orderArrayList.size()>0) {
+                    orderArrayList.remove(orderArrayList.size() - 1);
+                }
                 onOrderListener.onOrderList(orderArrayList);
             }
 
