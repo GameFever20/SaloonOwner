@@ -102,6 +102,7 @@ public class FullDetailActivity extends AppCompatActivity {
 
 
 
+
         imageView=(ImageView)findViewById(R.id.full_detail_showcase_imageview);
 
     }
