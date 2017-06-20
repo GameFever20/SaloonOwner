@@ -75,6 +75,35 @@ public class FireBaseHandler {
 
     }
 
+    public void downloadService(String saloonUID , String serviceID , final OnServiceDownLoadListner onServiceDownLoadListner ) {
+
+        DatabaseReference mDatabaseRef = mDatabase.getReference().child("services/" + serviceID);
+
+
+        mDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                //String saloonName = dataSnapshot.child("saloonName").getValue(String.class);
+
+                Service service = dataSnapshot.getValue(Service.class);
+                if(service != null) {
+                    service.setServiceUID(dataSnapshot.getKey());
+                }
+                onServiceDownLoadListner.onServiceDownload(service);
+
+            }
+
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+
+            }
+        });
+
+    }
+
     public void downloadOrderList(String saloonUID, int limitTo, final OnOrderListener onOrderListener) {
 
         DatabaseReference myRef = mDatabase.getReference().child("Orders/" + saloonUID);
@@ -263,8 +292,12 @@ public class FireBaseHandler {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Uri downloadUrl = taskSnapshot.getDownloadUrl();
-                onSaloonImageListner.onImageUploaded(true, downloadUrl);
+                Uri uri= taskSnapshot.getDownloadUrl();
+                try {
+                    onSaloonImageListner.onImageUploaded(true, uri);
+                }catch (Exception e){
+
+                }
             }
         });
 
@@ -454,6 +487,10 @@ public class FireBaseHandler {
         public void onOrder(Order order);
 
 
+    }
+
+    public interface OnServiceDownLoadListner{
+        public void onServiceDownload(Service service);
     }
 
 

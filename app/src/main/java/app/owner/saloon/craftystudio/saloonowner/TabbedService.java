@@ -18,7 +18,7 @@ import utils.Order;
 
 public class TabbedService extends Fragment {
 
-    TextView mfragmentServiceName, mfragmentServicePrice;
+    TextView mfragmentServiceName, mfragmentServicePrice ,mFragmentServiceTypeName;
 
     @Nullable
     @Override
@@ -28,21 +28,15 @@ public class TabbedService extends Fragment {
 
         mfragmentServiceName=(TextView) tempView.findViewById(R.id.fragment_service_name_textview);
         mfragmentServicePrice=(TextView) tempView.findViewById(R.id.fragment_service_price_textview);
+        mFragmentServiceTypeName=(TextView) tempView.findViewById(R.id.fragment_service_serviceTypeName_textview);
 
 
 
-        FireBaseHandler fireBaseHandler= new FireBaseHandler();
 
-        fireBaseHandler.downloadOrder( FullDetailActivity.SaloonID,FullDetailActivity.OrderID, new FireBaseHandler.OnOrderDownloadListner() {
-            @Override
-            public void onOrder(Order order) {
-                Log.d("Order status","status:"+order.getOrderServiceName());
 
-                mfragmentServiceName.setText(mfragmentServiceName.getText().toString()+"  "+order.getOrderServiceName());
-                mfragmentServicePrice.setText(mfragmentServicePrice.getText().toString()+"  "+order.getOrderPrice());
-
-            }
-        });
+        mfragmentServiceName.setText(mfragmentServiceName.getText().toString()+"  "+FullDetailActivity.SERVICE.getServiceName());
+        mfragmentServicePrice.setText(mfragmentServicePrice.getText().toString()+"  "+FullDetailActivity.SERVICE.getServicePrice());
+        mFragmentServiceTypeName.setText(mFragmentServiceTypeName.getText().toString()+"  "+FullDetailActivity.SERVICE.getServiceTypeName());
 
 
         return tempView;
