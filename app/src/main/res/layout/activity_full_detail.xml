@@ -53,14 +53,45 @@
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
-    <Button
+    <LinearLayout
+        android:id="@+id/fullDetail_button_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:layout_marginTop="20dp"
+        android:visibility="gone"
+        android:orientation="horizontal">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:onClick="cancelOrderClick"
+            android:text="Cancel"
+            android:textColor="@color/purplish" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="@color/white"
+            android:onClick="acceptOrderClick"
+            android:text="Accept"
+            android:textColor="@color/purplish" />
+
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:visibility="gone"
+        android:id="@+id/fullDetail_completed_button"
         android:background="@color/white"
-        android:onClick="acceptOrderClick"
-        android:text="Accept"
+        android:onClick="completeOrderClick"
+        android:text="Completed"
+        android:layout_gravity="bottom"
         android:textColor="@color/purplish" />
 
 </android.support.design.widget.CoordinatorLayout>

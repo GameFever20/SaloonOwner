@@ -38,6 +38,16 @@
             android:textStyle="italic"
             android:typeface="sans" />
 
+        <TextView
+            android:id="@+id/fragment_service_serviceTypeName_textview"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:fontFamily="sans-serif"
+            android:text="Service Price :"
+            android:textSize="18dp"
+            android:textStyle="italic"
+            android:typeface="sans" />
 
 
     </LinearLayout>

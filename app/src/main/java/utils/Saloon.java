@@ -147,35 +147,25 @@ public class Saloon {
 
     public boolean isSaloonUpdated(){
 
-        if(saloonPhoneNumber == null || saloonLocation==null || saloonAddress==null ||saloonName ==null){
+        if(saloonPhoneNumber == null || saloonLocation==null ){
+            return false;
+        }
+        if(saloonPhoneNumber.isEmpty() ||saloonAddress.isEmpty() ){
+
+            return  false;
+        }
+
+        if((openingTimeHour ==0 || openingTimeMinute==0) && (closingTimeHour == 0 ||closingTimeMinute==0)){
+
+            return false ;
+        }
+
+        if(saloonLocationLatitude == 0 || saloonLocationLongitude == 0 ){
             return false;
         }
 
-        if (!saloonName.isEmpty()){
+        return true;
 
-            if(!saloonPhoneNumber.isEmpty()){
-
-                if(!saloonAddress.isEmpty()){
-
-                    if(!saloonLocation.isEmpty()){
-
-                        return true ;
-
-                    }else{
-                        return false;
-                    }
-
-                }else {
-                    return false;
-                }
-
-            }else{
-                return false;
-            }
-
-        }else{
-            return false;
-        }
 
     }
 
