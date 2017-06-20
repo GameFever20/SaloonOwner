@@ -43,7 +43,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
-                    android:hint="service Name"
+                    android:hint="Service Name"
 
                     />
             </android.support.design.widget.TextInputLayout>
@@ -55,13 +55,13 @@
                 android:theme="@style/EditTextHint"
                 android:layout_marginLeft="30dp"
                 android:layout_marginRight="30dp"
-                android:textColor="@color/white"
                 android:layout_marginTop="10dp"
                 >
 
                 <EditText
                     android:id="@+id/addSaloonService_servicePrice_editText"
                     android:layout_width="match_parent"
+                    android:textColor="@color/white"
                     android:layout_height="wrap_content"
                     android:hint="service Price"
 
@@ -116,6 +116,9 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/red"
+                    android:textStyle="italic"
+                    android:textSize="16sp"
                     android:id="@+id/addSaloonService_serviceType_textView"
                     />
             </LinearLayout>

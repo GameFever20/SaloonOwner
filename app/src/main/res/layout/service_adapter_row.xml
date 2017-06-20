@@ -8,14 +8,13 @@
     <android.support.v7.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"
-        android:layout_marginBottom="5dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="8dp"
         android:elevation="2dp"
-        app:cardBackgroundColor="@color/whitish"
-        app:cardCornerRadius="4dp"
-        >
+        app:cardBackgroundColor="@color/white"
+        app:cardCornerRadius="4dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -27,15 +26,18 @@
                 android:id="@+id/serviceAdapterRow_serviceName_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:fontFamily="serif"
                 android:text="Service Name"
                 android:textAlignment="center"
                 android:textColor="@color/purplish"
                 android:textSize="18dp"
-                android:textStyle="bold|italic" />
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -46,16 +48,19 @@
                     android:text="Service Type"
                     android:textColor="@color/purple"
                     android:textSize="15dp"
-                    android:textStyle="normal" />
+                    android:textStyle="italic" />
 
                 <TextView
                     android:id="@+id/serviceAdapterRow_servicePrice_textview"
                     android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
+                    android:fontFamily="serif"
+                    android:text="Service Price"
+                    android:textAlignment="viewEnd"
                     android:textColor="@color/purple"
                     android:textSize="15dp"
-                    android:textAlignment="viewEnd"
-                    android:layout_height="wrap_content"
-                    android:text="servicePrice" />
+                    android:textStyle="italic" />
             </LinearLayout>
 
 
@@ -71,9 +76,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:text="serviceID"
                 android:textColor="@color/lightblack"
                 android:textSize="15dp"
-                android:text="serviceID" />
+                android:visibility="gone" />
         </LinearLayout>
 
 

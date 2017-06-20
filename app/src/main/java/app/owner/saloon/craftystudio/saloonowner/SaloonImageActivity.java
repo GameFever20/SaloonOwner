@@ -141,7 +141,7 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
 
     }
 
-    public void addShowcasePhotoClick(View view) {
+    public void addShowcasePhotoClick() {
 
 
         Matisse.from(SaloonImageActivity.this)
