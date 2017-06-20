@@ -4,28 +4,27 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_camera"
-            android:icon="@drawable/ic_action_profile"
-            android:title="Import" />
+            android:icon="@drawable/ic_profile"
+            android:title="Update Profile" />
         <item
             android:id="@+id/nav_gallery"
-            android:icon="@drawable/ic_action_image"
-            android:title="Gallery" />
-        <item
-            android:id="@+id/nav_slideshow"
-            android:icon="@drawable/ic_menu_slideshow"
-            android:title="Slideshow" />
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Update Images" />
         <item
             android:id="@+id/nav_manage"
-            android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:icon="@drawable/ic_service"
+            android:title="Add Services" />
+        <item
+            android:id="@+id/nav_share"
+            android:icon="@drawable/ic_displayservice"
+            android:title="Services" />
+
     </group>
 
     <item android:title="Communicate">
         <menu>
-            <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_action_addservice"
-                android:title="Share" />
+
+
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"

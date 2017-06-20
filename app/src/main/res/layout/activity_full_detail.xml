@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="150dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/d4" />
+            android:src="@drawable/design_nav_header" />
 
         <android.support.design.widget.TabLayout
             android:id="@+id/tabs"
