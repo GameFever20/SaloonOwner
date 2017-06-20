@@ -361,10 +361,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, SaloonImageActivity.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_slideshow) {
-            resolveDateDummy();
-
-        } else if (id == R.id.nav_manage) {
+        }  else if (id == R.id.nav_manage) {
             Intent intent = new Intent(MainActivity.this, AddSaloonServiceActivity.class);
             startActivity(intent);
 
