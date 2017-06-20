@@ -80,7 +80,7 @@ public class MainActivity extends AppCompatActivity
         showProgressDialog("Fetching Details" , "wait..");
 
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
-        fireBaseHandler.downloadSaloon("abc", new FireBaseHandler.OnSaloonDownload() {
+        fireBaseHandler.downloadSaloon(LoginActivity.saloonUID, new FireBaseHandler.OnSaloonDownload() {
             @Override
             public void onSaloon(Saloon saloon) {
 
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity
     private void saloonOrderFetch() {
 
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
-        fireBaseHandler.downloadOrderList("abc", 20, new FireBaseHandler.OnOrderListener() {
+        fireBaseHandler.downloadOrderList(LoginActivity.saloonUID, 20, new FireBaseHandler.OnOrderListener() {
             @Override
             public void onOrderList(ArrayList<Order> orderArrayList) {
 
@@ -225,8 +225,8 @@ public class MainActivity extends AppCompatActivity
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (!recyclerView.canScrollVertically(1)) {
-                    onScrolledToBottom();
-                    Toast.makeText(MainActivity.this, "Refreshing", Toast.LENGTH_SHORT).show();
+                   // onScrolledToBottom();
+                   // Toast.makeText(MainActivity.this, "Refreshing", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -245,14 +245,18 @@ public class MainActivity extends AppCompatActivity
     private void openSaloonProfileActivity() {
 
         Intent intent = new Intent(MainActivity.this, SaloonProfile.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
 
     }
 
     private void openSaloonImageActivity() {
 
         Intent intent = new Intent(MainActivity.this, SaloonImageActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
+        finish();
     }
 
     private void showSuspendedDialog() {

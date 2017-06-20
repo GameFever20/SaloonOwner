@@ -123,6 +123,7 @@ public class LoginActivity extends AppCompatActivity {
     private void updateUI(FirebaseUser user) {
         hideProgressDialog();
         if (user != null) {
+            saloonUID = user.getUid();
             Intent intent = new Intent(this, MainActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);

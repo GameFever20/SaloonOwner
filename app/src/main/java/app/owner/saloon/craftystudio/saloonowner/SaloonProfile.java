@@ -47,6 +47,8 @@ public class SaloonProfile extends EasyLocationActivity {
 
     Intent intent;
 
+    String saloonUID =  LoginActivity.saloonUID;
+
 
 
     @Override
@@ -190,7 +192,7 @@ public class SaloonProfile extends EasyLocationActivity {
 
             showProgressDialog("Updating Profile" , "Please wait");
 
-            fireBaseHandler.uploadSaloon("abc", saloon, new FireBaseHandler.OnSaloonDownload() {
+            fireBaseHandler.uploadSaloon(saloonUID, saloon, new FireBaseHandler.OnSaloonDownload() {
                 @Override
                 public void onSaloon(Saloon saloon) {
 
@@ -324,8 +326,7 @@ public class SaloonProfile extends EasyLocationActivity {
 
 
     public void showProgressDialog(String title,String message){
-        progressDialog.setMessage(message);
-        progressDialog.setTitle(title);
+        progressDialog.setMessage(title);
         progressDialog.setCancelable(false);
         progressDialog.show();
     }

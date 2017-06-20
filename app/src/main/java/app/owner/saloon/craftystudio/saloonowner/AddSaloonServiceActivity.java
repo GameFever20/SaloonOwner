@@ -2,6 +2,7 @@ package app.owner.saloon.craftystudio.saloonowner;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -29,6 +30,8 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
     Service service = new Service();
 
     ProgressDialog progressDialog;
+
+    Intent intent ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,27 +83,37 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
     }
 
     private void showExitDialogue(String title, String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setCancelable(false)
-                .setTitle(title)
-                .setMessage(message)
-                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        service = new Service();
-                        reInitializeActivity();
-                    }
-                })
-                .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
+        if (saloon.getSaloonPoint()==10){
+            intent =new Intent(AddSaloonServiceActivity.this, MainActivity.class);
+        }
 
-                        finish();
-                    }
-                });
+        if(intent==null) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setCancelable(false)
+                    .setTitle(title)
+                    .setMessage(message)
+                    .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            service = new Service();
+                            reInitializeActivity();
+                        }
+                    })
+                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
 
-        // Create the AlertDialog object and return it
-        builder.create();
-        builder.show();
+                            finish();
+                        }
+                    });
+
+            // Create the AlertDialog object and return it
+            builder.create();
+            builder.show();
+        }else{
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
 
     }
 

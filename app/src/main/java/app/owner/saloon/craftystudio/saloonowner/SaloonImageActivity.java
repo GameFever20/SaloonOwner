@@ -52,7 +52,7 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
 
 
     Uri profileImageUri, image1Uri, image2Uri, image3Uri;
-    String saloonUID = "abc";
+    String saloonUID = LoginActivity.saloonUID;
     
     int statusProfileUpload ,statusImage1Upload ,statusImage2Upload , statusImage3Upload;
     private final int RC_CAMERA_AND_LOCATION=20;

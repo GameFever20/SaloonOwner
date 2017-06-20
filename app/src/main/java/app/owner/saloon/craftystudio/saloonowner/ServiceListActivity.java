@@ -28,6 +28,8 @@ public class ServiceListActivity extends AppCompatActivity {
     ArrayList<Service> serviceArrayList = new ArrayList<>();
     ServiceAdapter serviceAdapter;
 
+    String saloonUID = LoginActivity.saloonUID;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +50,7 @@ public class ServiceListActivity extends AppCompatActivity {
 
 
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
-        fireBaseHandler.downloadServiceList("abc", 30, new FireBaseHandler.OnServiceListener() {
+        fireBaseHandler.downloadServiceList(saloonUID, 30, new FireBaseHandler.OnServiceListener() {
             @Override
             public void onSeviceUpload(boolean isSuccesful) {
 
