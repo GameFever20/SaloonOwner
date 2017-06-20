@@ -3,6 +3,7 @@ package app.owner.saloon.craftystudio.saloonowner;
 import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.location.Address;
+import android.location.Location;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -19,10 +20,15 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 
+import com.akhgupta.easylocation.EasyLocationActivity;
+import com.akhgupta.easylocation.EasyLocationRequest;
+import com.akhgupta.easylocation.EasyLocationRequestBuilder;
+import com.google.android.gms.location.LocationRequest;
+
 import utils.FireBaseHandler;
 import utils.Saloon;
 
-public class SaloonProfile extends AppCompatActivity {
+public class SaloonProfile extends EasyLocationActivity {
 
     EditText saloonNameEditText, saloonAddressEditText, saloonLocationEditText, saloonPhoneNumberEditText;
     String saloonName, saloonAddress, saloonLocation, saloonPhoneNumber;
@@ -35,11 +41,11 @@ public class SaloonProfile extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saloon_profile);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+       /* Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
         ActionBar actionBar=getSupportActionBar();
-        actionBar.hide();
+        actionBar.hide();*/
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -208,10 +214,53 @@ public class SaloonProfile extends AppCompatActivity {
         }
 
 
+        LocationRequest locationRequest = new LocationRequest()
+                .setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY)
+                .setInterval(5000)
+                .setFastestInterval(5000);
+
+
+
+        EasyLocationRequest easyLocationRequest = new EasyLocationRequestBuilder()
+                .setLocationRequest(locationRequest)
+                .setFallBackToLastLocationTime(3000)
+                .build();
+
+        requestSingleLocationFix(easyLocationRequest);
+
 
     }
 
 
+    @Override
+    public void onLocationPermissionGranted() {
+
+    }
+
+    @Override
+    public void onLocationPermissionDenied() {
+
+    }
+
+    @Override
+    public void onLocationReceived(Location location) {
+        Toast.makeText(this, "Latitude - "+location.getLatitude(), Toast.LENGTH_SHORT).show();
+        saloon.setSaloonLocationLatitude(location.getLatitude());
+        saloon.setSaloonLocationLongitude(location.getLongitude());
+
+        TextView textView = (TextView)findViewById(R.id.saloonProfile_saloonLocation_textView);
+        textView.setText(saloon.getSaloonLocationLatitude()+","+saloon.getSaloonLocationLongitude());
 
 
+    }
+
+    @Override
+    public void onLocationProviderEnabled() {
+
+    }
+
+    @Override
+    public void onLocationProviderDisabled() {
+
+    }
 }
