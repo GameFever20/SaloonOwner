@@ -104,7 +104,9 @@ public class Order {
             return "Accepted";
         }else if(orderStatus == 3){
             return "completed";
-        }else{
+        }else if(orderStatus==-1){
+            return "Cancel";
+        } else{
             return "";
         }
     }

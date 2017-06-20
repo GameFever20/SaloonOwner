@@ -23,6 +23,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import utils.FireBaseHandler;
+import utils.Order;
+import utils.Service;
 
 public class FullDetailActivity extends AppCompatActivity {
 
@@ -45,8 +47,12 @@ public class FullDetailActivity extends AppCompatActivity {
     //All id's
     public static  String SaloonID, UserID, OrderID, ServiceID="";
 
+
     //Imageview for showcasig saloon's image
     ImageView imageView;
+
+     static Order ORDER ;
+     static Service SERVICE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,18 +68,11 @@ public class FullDetailActivity extends AppCompatActivity {
         OrderID = bundle.getString("OrderID");
         ServiceID = bundle.getString("ServiceID");
 
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Create the adapter that will return a fragment for each of the three
         // primary sections of the activity.
-        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
-
-        // Set up the ViewPager with the sections adapter.
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(mSectionsPagerAdapter);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(mViewPager);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -84,9 +83,49 @@ public class FullDetailActivity extends AppCompatActivity {
             }
         });
 
+        FireBaseHandler fireBaseHandler = new FireBaseHandler();
+        fireBaseHandler.downloadOrder(SaloonID ,OrderID , new FireBaseHandler.OnOrderDownloadListner() {
+            @Override
+            public void onOrder(Order order) {
+                ORDER = order;
+            }
+        });
+        fireBaseHandler.downloadService(SaloonID, ServiceID, new FireBaseHandler.OnServiceDownLoadListner() {
+            @Override
+            public void onServiceDownload(Service service) {
+                SERVICE =service;
+
+                initializeActivity();
+            }
+        });
+
+
+
 
 
         imageView=(ImageView)findViewById(R.id.full_detail_showcase_imageview);
+
+    }
+
+    private void initializeActivity() {
+        mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+
+        // Set up the ViewPager with the sections adapter.
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager.setAdapter(mSectionsPagerAdapter);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(mViewPager);
+
+        if (ORDER.getOrderStatus()==1){
+            View view =(View)findViewById(R.id.fullDetail_button_linearLayout);
+            view.setVisibility(View.VISIBLE);
+        }
+
+        if(ORDER.getOrderStatus() == 2){
+            View view =(View)findViewById(R.id.fullDetail_completed_button);
+            view.setVisibility(View.VISIBLE);
+        }
 
     }
 
@@ -120,6 +159,32 @@ public class FullDetailActivity extends AppCompatActivity {
             public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
                 if (isSuccesful){
                     Toast.makeText(FullDetailActivity.this, "Order accepted", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    public void cancelOrderClick(View view) {
+
+        FireBaseHandler fireBaseHandler = new FireBaseHandler();
+        fireBaseHandler.updateOrderstatus(SaloonID, OrderID, -1, new FireBaseHandler.OnOrderStatusUpdateListener() {
+            @Override
+            public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
+                if (isSuccesful){
+                    Toast.makeText(FullDetailActivity.this, "Order Cancelled", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+    }
+
+    public void completeOrderClick(View view) {
+        FireBaseHandler fireBaseHandler = new FireBaseHandler();
+        fireBaseHandler.updateOrderstatus(SaloonID, OrderID, 3, new FireBaseHandler.OnOrderStatusUpdateListener() {
+            @Override
+            public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
+                if (isSuccesful){
+                    Toast.makeText(FullDetailActivity.this, "Order Cancelled", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -176,15 +241,12 @@ public class FullDetailActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    TabbedSaloon tabbedSaloon=new TabbedSaloon();
-                    return tabbedSaloon;
+                    TabbedService tabbedService =new TabbedService();
+                    return tabbedService;
                 case 1:
                     TabbedOrder tabbedOrder=new TabbedOrder();
                     return tabbedOrder;
                 case 2:
-                    TabbedService tabbedService =new TabbedService();
-                    return tabbedService;
-                case 3:
                     TabbedUser tabbedUser =new TabbedUser();
                     return tabbedUser;
                 default:
@@ -195,20 +257,19 @@ public class FullDetailActivity extends AppCompatActivity {
         @Override
         public int getCount() {
             // Show 3 total pages.
-            return 4;
+            return 3;
         }
 
         @Override
         public CharSequence getPageTitle(int position) {
             switch (position) {
                 case 0:
-                    return "Saloon";
+                    return "Service";
                 case 1:
                     return "Order";
                 case 2:
-                    return "Service";
-                case 3:
                     return "User";
+
             }
             return null;
         }
