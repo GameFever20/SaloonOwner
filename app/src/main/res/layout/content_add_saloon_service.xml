@@ -44,6 +44,7 @@
                     android:layout_height="wrap_content"
                     android:textColor="@color/white"
                     android:hint="Service Name"
+                    android:inputType="text"
 
                     />
             </android.support.design.widget.TextInputLayout>
@@ -64,6 +65,7 @@
                     android:textColor="@color/white"
                     android:layout_height="wrap_content"
                     android:hint="service Price"
+                    android:inputType="number"
 
                     />
             </android.support.design.widget.TextInputLayout>

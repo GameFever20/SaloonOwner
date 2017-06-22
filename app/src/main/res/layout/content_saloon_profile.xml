@@ -38,8 +38,13 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="50dp"
+                android:fontFamily="cursive"
                 android:text="Saloon Name"
+                android:textAlignment="center"
                 android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:typeface="serif"
 
                 />
 
@@ -48,8 +53,8 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="8dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
                 android:layout_marginRight="20dp"
+                android:layout_marginTop="5dp"
                 android:theme="@style/EditTextHint">
 
                 <EditText
@@ -57,6 +62,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Saloon Phone Number"
+                    android:inputType="phone"
                     android:textColor="@color/white"
 
                     />
@@ -75,11 +81,10 @@
                     android:id="@+id/saloonprofile_saloonAddress_editText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Saloon Address"
                     android:layout_marginTop="5dp"
-                    android:textColor="@color/white"
-
-                    />
+                    android:hint="Saloon Address"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/white" />
             </android.support.design.widget.TextInputLayout>
 
 

@@ -44,7 +44,7 @@ public class MainActivity extends AppCompatActivity
 
 
     ArrayList<Order> orderArrayList = new ArrayList<>();
-    OrderAdapter orderAdapter = new OrderAdapter(orderArrayList);
+    OrderAdapter orderAdapter ;
     private boolean isLoadingMoreOrder =false;
 
     ProgressDialog progressDialog ;
@@ -74,6 +74,8 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        orderAdapter = new OrderAdapter(orderArrayList ,this);
 
         progressDialog =new ProgressDialog(this);
 
@@ -150,7 +152,7 @@ public class MainActivity extends AppCompatActivity
 
                 //Reverse arraylist
                 MainActivity.this.orderArrayList = orderArrayList;
-                orderAdapter = new OrderAdapter(MainActivity.this.orderArrayList);
+                orderAdapter = new OrderAdapter(MainActivity.this.orderArrayList ,MainActivity.this);
                 initializeRecyclerView();
 
                 Toast.makeText(MainActivity.this, "orderList Fetched", Toast.LENGTH_SHORT).show();
@@ -189,7 +191,7 @@ public class MainActivity extends AppCompatActivity
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
-        recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+        //recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         recyclerView.setAdapter(orderAdapter);
 

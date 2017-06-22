@@ -9,7 +9,7 @@
         android:id="@+id/card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
+        android:layout_margin="6dp"
         card_view:cardBackgroundColor="@color/whitish"
         card_view:cardCornerRadius="2dp"
         card_view:cardElevation="3sp">
@@ -94,7 +94,7 @@
                     android:textAlignment="viewEnd"
                     android:layout_gravity="end|right"
                     android:text="Order Status"
-                    android:textColor="@color/red" />
+                    android:textColor="@color/yellow1" />
 
 
             </LinearLayout>

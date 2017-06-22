@@ -184,7 +184,7 @@ public class FullDetailActivity extends AppCompatActivity {
             @Override
             public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
                 if (isSuccesful){
-                    Toast.makeText(FullDetailActivity.this, "Order Cancelled", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(FullDetailActivity.this, "Order Completed ", Toast.LENGTH_SHORT).show();
                 }
             }
         });
