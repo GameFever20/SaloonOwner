@@ -43,12 +43,11 @@ public class SaloonProfile extends EasyLocationActivity {
     FireBaseHandler fireBaseHandler;
     Saloon saloon;
 
-    ProgressDialog progressDialog ;
+    ProgressDialog progressDialog;
 
     Intent intent;
 
-    String saloonUID =  LoginActivity.saloonUID;
-
+    String saloonUID = LoginActivity.saloonUID;
 
 
     @Override
@@ -81,29 +80,27 @@ public class SaloonProfile extends EasyLocationActivity {
 
             //saloonNameEditText = (EditText) findViewById(R.id.saloonprofile_saloonName_editText);
             saloonAddressEditText = (EditText) findViewById(R.id.saloonprofile_saloonAddress_editText);
-           // saloonLocationEditText = (EditText) findViewById(R.id.saloonprofile_saloonLocation_editText);
+            // saloonLocationEditText = (EditText) findViewById(R.id.saloonprofile_saloonLocation_editText);
             saloonPhoneNumberEditText = (EditText) findViewById(R.id.saloonprofile_saloonPhoneNumber_editText);
-            saloonNameTextView=(TextView)findViewById(R.id.saloonprofile_saloonName_textView);
-
-
+            saloonNameTextView = (TextView) findViewById(R.id.saloonprofile_saloonName_textView);
 
 
             if (saloon.getSaloonPoint() != 0) {
                 try {
-                   // saloonNameEditText.setText(saloon.getSaloonName());
+                    // saloonNameEditText.setText(saloon.getSaloonName());
                     saloonNameTextView.setText(saloon.getSaloonName());
                     saloonPhoneNumberEditText.setText(saloon.getSaloonPhoneNumber());
-                   // saloonLocationEditText.setText(saloon.getSaloonLocation());
+                    // saloonLocationEditText.setText(saloon.getSaloonLocation());
                     saloonAddressEditText.setText(saloon.getSaloonAddress());
 
-                    TextView textView = (TextView)findViewById(R.id.saloonProfile_openingTime_textView);
-                    textView.setText(saloon.getOpeningTimeHour()+":"+saloon.getOpeningTimeMinute());
+                    TextView textView = (TextView) findViewById(R.id.saloonProfile_openingTime_textView);
+                    textView.setText(saloon.getOpeningTimeHour() + ":" + saloon.getOpeningTimeMinute());
 
-                    textView = (TextView)findViewById(R.id.saloonProfile_closingTime_textView);
-                    textView.setText(saloon.getClosingTimeHour()+":"+saloon.getClosingTimeMinute());
+                    textView = (TextView) findViewById(R.id.saloonProfile_closingTime_textView);
+                    textView.setText(saloon.getClosingTimeHour() + ":" + saloon.getClosingTimeMinute());
 
-                    textView = (TextView)findViewById(R.id.saloonProfile_saloonLocation_textView);
-                    textView.setText(saloon.getSaloonLocationLatitude()+","+saloon.getSaloonLocationLongitude());
+                    textView = (TextView) findViewById(R.id.saloonProfile_saloonLocation_textView);
+                    textView.setText(saloon.getSaloonLocationLatitude() + "," + saloon.getSaloonLocationLongitude());
 
 
                 } catch (Exception e) {
@@ -111,19 +108,19 @@ public class SaloonProfile extends EasyLocationActivity {
                 }
             }
 
-        }else{
-            showExitDialogue("Connection problem" , "Data not available");
+        } else {
+            showExitDialogue("Connection problem", "Data not available");
         }
 
         fireBaseHandler = new FireBaseHandler();
 
-         progressDialog =new ProgressDialog(this);
+        progressDialog = new ProgressDialog(this);
 
     }
 
-    private void showExitDialogue(String title , String message) {
+    private void showExitDialogue(String title, String message) {
 
-        if(intent==null) {
+        if (intent == null) {
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(false)
@@ -138,7 +135,7 @@ public class SaloonProfile extends EasyLocationActivity {
             // Create the AlertDialog object and return it
             builder.create();
             builder.show();
-        }else{
+        } else {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
@@ -147,50 +144,45 @@ public class SaloonProfile extends EasyLocationActivity {
     }
 
 
-
     public void onSaveButtonClick(View view) {
 
 
-        //saloon.setSaloonName(saloonNameEditText.getText().toString().trim());
-        saloon.setSaloonAddress(saloonAddressEditText.getText().toString().trim());
-        saloon.setSaloonPhoneNumber(saloonPhoneNumberEditText.getText().toString().trim());
-        //saloon.setSaloonLocation(saloonLocationEditText.getText().toString().trim());
+        if (validateForm()) {
+
+            //saloon.setSaloonName(saloonNameEditText.getText().toString().trim());
+            saloon.setSaloonAddress(saloonAddressEditText.getText().toString().trim());
+            saloon.setSaloonPhoneNumber(saloonPhoneNumberEditText.getText().toString().trim());
+            //saloon.setSaloonLocation(saloonLocationEditText.getText().toString().trim());
+        } else {
+            return;
+        }
 
 
 
+        if(saloon.getSaloonPoint() ==-10 || saloon.getSaloonPoint() == -90 || saloon.getSaloonPoint() ==-100){
+            if (saloon.isSaloonUpdated()){
+                saloon.setSaloonPoint(-90);
 
-        if (saloon.getSaloonPoint() == -10 || saloon.getSaloonPoint() == -1 || saloon.getSaloonPoint() > 0) {
-
-
-            if(saloon.getSaloonPoint() <0 ){
-                intent=new Intent(SaloonProfile.this , SaloonImageActivity.class);
-
-            }else{
-                intent=null;
-            }
-
-
-
-            if (saloon.getSaloonPoint() == -10 || saloon.getSaloonPoint() == -1) {
-                if (saloon.isSaloonUpdated()) {
-
-
-                    if (saloon.checkSaloonImageUpdated()) {
-                        saloon.setSaloonPoint(10);
-                    } else {
-                        saloon.setSaloonPoint(-1);
-
-                    }
-
-                } else {
-                    saloon.setSaloonPoint(-10);
+                if (saloon.checkSaloonImageUpdated()){
+                    saloon.setSaloonPoint(-100);
+                }else{
+                    intent = new Intent(SaloonProfile.this, SaloonImageActivity.class);
                 }
+
             }
+        }
+
+        if (saloon.getSaloonPoint()==-1000){
+            //blocked by admin
+            Toast.makeText(this, "Blocked by admin", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
 
 
+        if(saloon.isSaloonUpdated()) {
 
-            showProgressDialog("Updating Profile" , "Please wait");
+            showProgressDialog("Updating Profile", "Please wait");
 
             fireBaseHandler.uploadSaloon(saloonUID, saloon, new FireBaseHandler.OnSaloonDownload() {
                 @Override
@@ -207,6 +199,40 @@ public class SaloonProfile extends EasyLocationActivity {
 
                 }
             });
+
+        }else{
+            return;
+        }
+
+
+        if (saloon.getSaloonPoint() == -10 || saloon.getSaloonPoint() == -1 || saloon.getSaloonPoint() > 0) {
+
+
+            if (saloon.getSaloonPoint() < 0) {
+
+
+            } else {
+                intent = null;
+            }
+
+
+           /* if (saloon.getSaloonPoint() == -10 || saloon.getSaloonPoint() == -1) {
+                if (saloon.isSaloonUpdated()) {
+
+
+                    if (saloon.checkSaloonImageUpdated()) {
+                        saloon.setSaloonPoint(10);
+                    } else {
+                        saloon.setSaloonPoint(-1);
+
+                    }
+
+                } else {
+                    saloon.setSaloonPoint(-10);
+                }
+            }*/
+
+
 
         } else if (saloon.getSaloonPoint() == -100) {
             // account blocked alert
@@ -285,7 +311,7 @@ public class SaloonProfile extends EasyLocationActivity {
 
         requestSingleLocationFix(easyLocationRequest);
 
-        showProgressDialog("Calculating Location","");
+        showProgressDialog("Calculating Location", "");
 
     }
 
@@ -325,13 +351,39 @@ public class SaloonProfile extends EasyLocationActivity {
     }
 
 
-    public void showProgressDialog(String title,String message){
+    public boolean validateForm() {
+        String string = saloonAddressEditText.getText().toString().trim();
+
+        boolean valid = true;
+        if (string.isEmpty()) {
+            saloonAddressEditText.setError("Required");
+            valid = false;
+        } else {
+
+        }
+
+        string = saloonPhoneNumberEditText.getText().toString().trim();
+
+        if (string.isEmpty()) {
+            saloonPhoneNumberEditText.setError("Required");
+            valid = false;
+        } else {
+
+        }
+
+        return valid;
+
+
+    }
+
+
+    public void showProgressDialog(String title, String message) {
         progressDialog.setMessage(title);
         progressDialog.setCancelable(false);
         progressDialog.show();
     }
 
-    public void closeProgressDialog(){
+    public void closeProgressDialog() {
         progressDialog.dismiss();
     }
 

@@ -12,6 +12,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -45,7 +46,7 @@ public class FullDetailActivity extends AppCompatActivity {
 
 
     //All id's
-    public static  String SaloonID, UserID, OrderID, ServiceID="";
+    //public static  String SaloonID, UserID, OrderID, ServiceID="";
 
 
     //Imageview for showcasig saloon's image
@@ -63,10 +64,8 @@ public class FullDetailActivity extends AppCompatActivity {
         Intent intent = getIntent();
         Bundle bundle = intent.getExtras();
         //SaloonID = bundle.getString("SaloonID");
-        SaloonID=bundle.getString("SaloonID");
-        UserID = bundle.getString("UserID");
-        OrderID = bundle.getString("OrderID");
-        ServiceID = bundle.getString("ServiceID");
+
+        ORDER = bundle.getParcelable("orderParcel");
 
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -83,14 +82,8 @@ public class FullDetailActivity extends AppCompatActivity {
             }
         });
 
-        FireBaseHandler fireBaseHandler = new FireBaseHandler();
-        fireBaseHandler.downloadOrder(SaloonID ,OrderID , new FireBaseHandler.OnOrderDownloadListner() {
-            @Override
-            public void onOrder(Order order) {
-                ORDER = order;
-            }
-        });
-        fireBaseHandler.downloadService(SaloonID, ServiceID, new FireBaseHandler.OnServiceDownLoadListner() {
+
+        new FireBaseHandler().downloadService(ORDER.getSaloonID(), ORDER.getServiceID(), new FireBaseHandler.OnServiceDownLoadListner() {
             @Override
             public void onServiceDownload(Service service) {
                 SERVICE =service;
@@ -154,7 +147,7 @@ public class FullDetailActivity extends AppCompatActivity {
 
     public void acceptOrderClick(View view) {
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
-        fireBaseHandler.updateOrderstatus(SaloonID, OrderID, 2, new FireBaseHandler.OnOrderStatusUpdateListener() {
+        fireBaseHandler.updateOrderstatus(ORDER.getSaloonID(), ORDER.getOrderID(), 2, new FireBaseHandler.OnOrderStatusUpdateListener() {
             @Override
             public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
                 if (isSuccesful){
@@ -167,7 +160,7 @@ public class FullDetailActivity extends AppCompatActivity {
     public void cancelOrderClick(View view) {
 
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
-        fireBaseHandler.updateOrderstatus(SaloonID, OrderID, -1, new FireBaseHandler.OnOrderStatusUpdateListener() {
+        fireBaseHandler.updateOrderstatus(ORDER.getSaloonID(), ORDER.getOrderID(), -1, new FireBaseHandler.OnOrderStatusUpdateListener() {
             @Override
             public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
                 if (isSuccesful){
@@ -180,7 +173,7 @@ public class FullDetailActivity extends AppCompatActivity {
 
     public void completeOrderClick(View view) {
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
-        fireBaseHandler.updateOrderstatus(SaloonID, OrderID, 3, new FireBaseHandler.OnOrderStatusUpdateListener() {
+        fireBaseHandler.updateOrderstatus(ORDER.getSaloonID(), ORDER.getOrderID(), 3, new FireBaseHandler.OnOrderStatusUpdateListener() {
             @Override
             public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
                 if (isSuccesful){

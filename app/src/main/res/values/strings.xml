@@ -27,5 +27,6 @@
     <string name="camera_and_location_rationale">Get permission</string>
     <string name="title_activity_full_detail">FullDetailActivity</string>
     <string name="section_format">Hello World from section: %1$d</string>
+    <string name="title_activity_sign_up">SignUpActivity</string>
 
 </resources>

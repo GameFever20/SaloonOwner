@@ -1,5 +1,9 @@
 package utils;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -7,7 +11,7 @@ import java.util.Date;
  * Created by bunny on 12/06/17.
  */
 
-public class Order {
+public class Order implements Serializable ,Parcelable{
 
     private String saloonID ;
     private String userID;
@@ -120,4 +124,57 @@ public class Order {
         return simpleDateFormat.format(date);
 
     }
+
+
+    //parcell implementation
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeInt(orderPrice);
+        dest.writeInt(orderStatus);
+        dest.writeLong(orderTime);
+
+        dest.writeString(saloonName);
+        dest.writeString(orderServiceName);
+        dest.writeString(orderID);
+        dest.writeString(saloonID);
+        dest.writeString(serviceID);
+        dest.writeString(userID);
+
+
+    }
+
+    public Order(Parcel source) {
+        orderPrice = source.readInt();
+        orderStatus = source.readInt();
+        orderTime = source.readLong();
+
+        saloonName = source.readString();
+        orderServiceName = source.readString();
+        orderID = source.readString();
+        saloonID = source.readString();
+        serviceID = source.readString();
+        userID = source.readString();
+
+    }
+    public static final Creator<Order> CREATOR = new Creator<Order>() {
+        @Override
+        public Order[] newArray(int size) {
+            return new Order[size];
+        }
+
+        @Override
+        public Order createFromParcel(Parcel source) {
+            return new Order(source);
+        }
+    };
+
+
+    //parcel imp over
+
 }

@@ -35,7 +35,7 @@ public class TabbedSaloon extends Fragment {
 
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
 
-        fireBaseHandler.downloadSaloon(FullDetailActivity.SaloonID, new FireBaseHandler.OnSaloonDownload() {
+        fireBaseHandler.downloadSaloon(FullDetailActivity.ORDER.getSaloonID(), new FireBaseHandler.OnSaloonDownload() {
             @Override
             public void onSaloon(Saloon saloon) {
                 Log.d("In tabbed Activity :", "Saloon name -" + saloon.getSaloonName());

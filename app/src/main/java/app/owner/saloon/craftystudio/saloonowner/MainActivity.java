@@ -1,6 +1,8 @@
 package app.owner.saloon.craftystudio.saloonowner;
 
+import android.app.DatePickerDialog;
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,13 +23,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.DatePicker;
+import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Date;
+import java.util.TimeZone;
 
 import utils.ClickListener;
 import utils.FireBaseHandler;
@@ -44,10 +53,13 @@ public class MainActivity extends AppCompatActivity
 
 
     ArrayList<Order> orderArrayList = new ArrayList<>();
-    OrderAdapter orderAdapter ;
-    private boolean isLoadingMoreOrder =false;
+    OrderAdapter orderAdapter;
+    private boolean isLoadingMoreOrder = false;
 
-    ProgressDialog progressDialog ;
+    ProgressDialog progressDialog;
+
+    //local variable for date selection
+    int selectedyear, selectedMonth, selectedDay;
 
 
     @Override
@@ -75,11 +87,11 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        orderAdapter = new OrderAdapter(orderArrayList ,this);
+        orderAdapter = new OrderAdapter(orderArrayList, this);
 
-        progressDialog =new ProgressDialog(this);
+        progressDialog = new ProgressDialog(this);
 
-        showProgressDialog("Fetching Details" , "wait..");
+        showProgressDialog("Fetching Details", "wait..");
 
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
         fireBaseHandler.downloadSaloon(LoginActivity.saloonUID, new FireBaseHandler.OnSaloonDownload() {
@@ -103,9 +115,6 @@ public class MainActivity extends AppCompatActivity
 
             }
         });
-
-
-
 
 
     }
@@ -151,8 +160,11 @@ public class MainActivity extends AppCompatActivity
             public void onOrderList(ArrayList<Order> orderArrayList) {
 
                 //Reverse arraylist
+                Collections.reverse(orderArrayList);
+
                 MainActivity.this.orderArrayList = orderArrayList;
-                orderAdapter = new OrderAdapter(MainActivity.this.orderArrayList ,MainActivity.this);
+
+                orderAdapter = new OrderAdapter(MainActivity.this.orderArrayList, MainActivity.this);
                 initializeRecyclerView();
 
                 Toast.makeText(MainActivity.this, "orderList Fetched", Toast.LENGTH_SHORT).show();
@@ -170,15 +182,14 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onOrderList(ArrayList<Order> orderArrayList) {
 
-                        if(orderArrayList.size()>0) {
+                        if (orderArrayList.size() > 0) {
                             for (int i = orderArrayList.size() - 1; i >= 0; i--) {
                                 MainActivity.this.orderArrayList.add(orderArrayList.get(i));
 
                             }
                             orderAdapter.notifyDataSetChanged();
-                            isLoadingMoreOrder=false;
+                            isLoadingMoreOrder = false;
                         }
-
 
 
                     }
@@ -204,10 +215,8 @@ public class MainActivity extends AppCompatActivity
 
                 //passing data to detail activity
                 Bundle bundle = new Bundle();
-                bundle.putString("SaloonID", order.getSaloonID());
-                bundle.putString("OrderID", order.getOrderID());
-                bundle.putString("UserID", order.getUserID());
-                bundle.putString("ServiceID", order.getServiceID());
+
+                bundle.putParcelable("orderParcel", order);
 
                 Intent intent = new Intent(MainActivity.this, FullDetailActivity.class);
                 intent.putExtras(bundle);
@@ -227,8 +236,8 @@ public class MainActivity extends AppCompatActivity
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 if (!recyclerView.canScrollVertically(1)) {
-                   // onScrolledToBottom();
-                   // Toast.makeText(MainActivity.this, "Refreshing", Toast.LENGTH_SHORT).show();
+                    onScrolledToBottom();
+                    Toast.makeText(MainActivity.this, "Refreshing", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -239,7 +248,7 @@ public class MainActivity extends AppCompatActivity
 
         } else {
 
-            isLoadingMoreOrder= true;
+            isLoadingMoreOrder = true;
             saloonMoreOrderFetch();
         }
     }
@@ -345,8 +354,63 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
+        if (id == R.id.action_change_date) {
+            showDatePicker();
+        }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private void showDatePicker() {
+        try {
+            Calendar cal = Calendar.getInstance(TimeZone.getDefault());
+            DatePickerDialog datePicker = new DatePickerDialog(this,
+                    new DatePickerDialog.OnDateSetListener() {
+                        @Override
+                        public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {
+
+                            selectedyear = year;
+                            selectedMonth = month;
+                            selectedDay = dayOfMonth;
+
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, month, dayOfMonth,
+                                    0, 0, 0);
+
+
+                            saloonListByDate(calendar.getTimeInMillis());
+
+                        }
+                    },
+                    cal.get(Calendar.YEAR),
+                    cal.get(Calendar.MONTH),
+                    cal.get(Calendar.DAY_OF_MONTH));
+
+            datePicker.setCancelable(false);
+            datePicker.setTitle("Select the date");
+
+            datePicker.show();
+
+        } catch (Exception e) {
+
+            e.printStackTrace();
+        }
+    }
+
+    private void saloonListByDate(long timeInMillis) {
+        FireBaseHandler fireBaseHandler = new FireBaseHandler();
+        fireBaseHandler.downloadOrderList(SALOON.getSaloonUID(), timeInMillis, (timeInMillis + 86400000l), new FireBaseHandler.OnOrderListener() {
+            @Override
+            public void onOrderList(ArrayList<Order> orderArrayList) {
+                MainActivity.this.orderArrayList = orderArrayList;
+
+                orderAdapter = new OrderAdapter(MainActivity.this.orderArrayList, MainActivity.this);
+                initializeRecyclerView();
+
+                Toast.makeText(MainActivity.this, "orderList Fetched", Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
@@ -363,13 +427,13 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, SaloonImageActivity.class);
             startActivity(intent);
 
-        }  else if (id == R.id.nav_manage) {
+        } else if (id == R.id.nav_manage) {
             Intent intent = new Intent(MainActivity.this, AddSaloonServiceActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.nav_share) {
 
-            Intent intent = new Intent(MainActivity.this , ServiceListActivity.class);
+            Intent intent = new Intent(MainActivity.this, ServiceListActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_send) {
 
@@ -392,14 +456,14 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    public void showProgressDialog(String title,String message){
+    public void showProgressDialog(String title, String message) {
         progressDialog.setMessage(message);
         progressDialog.setTitle(title);
         progressDialog.setCancelable(false);
         progressDialog.show();
     }
 
-    public void closeProgressDialog(){
+    public void closeProgressDialog() {
         progressDialog.dismiss();
     }
 

@@ -20,6 +20,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -166,6 +167,36 @@ public class FireBaseHandler {
 
     }
 
+    public void downloadOrderList(String saloonUID, Long fromTimeInMillis , Long toTimeInMillis , final OnOrderListener onOrderListener){
+
+
+        DatabaseReference myRef = mDatabase.getReference().child("Orders/" + saloonUID);
+
+        Query myref2 = myRef.orderByChild("orderTime").startAt(fromTimeInMillis).endAt(toTimeInMillis);
+        myref2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                ArrayList<Order> orderArrayList = new ArrayList<Order>();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                    Order order = snapshot.getValue(Order.class);
+                    order.setOrderID(snapshot.getKey());
+                    orderArrayList.add(order);
+                }
+
+                onOrderListener.onOrderList(orderArrayList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+
+    }
 
     public void uploadSaloonInfo(String saloonUID, String saloonKeyValue, String value, final OnSaloonDownload onSaloonDownload) {
 
@@ -443,6 +474,9 @@ public class FireBaseHandler {
         });
 
     }
+
+
+
 
 
     public interface OnSaloonInfoCheckListner {

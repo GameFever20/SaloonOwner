@@ -147,7 +147,7 @@ public class Saloon {
 
     public boolean isSaloonUpdated(){
 
-        if(saloonPhoneNumber == null || saloonLocation==null ){
+        if(saloonPhoneNumber == null || saloonAddress==null ){
             return false;
         }
         if(saloonPhoneNumber.isEmpty() ||saloonAddress.isEmpty() ){
