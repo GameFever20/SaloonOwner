@@ -17,6 +17,8 @@ public class Service {
     int serviceType ;
     String serviceTypeName ;
 
+    int serviceOfferPrice;
+
     public Service() {
     }
 
@@ -90,5 +92,13 @@ public class Service {
 
     public void setServiceTypeName(String serviceTypeName) {
         this.serviceTypeName = serviceTypeName;
+    }
+
+    public int getServiceOfferPrice() {
+        return serviceOfferPrice;
+    }
+
+    public void setServiceOfferPrice(int serviceOfferPrice) {
+        this.serviceOfferPrice = serviceOfferPrice;
     }
 }

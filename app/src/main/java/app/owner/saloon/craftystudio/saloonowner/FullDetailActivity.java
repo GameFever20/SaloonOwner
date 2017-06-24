@@ -52,8 +52,8 @@ public class FullDetailActivity extends AppCompatActivity {
     //Imageview for showcasig saloon's image
     ImageView imageView;
 
-     static Order ORDER ;
-     static Service SERVICE;
+    static Order ORDER;
+    static Service SERVICE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,8 +65,9 @@ public class FullDetailActivity extends AppCompatActivity {
         Bundle bundle = intent.getExtras();
         //SaloonID = bundle.getString("SaloonID");
 
-        ORDER = bundle.getParcelable("orderParcel");
+        //ORDER = bundle.getParcelable("orderParcel");
 
+        ORDER = MainActivity.ORDER;
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -86,17 +87,14 @@ public class FullDetailActivity extends AppCompatActivity {
         new FireBaseHandler().downloadService(ORDER.getSaloonID(), ORDER.getServiceID(), new FireBaseHandler.OnServiceDownLoadListner() {
             @Override
             public void onServiceDownload(Service service) {
-                SERVICE =service;
+                SERVICE = service;
 
                 initializeActivity();
             }
         });
 
 
-
-
-
-        imageView=(ImageView)findViewById(R.id.full_detail_showcase_imageview);
+        imageView = (ImageView) findViewById(R.id.full_detail_showcase_imageview);
 
     }
 
@@ -110,13 +108,13 @@ public class FullDetailActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
-        if (ORDER.getOrderStatus()==1){
-            View view =(View)findViewById(R.id.fullDetail_button_linearLayout);
+        if (ORDER.getOrderStatus() == 1) {
+            View view = (View) findViewById(R.id.fullDetail_button_linearLayout);
             view.setVisibility(View.VISIBLE);
         }
 
-        if(ORDER.getOrderStatus() == 2){
-            View view =(View)findViewById(R.id.fullDetail_completed_button);
+        if (ORDER.getOrderStatus() == 2) {
+            View view = (View) findViewById(R.id.fullDetail_completed_button);
             view.setVisibility(View.VISIBLE);
         }
 
@@ -146,41 +144,55 @@ public class FullDetailActivity extends AppCompatActivity {
     }
 
     public void acceptOrderClick(View view) {
-        FireBaseHandler fireBaseHandler = new FireBaseHandler();
-        fireBaseHandler.updateOrderstatus(ORDER.getSaloonID(), ORDER.getOrderID(), 2, new FireBaseHandler.OnOrderStatusUpdateListener() {
-            @Override
-            public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
-                if (isSuccesful){
-                    Toast.makeText(FullDetailActivity.this, "Order accepted", Toast.LENGTH_SHORT).show();
+        if (ORDER.getOrderStatus() == 1) {
+            FireBaseHandler fireBaseHandler = new FireBaseHandler();
+            fireBaseHandler.updateOrderstatus(ORDER.getSaloonID(), ORDER.getOrderID(), 2, new FireBaseHandler.OnOrderStatusUpdateListener() {
+                @Override
+                public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
+                    if (isSuccesful) {
+                        Toast.makeText(FullDetailActivity.this, "Order accepted", Toast.LENGTH_SHORT).show();
+                        ORDER.setOrderStatus(2);
+                    }
                 }
-            }
-        });
+            });
+        }else{
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+
+        }
     }
 
     public void cancelOrderClick(View view) {
-
-        FireBaseHandler fireBaseHandler = new FireBaseHandler();
-        fireBaseHandler.updateOrderstatus(ORDER.getSaloonID(), ORDER.getOrderID(), -1, new FireBaseHandler.OnOrderStatusUpdateListener() {
-            @Override
-            public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
-                if (isSuccesful){
-                    Toast.makeText(FullDetailActivity.this, "Order Cancelled", Toast.LENGTH_SHORT).show();
+        if (ORDER.getOrderStatus() == 1) {
+            FireBaseHandler fireBaseHandler = new FireBaseHandler();
+            fireBaseHandler.updateOrderstatus(ORDER.getSaloonID(), ORDER.getOrderID(), -1, new FireBaseHandler.OnOrderStatusUpdateListener() {
+                @Override
+                public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
+                    if (isSuccesful) {
+                        Toast.makeText(FullDetailActivity.this, "Order Cancelled", Toast.LENGTH_SHORT).show();
+                        ORDER.setOrderStatus(-1);
+                    }
                 }
-            }
-        });
-
+            });
+        }else{
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void completeOrderClick(View view) {
-        FireBaseHandler fireBaseHandler = new FireBaseHandler();
-        fireBaseHandler.updateOrderstatus(ORDER.getSaloonID(), ORDER.getOrderID(), 3, new FireBaseHandler.OnOrderStatusUpdateListener() {
-            @Override
-            public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
-                if (isSuccesful){
-                    Toast.makeText(FullDetailActivity.this, "Order Completed ", Toast.LENGTH_SHORT).show();
+        if (ORDER.getOrderStatus() == 2) {
+            FireBaseHandler fireBaseHandler = new FireBaseHandler();
+            fireBaseHandler.updateOrderstatus(ORDER.getSaloonID(), ORDER.getOrderID(), 3, new FireBaseHandler.OnOrderStatusUpdateListener() {
+                @Override
+                public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
+                    if (isSuccesful) {
+                        Toast.makeText(FullDetailActivity.this, "Order Completed ", Toast.LENGTH_SHORT).show();
+                        ORDER.setOrderStatus(3);
+                    }
                 }
-            }
-        });
+            });
+        } else {
+            Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
+        }
     }
 
     /**
@@ -234,13 +246,13 @@ public class FullDetailActivity extends AppCompatActivity {
             // Return a PlaceholderFragment (defined as a static inner class below).
             switch (position) {
                 case 0:
-                    TabbedService tabbedService =new TabbedService();
+                    TabbedService tabbedService = new TabbedService();
                     return tabbedService;
                 case 1:
-                    TabbedOrder tabbedOrder=new TabbedOrder();
+                    TabbedOrder tabbedOrder = new TabbedOrder();
                     return tabbedOrder;
                 case 2:
-                    TabbedUser tabbedUser =new TabbedUser();
+                    TabbedUser tabbedUser = new TabbedUser();
                     return tabbedUser;
                 default:
                     return null;

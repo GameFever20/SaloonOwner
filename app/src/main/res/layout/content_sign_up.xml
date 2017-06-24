@@ -9,7 +9,6 @@
     tools:context="app.owner.saloon.craftystudio.saloonowner.SignUpActivity"
     tools:showIn="@layout/activity_sign_up">
 
-
     <ImageView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -39,7 +38,7 @@
             android:background="@android:color/darker_gray" />
 
         <EditText
-            android:id="@+id/signUp_Email_EditText"
+            android:id="@+id/signup_Email_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Email id"
@@ -70,7 +69,7 @@
 
 
         <EditText
-            android:id="@+id/signUp_Password_EditText"
+            android:id="@+id/signup_Password_EditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Enter Password"
@@ -81,8 +80,43 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/lightblack">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_action_password" />
+
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray" />
+
+
+        <EditText
+            android:id="@+id/signup_saloonName_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Saloon Name"
+            android:textColor="@color/yellow"
+            android:inputType="textPassword"
+            android:textColorHint="@color/whitish" />
+
+
+    </LinearLayout>
+
+
+
     <Button
-        android:id="@+id/signUp_signIn_Button"
+        android:id="@+id/signup_signUp_Button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginLeft="50dp"
@@ -90,8 +124,7 @@
         android:layout_marginRight="50dp"
         android:layout_marginTop="30dp"
         android:background="@drawable/roundbuttoncustomize"
-        android:onClick="signUpButtonClick"
-        android:text="Grow with us" />
+        android:text="Sign In" />
 
 
 

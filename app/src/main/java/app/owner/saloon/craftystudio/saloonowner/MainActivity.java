@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.DividerItemDecoration;
@@ -51,6 +52,8 @@ public class MainActivity extends AppCompatActivity
     boolean isRegistered = false;
     public static Saloon SALOON = null;
 
+    public static Order ORDER =null;
+
 
     ArrayList<Order> orderArrayList = new ArrayList<>();
     OrderAdapter orderAdapter;
@@ -60,6 +63,8 @@ public class MainActivity extends AppCompatActivity
 
     //local variable for date selection
     int selectedyear, selectedMonth, selectedDay;
+
+    SwipeRefreshLayout swipeRefreshLayout;
 
 
     @Override
@@ -86,6 +91,14 @@ public class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        swipeRefreshLayout =(SwipeRefreshLayout)findViewById(R.id.mainActivity_refresh_swipeRefresh);
+        swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                saloonOrderFetch();
+            }
+        });
 
         orderAdapter = new OrderAdapter(orderArrayList, this);
 
@@ -122,33 +135,38 @@ public class MainActivity extends AppCompatActivity
     private void saloonCheck(Saloon saloon) {
         //check values of saloon obj and redirect to desiered screen
 
-        if (saloon.getSaloonName() != null) {
-            if (!saloon.getSaloonName().isEmpty()) {
 
-                if (saloon.getSaloonPoint() > 1) {
 
-                    saloonOrderFetch();
+        if (saloon.getSaloonPoint()<0 && saloon.getSaloonPoint() >-100) {
 
-                } else if (saloon.getSaloonPoint() == -10) {
-                    openSaloonProfileActivity();
-                } else if (saloon.getSaloonPoint() == -1) {
-                    openSaloonImageActivity();
-                } else if (saloon.getSaloonPoint() == -100) {
-                    saloonOrderFetch();
-                    showSuspendedDialog();
-                } else if (saloon.getSaloonPoint() == 0) {
-                    showExitDialogue();
-                } else {
-                    showSomethingWrongDialogue();
-                }
-
-            } else {
-                showExitDialogue();
+            if (!saloon.isSaloonUpdated()) {
+                openSaloonProfileActivity();
+                return;
             }
-        } else {
+
+            if (!saloon.checkSaloonImageUpdated()) {
+                openSaloonImageActivity();
+                return;
+            }
+
+            if (!saloon.isSaloonServiceUpdated()) {
+                openSaloonServiceActivity();
+                return;
+            }
+        }else if (saloon.getSaloonPoint() >0){
+            saloonOrderFetch();
+        }else if(saloon.getSaloonPoint()==0){
+            showSomethingWrongDialogue();
+        } else if(saloon.getSaloonPoint()== -100){
+            Toast.makeText(this, "Pending for approval", Toast.LENGTH_SHORT).show();
+        }else{
             showExitDialogue();
         }
 
+
+    }
+
+    private void openSaloonServiceActivity() {
 
     }
 
@@ -168,6 +186,7 @@ public class MainActivity extends AppCompatActivity
                 initializeRecyclerView();
 
                 Toast.makeText(MainActivity.this, "orderList Fetched", Toast.LENGTH_SHORT).show();
+                swipeRefreshLayout.setRefreshing(false);
 
             }
         });
@@ -216,7 +235,8 @@ public class MainActivity extends AppCompatActivity
                 //passing data to detail activity
                 Bundle bundle = new Bundle();
 
-                bundle.putParcelable("orderParcel", order);
+                //bundle.putParcelable("orderParcel", order);
+                ORDER =order;
 
                 Intent intent = new Intent(MainActivity.this, FullDetailActivity.class);
                 intent.putExtras(bundle);
@@ -271,7 +291,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void showSuspendedDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplication());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Suspended")
                 .setMessage("Your Acoount has been suspended \n Contact Admin")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
@@ -293,7 +313,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void showSomethingWrongDialogue() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getApplication());
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Something Went Wrong")
                 .setMessage("Please Try again later")
                 .setPositiveButton("Yes", new DialogInterface.OnClickListener() {

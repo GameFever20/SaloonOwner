@@ -21,6 +21,9 @@ public class Saloon {
     double saloonLocationLatitude ;
     double saloonLocationLongitude ;
 
+    //for initiale
+    boolean saloonServiceUpdated;
+
 
     private Map<String ,String> saloonImageList ;
 
@@ -145,6 +148,14 @@ public class Saloon {
         this.saloonLocationLongitude = saloonLocationLongitude;
     }
 
+    public boolean isSaloonServiceUpdated() {
+        return saloonServiceUpdated;
+    }
+
+    public void setSaloonServiceUpdated(boolean saloonServiceUpdated) {
+        this.saloonServiceUpdated = saloonServiceUpdated;
+    }
+
     public boolean isSaloonUpdated(){
 
         if(saloonPhoneNumber == null || saloonAddress==null ){
@@ -155,7 +166,7 @@ public class Saloon {
             return  false;
         }
 
-        if((openingTimeHour ==0 || openingTimeMinute==0) && (closingTimeHour == 0 ||closingTimeMinute==0)){
+        if((openingTimeHour ==0 && openingTimeMinute==0) || (closingTimeHour == 0 &&closingTimeMinute==0)){
 
             return false ;
         }

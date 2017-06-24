@@ -6,40 +6,64 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.FirebaseException;
+import com.google.firebase.FirebaseTooManyRequestsException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.PhoneAuthCredential;
+import com.google.firebase.auth.PhoneAuthProvider;
+
+import java.util.concurrent.TimeUnit;
+
+import utils.FireBaseHandler;
+import utils.Saloon;
 
 public class SignUpActivity extends AppCompatActivity {
 
     EditText mEmailEditText, mPasswordEditText;
-
-    private FirebaseAuth mAuth;
+    Button mSignInButton;
     ProgressDialog progressDialog;
+
+
+    // [START declare_auth]
+    private FirebaseAuth mAuth;
+    // [END declare_auth]
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sign_up);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        //remove actionbar
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.hide();
+
 
         //Instantiating views and buttons
-        mEmailEditText = (EditText) findViewById(R.id.signUp_Email_EditText);
-        mPasswordEditText = (EditText) findViewById(R.id.signUp_Password_EditText);
+        mEmailEditText = (EditText) findViewById(R.id.signup_Email_EditText);
+        mPasswordEditText = (EditText) findViewById(R.id.signup_Password_EditText);
+        //mPasswordEditText = (EditText) findViewById(R.id.signup_Password_EditText);
 
+        mSignInButton = (Button) findViewById(R.id.signup_signUp_Button);
 
 
         // [START initialize_auth]
@@ -57,7 +81,12 @@ public class SignUpActivity extends AppCompatActivity {
 
 
         //On click of sign in button
-
+        mSignInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signUp(mEmailEditText.getText().toString().trim(), mPasswordEditText.getText().toString().trim());
+            }
+        });
 
         //progress dialog
         progressDialog = new ProgressDialog(this);
@@ -66,7 +95,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
-    private void createAccount(String email, String password) {
+    private void signUp(String email, String password) {
         Log.d("In sign in ", "signIn:" + email);
         if (!validateForm()) {
             return;
@@ -81,9 +110,11 @@ public class SignUpActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
+
                             Log.d("In sign in ", "signInWithEmail:success");
                             FirebaseUser user = mAuth.getCurrentUser();
-                            updateUI(user);
+                            LoginActivity.saloonUID = user.getUid();
+                            uploadSaloon();
                         } else {
                             // If sign in fails, display a message to the user.
                             Log.w("In sign in", "signInWithEmail:failure", task.getException());
@@ -93,10 +124,35 @@ public class SignUpActivity extends AppCompatActivity {
                         }
 
 
-                        hideProgressDialog();
+
                     }
                 });
         // [END sign_in_with_email]
+    }
+
+    private void uploadSaloon() {
+        final Saloon saloon = new Saloon();
+        saloon.setSaloonPoint(-10);
+        EditText editText = (EditText) findViewById(R.id.signup_saloonName_EditText);
+
+        saloon.setSaloonName(editText.getText().toString().trim());
+        saloon.setSaloonUID(LoginActivity.saloonUID);
+
+
+        FireBaseHandler fireBaseHandler = new FireBaseHandler();
+        fireBaseHandler.uploadSaloon(LoginActivity.saloonUID, saloon, new FireBaseHandler.OnSaloonDownload() {
+            @Override
+            public void onSaloon(Saloon saloon) {
+
+            }
+
+            @Override
+            public void onSaloonValueUploaded(boolean isSucessful) {
+                MainActivity.SALOON = saloon;
+                hideProgressDialog();
+                updateUI(mAuth.getCurrentUser());
+            }
+        });
     }
 
     private void signOut() {
@@ -149,7 +205,36 @@ public class SignUpActivity extends AppCompatActivity {
         return valid;
     }
 
-    public void signUpButtonClick(View view) {
-        createAccount(mEmailEditText.getText().toString().trim(), mPasswordEditText.getText().toString().trim());
+    @Override
+    protected void onStart() {
+        super.onStart();
+        // Check if user is signed in (non-null) and update UI accordingly.
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser == null) {
+            return;
+        } else {
+            LoginActivity.saloonUID = currentUser.getUid();
+            updateUI(currentUser);
+            Toast.makeText(this, "phone " + currentUser.getPhoneNumber(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "email "+currentUser.getEmail(), Toast.LENGTH_SHORT).show();
+        }
+
     }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            getWindow().getDecorView().setSystemUiVisibility(
+                    View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                            | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                            | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                            | View.SYSTEM_UI_FLAG_FULLSCREEN
+            );
+        }
+    }
+
+
 }

@@ -175,6 +175,8 @@ public class LoginActivity extends AppCompatActivity {
         }else{
             saloonUID = currentUser.getUid();
             updateUI(currentUser);
+            Toast.makeText(this, "phone "+currentUser.getPhoneNumber(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "email "+currentUser.getEmail(), Toast.LENGTH_SHORT).show();
         }
 
     }
@@ -195,4 +197,9 @@ public class LoginActivity extends AppCompatActivity {
     }
 
 
+    public void signUpLoginButton(View view) {
+        Intent intent = new Intent(LoginActivity.this , SignUpActivity.class);
+        startActivity(intent);
+
+    }
 }

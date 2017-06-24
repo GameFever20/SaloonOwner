@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import utils.FireBaseHandler;
 import utils.Saloon;
 import utils.Service;
+import utils.ServiceAdapter;
 
 public class AddSaloonServiceActivity extends AppCompatActivity {
 
@@ -31,7 +32,10 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
 
     ProgressDialog progressDialog;
 
-    Intent intent ;
+    Intent intent;
+    String saloonUID = LoginActivity.saloonUID;
+    private ArrayList<Service> serviceArrayList;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +56,32 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(this);
 
+        FireBaseHandler fireBaseHandler = new FireBaseHandler();
+        fireBaseHandler.downloadServiceList(saloonUID, 30, new FireBaseHandler.OnServiceListener() {
+            @Override
+            public void onSeviceUpload(boolean isSuccesful) {
+
+
+            }
+
+            @Override
+            public void onServiceList(ArrayList<Service> serviceArrayList, boolean isSuccesful) {
+                if (isSuccesful) {
+                    AddSaloonServiceActivity.this.serviceArrayList = serviceArrayList;
+
+
+                    if (serviceArrayList.size() >= 5) {
+                        saloon.setSaloonServiceUpdated(true);
+                        checkSaloonPoint();
+
+                    }
+
+                } else {
+
+
+                }
+            }
+        });
 
         //initialze service to service to be editted and call reinitialize
     }
@@ -60,7 +90,10 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
         if (saloon.getSaloonPoint() == 0 || saloon.getSaloonPoint() == -1500) {
             return;
         }
-        Service service = createService();
+        final Service service = createService();
+        if (service == null) {
+            return;
+        }
 
         showProgressDialog("Adding new Service", "");
 
@@ -70,8 +103,14 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
             public void onSeviceUpload(boolean isSuccesful) {
                 Toast.makeText(AddSaloonServiceActivity.this, "Uploaded Service", Toast.LENGTH_SHORT).show();
                 closeProgressDialog();
+                serviceArrayList.add(service);
+                if (serviceArrayList.size() >= 5) {
+                    showExitDialogue("Service Added succesfully", "Do you want to add more service ");
+                } else if (serviceArrayList.size() < 5) {
+                    showExitDialogue("Service Added succesfully", "Add " + (5 - serviceArrayList.size()) + " more service to continue");
+                }
 
-                showExitDialogue("Service Added succesfully", "Do you want to add more service ");
+
             }
 
             @Override
@@ -83,11 +122,17 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
     }
 
     private void showExitDialogue(String title, String message) {
-        if (saloon.getSaloonPoint()==10){
-            intent =new Intent(AddSaloonServiceActivity.this, MainActivity.class);
+        if (!saloon.isSaloonServiceUpdated()) {
+            if (serviceArrayList.size() >= 5) {
+                saloon.setSaloonServiceUpdated(true);
+                uploadSaloonServiceUpdated();
+                checkSaloonPoint();
+
+            }
         }
 
-        if(intent==null) {
+
+        if (intent == null) {
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(false)
                     .setTitle(title)
@@ -97,23 +142,120 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
                             service = new Service();
                             reInitializeActivity();
                         }
-                    })
-                    .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            finish();
-                        }
                     });
+
+            if (serviceArrayList.size() >= 5) {
+                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+
+                        intent = new Intent(AddSaloonServiceActivity.this, MainActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        finish();
+                        /*if (!saloon.checkSaloonImageUpdated()) {
+                            intent = new Intent(AddSaloonServiceActivity.this, SaloonImageActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finish();
+                        }else if(!saloon.isSaloonUpdated()){
+                            intent = new Intent(AddSaloonServiceActivity.this, SaloonProfile.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finish();
+                        }else{
+                            intent = new Intent(AddSaloonServiceActivity.this, MainActivity.class);
+                            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            startActivity(intent);
+                            finish();
+                        }*/
+
+                    }
+                });
+            }
 
             // Create the AlertDialog object and return it
             builder.create();
             builder.show();
-        }else{
-            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-            startActivity(intent);
-            finish();
+        } else {
+
         }
+
+    }
+
+    private void uploadSaloonServiceUpdated() {
+        new FireBaseHandler().uploadSaloonInfo(saloonUID, "saloonServiceUpdated",saloon.isSaloonServiceUpdated(), new FireBaseHandler.OnSaloonDownload() {
+            @Override
+            public void onSaloon(Saloon saloon) {
+
+            }
+
+            @Override
+            public void onSaloonValueUploaded(boolean isSucessful) {
+
+                //Toast.makeText(AddSaloonServiceActivity.this, "Saloon ready to be verified ", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+    }
+
+    private void checkSaloonPoint() {
+        if (saloon.getSaloonPoint() < -1 && saloon.getSaloonPoint() > -100) {
+
+            int i = -100;
+
+            if (!saloon.checkSaloonImageUpdated()) {
+                i = i + 10;
+
+
+            }
+            if (!saloon.isSaloonServiceUpdated()) {
+                i = i + 10;
+
+            }
+            if (!saloon.isSaloonUpdated()) {
+                i = i + 10;
+
+            }
+
+            if (i == -100) {
+                //show pending approval screen and initialize intent with pending approval screen
+                saloon.setSaloonPoint(i);
+
+                uploadSaloon();
+            } else if (i < 0) {
+                saloon.setSaloonPoint(i);
+                uploadSaloon();
+            }
+
+        }
+
+        if (saloon.getSaloonPoint() == -1000) {
+            //blocked by admin
+            Toast.makeText(this, "Blocked by admin", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+    }
+
+    private void uploadSaloon() {
+        new FireBaseHandler().uploadSaloonInfo(saloonUID, "saloonPoint",saloon.getSaloonPoint(), new FireBaseHandler.OnSaloonDownload() {
+            @Override
+            public void onSaloon(Saloon saloon) {
+
+            }
+
+            @Override
+            public void onSaloonValueUploaded(boolean isSucessful) {
+
+                Toast.makeText(AddSaloonServiceActivity.this, "Saloon ready to be verified ", Toast.LENGTH_SHORT).show();
+
+
+            }
+        });
+
 
     }
 
@@ -121,12 +263,22 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
         EditText editText = (EditText) findViewById(R.id.addSaloonService_serviceName_editText);
         editText.setText(service.getServiceName());
         editText = (EditText) findViewById(R.id.addSaloonService_servicePrice_editText);
-        editText.setText(service.getServicePrice()+"");
+        if(service.getServicePrice()==0){
+            editText.setText(null);
+        }else {
+            editText.setText(service.getServicePrice() + "");
+        }
+
+        editText = (EditText) findViewById(R.id.addSaloonService_serviceOfferPrice_editText);
+        if(service.getServiceOfferPrice()==0){
+            editText.setText(null);
+        }else {
+            editText.setText(service.getServiceOfferPrice() + "");
+        }
+
 
         TextView textView = (TextView) findViewById(R.id.addSaloonService_serviceType_textView);
         textView.setText(service.getServiceTypeName());
-
-
 
 
     }
@@ -138,6 +290,7 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
         String serviceName = editText.getText().toString().trim();
         if (serviceName.isEmpty()) {
             Toast.makeText(this, "Enter service name ", Toast.LENGTH_SHORT).show();
+            editText.setError("Required");
             return null;
         } else {
 
@@ -149,6 +302,7 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
         String servicePrice = editText.getText().toString().trim();
         if (servicePrice.isEmpty()) {
             Toast.makeText(this, "Enter service price ", Toast.LENGTH_SHORT).show();
+            editText.setError("Required");
             return null;
         } else {
             int servicePriceint = Integer.valueOf(servicePrice);
@@ -163,6 +317,18 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
         } else {
             Toast.makeText(this, "Service type not selected", Toast.LENGTH_SHORT).show();
             return null;
+        }
+
+        editText = (EditText) findViewById(R.id.addSaloonService_servicePrice_editText);
+        String serviceOfferPrice = editText.getText().toString().trim();
+        if (serviceOfferPrice.isEmpty()) {
+
+            service.setServiceOfferPrice(service.getServicePrice());
+        } else {
+            int servicePriceint = Integer.valueOf(serviceOfferPrice);
+
+            service.setServiceOfferPrice(servicePriceint);
+
         }
 
 

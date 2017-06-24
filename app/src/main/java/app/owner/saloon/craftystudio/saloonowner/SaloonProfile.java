@@ -147,6 +147,12 @@ public class SaloonProfile extends EasyLocationActivity {
     public void onSaveButtonClick(View view) {
 
 
+        if(saloon.getSaloonPoint() == 0){
+            Toast.makeText(this, "Not a registered saloon", Toast.LENGTH_SHORT).show();
+
+            return;
+        }
+
         if (validateForm()) {
 
             //saloon.setSaloonName(saloonNameEditText.getText().toString().trim());
@@ -159,17 +165,31 @@ public class SaloonProfile extends EasyLocationActivity {
 
 
 
-        if(saloon.getSaloonPoint() ==-10 || saloon.getSaloonPoint() == -90 || saloon.getSaloonPoint() ==-100){
-            if (saloon.isSaloonUpdated()){
-                saloon.setSaloonPoint(-90);
 
-                if (saloon.checkSaloonImageUpdated()){
-                    saloon.setSaloonPoint(-100);
-                }else{
-                    intent = new Intent(SaloonProfile.this, SaloonImageActivity.class);
-                }
 
+        if (saloon.getSaloonPoint() < -1 && saloon.getSaloonPoint()> -100){
+
+            int i=-100;
+            if (!saloon.isSaloonUpdated()){
+                i=i+10;
             }
+
+            if(!saloon.isSaloonServiceUpdated()){
+                i=i+10;
+                intent = new Intent(SaloonProfile.this , AddSaloonServiceActivity.class);
+            }
+            if(!saloon.checkSaloonImageUpdated()){
+                i=i+10;
+                intent = new Intent(SaloonProfile.this , SaloonImageActivity.class);
+            }
+
+            if(i==-100){
+                //show pending approval screen
+                saloon.setSaloonPoint(i);
+            }else if(i<0){
+                saloon.setSaloonPoint(i);
+            }
+
         }
 
         if (saloon.getSaloonPoint()==-1000){
@@ -201,46 +221,11 @@ public class SaloonProfile extends EasyLocationActivity {
             });
 
         }else{
+            Toast.makeText(this, "Some details not filled ", Toast.LENGTH_SHORT).show();
             return;
         }
 
 
-        if (saloon.getSaloonPoint() == -10 || saloon.getSaloonPoint() == -1 || saloon.getSaloonPoint() > 0) {
-
-
-            if (saloon.getSaloonPoint() < 0) {
-
-
-            } else {
-                intent = null;
-            }
-
-
-           /* if (saloon.getSaloonPoint() == -10 || saloon.getSaloonPoint() == -1) {
-                if (saloon.isSaloonUpdated()) {
-
-
-                    if (saloon.checkSaloonImageUpdated()) {
-                        saloon.setSaloonPoint(10);
-                    } else {
-                        saloon.setSaloonPoint(-1);
-
-                    }
-
-                } else {
-                    saloon.setSaloonPoint(-10);
-                }
-            }*/
-
-
-
-        } else if (saloon.getSaloonPoint() == -100) {
-            // account blocked alert
-
-
-        } else if (saloon.getSaloonPoint() == 0) {
-            //saloon not fetched
-        }
 
 
     }

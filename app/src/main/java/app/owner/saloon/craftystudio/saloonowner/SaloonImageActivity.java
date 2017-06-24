@@ -33,6 +33,7 @@ import com.zhihu.matisse.filter.Filter;
 
 import java.io.File;
 import java.io.IOException;
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 
@@ -45,22 +46,26 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
 
 
 
-    private static final int REQUEST_PROFILE_IMAGE = 15;
+    private static final int REQUEST_PROFILE_IMAGE = 20;
     private static final int REQUEST_EXTRA_IMAGE1 = 10;
     private static final int REQUEST_EXTRA_IMAGE2 = 11;
     private static final int REQUEST_EXTRA_IMAGE3 = 12;
+    private static final int REQUEST_EXTRA_IMAGE4 = 13;
+    private static final int REQUEST_EXTRA_IMAGE5 = 14;
 
 
-    Uri profileImageUri, image1Uri, image2Uri, image3Uri;
+
+    Uri profileImageUri, image1Uri, image2Uri, image3Uri ,image4Uri,image5Uri ;
     String saloonUID = LoginActivity.saloonUID;
     
-    int statusProfileUpload ,statusImage1Upload ,statusImage2Upload , statusImage3Upload;
+    int statusProfileUpload ,statusImage1Upload ,statusImage2Upload , statusImage3Upload , statusImage4Upload,statusImage5Upload;
     private final int RC_CAMERA_AND_LOCATION=20;
 
 
     ProgressDialog progressDialog ;
 
     Intent intent;
+     Saloon saloon = MainActivity.SALOON;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,65 +91,121 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
 
         StorageReference storageReference = storageRef.child("saloon_image/" + saloonUID + "/" + "profile_image");
 
+        if (saloon.getSaloonImageList() == null) {
+            HashMap<String, String> imageList = new HashMap<String, String>();
 
-        Glide.with(this)
-                .using(new FirebaseImageLoader())
-                .load(storageReference)
-                .thumbnail(0.5f)
-                .override(900, 400)
-                .crossFade(100)
-                .fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(imageView);
+            saloon.setSaloonImageList(imageList);
 
+        }else {
 
-        ImageView imageView1 = (ImageView)findViewById(R.id.saloonimage_image1_imageView);
-         storageReference = storageRef.child("saloon_image/" + saloonUID + "/" + "image_1");
+            if (saloon.getSaloonImageList().containsKey("profile_image")) {
+                Glide.with(this)
+                        .using(new FirebaseImageLoader())
+                        .load(storageReference)
+                        .thumbnail(0.5f)
+                        .override(900, 400)
+                        .crossFade(100)
+                        .fitCenter()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(imageView);
+            }
+            ImageView imageView1 ;
+            if (saloon.getSaloonImageList().containsKey("image_1")) {
 
-
-        Glide.with(this)
-                .using(new FirebaseImageLoader())
-                .load(storageReference)
-                .thumbnail(0.5f)
-                .override(900, 400)
-                .crossFade(100)
-                .fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(imageView1);
-
-         imageView1 = (ImageView)findViewById(R.id.saloonimage_image2_imageView);
-        storageReference = storageRef.child("saloon_image/" + saloonUID + "/" + "image_2");
+                imageView1 = (ImageView) findViewById(R.id.saloonimage_image1_imageView);
+                storageReference = storageRef.child("saloon_image/" + saloonUID + "/" + "image_1");
 
 
-        Glide.with(this)
-                .using(new FirebaseImageLoader())
-                .load(storageReference)
-                .thumbnail(0.5f)
-                .override(900, 400)
-                .crossFade(100)
-                .fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(imageView1);
+                Glide.with(this)
+                        .using(new FirebaseImageLoader())
+                        .load(storageReference)
+                        .thumbnail(0.5f)
+                        .override(900, 400)
+                        .crossFade(100)
+                        .fitCenter()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(imageView1);
+            }
 
 
-         imageView1 = (ImageView)findViewById(R.id.saloonimage_image3_imageView);
-        storageReference = storageRef.child("saloon_image/" + saloonUID + "/" + "image_3");
+            if (saloon.getSaloonImageList().containsKey("image_2")) {
+                imageView1 = (ImageView) findViewById(R.id.saloonimage_image2_imageView);
+                storageReference = storageRef.child("saloon_image/" + saloonUID + "/" + "image_2");
 
 
-        Glide.with(this)
-                .using(new FirebaseImageLoader())
-                .load(storageReference)
-                .thumbnail(0.5f)
-                .override(900, 400)
-                .crossFade(100)
-                .fitCenter()
-                .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .skipMemoryCache(true)
-                .into(imageView1);
+                Glide.with(this)
+                        .using(new FirebaseImageLoader())
+                        .load(storageReference)
+                        .thumbnail(0.5f)
+                        .override(900, 400)
+                        .crossFade(100)
+                        .fitCenter()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(imageView1);
+            }
 
+            if (saloon.getSaloonImageList().containsKey("image_3")) {
+
+                imageView1 = (ImageView) findViewById(R.id.saloonimage_image3_imageView);
+                storageReference = storageRef.child("saloon_image/" + saloonUID + "/" + "image_3");
+
+
+                Glide.with(this)
+                        .using(new FirebaseImageLoader())
+                        .load(storageReference)
+                        .thumbnail(0.5f)
+                        .override(900, 400)
+                        .crossFade(100)
+                        .fitCenter()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(imageView1);
+
+            }
+
+            if (saloon.getSaloonImageList().containsKey("image_4")) {
+
+                imageView1 = (ImageView) findViewById(R.id.saloonimage_image4_imageView);
+                storageReference = storageRef.child("saloon_image/" + saloonUID + "/" + "image_4");
+
+
+                Glide.with(this)
+                        .using(new FirebaseImageLoader())
+                        .load(storageReference)
+                        .thumbnail(0.5f)
+                        .override(900, 400)
+                        .crossFade(100)
+                        .fitCenter()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(imageView1);
+
+            }
+
+            if (saloon.getSaloonImageList().containsKey("image_5")) {
+
+                imageView1 = (ImageView) findViewById(R.id.saloonimage_image5_imageView);
+                storageReference = storageRef.child("saloon_image/" + saloonUID + "/" + "image_5");
+
+
+                Glide.with(this)
+                        .using(new FirebaseImageLoader())
+                        .load(storageReference)
+                        .thumbnail(0.5f)
+                        .override(900, 400)
+                        .crossFade(100)
+                        .fitCenter()
+                        .diskCacheStrategy(DiskCacheStrategy.NONE)
+                        .skipMemoryCache(true)
+                        .into(imageView1);
+
+            }
+
+
+        }
 
         methodRequiresTwoPermission();
 
@@ -188,6 +249,22 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
                  imageView.setImageURI(image3Uri);
 
              }
+             else if (requestCode == REQUEST_EXTRA_IMAGE4){
+                 List<Uri> mSelectedProfileImage = Matisse.obtainResult(data);
+                 image4Uri = mSelectedProfileImage.get(0);
+                 Log.d("Matisse", "mSelected: " + profileImageUri);
+                 ImageView imageView = (ImageView) findViewById(R.id.saloonimage_image4_imageView);
+                 imageView.setImageURI(image4Uri);
+
+             }
+             else if (requestCode == REQUEST_EXTRA_IMAGE5){
+                 List<Uri> mSelectedProfileImage = Matisse.obtainResult(data);
+                 image5Uri = mSelectedProfileImage.get(0);
+                 Log.d("Matisse", "mSelected: " + profileImageUri);
+                 ImageView imageView = (ImageView) findViewById(R.id.saloonimage_image5_imageView);
+                 imageView.setImageURI(image5Uri);
+
+             }
 
         }
     }
@@ -210,28 +287,25 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
     }
 
     public void uploadImageToFireBase(View view) {
-        final Saloon saloon = MainActivity.SALOON;
 
-        if (saloon.getSaloonPoint() == 0) {
+        if(saloon.getSaloonPoint() == 0){
+            Toast.makeText(this, "Not a registered saloon", Toast.LENGTH_SHORT).show();
+
             return;
-        } else if (saloon.getSaloonPoint() == -1) {
-            if (profileImageUri != null) {
-                saloon.setSaloonPoint(10);
-                intent = new Intent(SaloonImageActivity.this , AddSaloonServiceActivity.class);
-            }
         }
 
-        if (saloon.getSaloonImageList() == null) {
-            HashMap<String, String> imageList = new HashMap<String, String>();
 
-            saloon.setSaloonImageList(imageList);
 
-        }
+
+
+
+
+
 
         final FireBaseHandler fireBaseHandler = new FireBaseHandler();
 
 
-        if (profileImageUri != null ||image1Uri!=null || image2Uri!= null ||image3Uri!=null){
+        if (profileImageUri != null ||image1Uri!=null || image2Uri!= null ||image3Uri!=null || image4Uri!=null ||image5Uri!=null){
             progressDialog.show();
         }else{
             Toast.makeText(this, "Images not selected", Toast.LENGTH_SHORT).show();
@@ -323,7 +397,47 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
 
         }
 
+        if (image4Uri != null) {
 
+            statusImage4Upload =1;
+            fireBaseHandler.uploadSaloonShwcaseImage(image4Uri, saloonUID, "image_4", new FireBaseHandler.OnSaloonImageListner() {
+                @Override
+                public void onImageDownLoaded(boolean isSucessful, File imageFile) {
+
+                }
+
+                @Override
+                public void onImageUploaded(boolean isSucessful, Uri downloadUri) {
+
+                    Toast.makeText(SaloonImageActivity.this, " image 4 uploaded", Toast.LENGTH_SHORT).show();
+                    saloon.getSaloonImageList().put("image_4", downloadUri.toString());
+                    statusImage4Upload =2;
+                    checkForProgress(fireBaseHandler);
+                }
+            });
+
+        }
+
+        if (image5Uri != null) {
+
+            statusImage5Upload =1;
+            fireBaseHandler.uploadSaloonShwcaseImage(image5Uri, saloonUID, "image_5", new FireBaseHandler.OnSaloonImageListner() {
+                @Override
+                public void onImageDownLoaded(boolean isSucessful, File imageFile) {
+
+                }
+
+                @Override
+                public void onImageUploaded(boolean isSucessful, Uri downloadUri) {
+
+                    Toast.makeText(SaloonImageActivity.this, " image 5 uploaded", Toast.LENGTH_SHORT).show();
+                    saloon.getSaloonImageList().put("image_5", downloadUri.toString());
+                    statusImage5Upload =2;
+                    checkForProgress(fireBaseHandler);
+                }
+            });
+
+        }
       
         
 
@@ -331,10 +445,48 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
 
     }
 
-    private void checkForProgress(FireBaseHandler fireBaseHandler) {
-        if(!(statusProfileUpload == 1 || statusImage1Upload ==1 || statusImage2Upload==1 ||statusImage3Upload==1)){
-            Toast.makeText(this, "Updating saloon details", Toast.LENGTH_SHORT).show();
+    private void checksaloonPoints() {
 
+
+        if (saloon.getSaloonPoint() < -1 && saloon.getSaloonPoint()> -100){
+
+            int i=-100;
+
+            if(!saloon.checkSaloonImageUpdated()){
+                i=i+10;
+
+            }
+            if(!saloon.isSaloonServiceUpdated()){
+                i=i+10;
+                intent = new Intent(SaloonImageActivity.this , AddSaloonServiceActivity.class);
+            }
+            if (!saloon.isSaloonUpdated()){
+                i=i+10;
+                intent = new Intent(SaloonImageActivity.this , SaloonProfile.class);
+
+            }
+
+            if(i==-100){
+                //show pending approval screen and initialize intent with pending approval screen
+                saloon.setSaloonPoint(i);
+            }else if(i<0){
+                saloon.setSaloonPoint(i);
+            }
+
+        }
+
+        if (saloon.getSaloonPoint()==-1000){
+            //blocked by admin
+            Toast.makeText(this, "Blocked by admin", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+    }
+
+    private void checkForProgress(FireBaseHandler fireBaseHandler) {
+        if(!(statusProfileUpload == 1 || statusImage1Upload ==1 || statusImage2Upload==1 ||statusImage3Upload==1 ||statusImage4Upload==1||statusImage5Upload==1)){
+            Toast.makeText(this, "Updating saloon details", Toast.LENGTH_SHORT).show();
+            checksaloonPoints();
 
             fireBaseHandler.uploadSaloon(saloonUID, MainActivity.SALOON, new FireBaseHandler.OnSaloonDownload() {
                 @Override
@@ -388,6 +540,7 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
     @Override
     public void onPermissionsDenied(int requestCode, List<String> perms) {
 
+
     }
 
     public void selectProfileImage(View view) {
@@ -439,6 +592,29 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
                 .forResult(REQUEST_EXTRA_IMAGE3);
     }
 
+    public void addImage4PhotoClick(View view) {
+        Matisse.from(SaloonImageActivity.this)
+                .choose(MimeType.allOf())
+                .countable(true)
+                .maxSelectable(1)
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                .thumbnailScale(0.85f)
+                .imageEngine(new GlideEngine())
+                .forResult(REQUEST_EXTRA_IMAGE4);
+
+    }
+
+    public void addImage5PhotoClick(View view) {
+        Matisse.from(SaloonImageActivity.this)
+                .choose(MimeType.allOf())
+                .countable(true)
+                .maxSelectable(1)
+                .restrictOrientation(ActivityInfo.SCREEN_ORIENTATION_UNSPECIFIED)
+                .thumbnailScale(0.85f)
+                .imageEngine(new GlideEngine())
+                .forResult(REQUEST_EXTRA_IMAGE5);
+
+    }
 
     public void showProgressDialog(String title,String message){
         progressDialog.setMessage(message);
@@ -457,7 +633,7 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setCancelable(false)
-                    .setTitle("Image Uploaded sucessfully ")
+                    .setTitle("Image Uploaded successfully ")
                     .setMessage("Press yes to exit")
                     .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
@@ -475,5 +651,26 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
         }
 
     }
+
+
+    public void hireUsForImageClick(){
+
+        FireBaseHandler fireBaseHandler =new FireBaseHandler();
+        fireBaseHandler.uploadSaloonInfo(MainActivity.SALOON.getSaloonUID(), "saloonHirePhotographer", true, new FireBaseHandler.OnSaloonDownload() {
+            @Override
+            public void onSaloon(Saloon saloon) {
+
+            }
+
+            @Override
+            public void onSaloonValueUploaded(boolean isSucessful) {
+
+                if (isSucessful){
+
+                }
+            }
+        });
+    }
+
 
 }
