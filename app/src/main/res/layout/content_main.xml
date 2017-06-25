@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
-             android:id="@+id/no_order_background_imageview"
+             android:id="@+id/main_background_imageview"
             />
 
         <android.support.v7.widget.RecyclerView

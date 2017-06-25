@@ -354,7 +354,7 @@ public class SaloonProfile extends EasyLocationActivity {
 
         boolean valid = true;
         if (string.isEmpty()) {
-            saloonAddressEditText.setError("Required");
+           // saloonAddressEditText.setError("Required");
             valid = false;
         } else {
 
@@ -363,7 +363,7 @@ public class SaloonProfile extends EasyLocationActivity {
         string = saloonPhoneNumberEditText.getText().toString().trim();
 
         if (string.isEmpty()) {
-            saloonPhoneNumberEditText.setError("Required");
+           // saloonPhoneNumberEditText.setError("Required");
             valid = false;
         } else {
 

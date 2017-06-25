@@ -11,6 +11,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -40,11 +42,15 @@ public class PhoneNumerActivity extends AppCompatActivity {
     EditText mPhoneNumberEditText, mOTPEditText;
     Button sendOtpButton, verifyOtpButton;
 
-    String mphoneNumber =null;
+    String mphoneNumber = null;
 
     Saloon saloon = MainActivity.SALOON;
     Intent intent;
-    boolean isUpdating=false ;
+    boolean isUpdating = false;
+
+    TextView mHeadingTextview;
+
+    LinearLayout mOptlinerlayout,mPhonenumberLinearlayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +69,21 @@ public class PhoneNumerActivity extends AppCompatActivity {
             }
         });
 
+
+        mOptlinerlayout=(LinearLayout)findViewById(R.id.otp_Linearlayout) ;
+        mPhonenumberLinearlayout=(LinearLayout)findViewById(R.id.phonenumber_Linearlayout);
+
+
+        mHeadingTextview = (TextView) findViewById(R.id.heading_phone_number_textview);
         mPhoneNumberEditText = (EditText) findViewById(R.id.phoneNumber_phoneNumber_EditText);
         mOTPEditText = (EditText) findViewById(R.id.phoneNumber_otp_EditText);
-        mOTPEditText.setVisibility(View.GONE);
+        //mOTPEditText.setVisibility(View.GONE);
+        mOptlinerlayout.setVisibility(View.GONE);
 
         sendOtpButton = (Button) findViewById(R.id.phoneNumber_sentOtp_Button);
         verifyOtpButton = (Button) findViewById(R.id.phoneNumber_verifyOtp_Button);
         verifyOtpButton.setVisibility(View.GONE);
+
 
         mPhoneNumberEditText.setText(saloon.getSaloonPhoneNumber());
 
@@ -89,7 +103,7 @@ public class PhoneNumerActivity extends AppCompatActivity {
                 try {
                     if (response.getString("Status").equalsIgnoreCase("Success")) {
                         mVerificationID = response.getString("Details");
-                        mphoneNumber=phoneNumber;
+                        mphoneNumber = phoneNumber;
 
                         //otp sent succesfully
                         openOtpView();
@@ -154,10 +168,13 @@ public class PhoneNumerActivity extends AppCompatActivity {
     }
 
     private void openOtpView() {
-        mOTPEditText.setVisibility(View.VISIBLE);
+        //mOTPEditText.setVisibility(View.VISIBLE);
+        mOptlinerlayout.setVisibility(View.VISIBLE);
         verifyOtpButton.setVisibility(View.VISIBLE);
+        mHeadingTextview.setText("Validate your number");
 
-        mPhoneNumberEditText.setVisibility(View.GONE);
+      //  mPhoneNumberEditText.setVisibility(View.GONE);
+        mPhonenumberLinearlayout.setVisibility(View.GONE);
         sendOtpButton.setVisibility(View.GONE);
     }
 
@@ -183,42 +200,42 @@ public class PhoneNumerActivity extends AppCompatActivity {
 
             if (!saloon.isSaloonServiceUpdated()) {
                 i = i + 10;
-                intent =new Intent(PhoneNumerActivity.this , AddSaloonServiceActivity.class);
+                intent = new Intent(PhoneNumerActivity.this, AddSaloonServiceActivity.class);
             }
 
             if (!saloon.checkSaloonImageUpdated()) {
                 i = i + 10;
-                intent =new Intent(PhoneNumerActivity.this , SaloonImageActivity.class);
+                intent = new Intent(PhoneNumerActivity.this, SaloonImageActivity.class);
 
 
             }
 
             if (!saloon.isSaloonUpdated()) {
                 i = i + 10;
-                intent =new Intent(PhoneNumerActivity.this , SaloonProfile.class);
+                intent = new Intent(PhoneNumerActivity.this, SaloonProfile.class);
             }
 
 
-            if (saloon.getSaloonPhoneNumber() == null ){
-                i=i+10;
-            }else{
-                if (saloon.getSaloonPhoneNumber().isEmpty()){
-                    i=i+10;
+            if (saloon.getSaloonPhoneNumber() == null) {
+                i = i + 10;
+            } else {
+                if (saloon.getSaloonPhoneNumber().isEmpty()) {
+                    i = i + 10;
                 }
             }
 
             if (i == -100) {
                 //show pending approval screen and initialize intent with pending approval screen
                 saloon.setSaloonPoint(i);
-                intent =new Intent(PhoneNumerActivity.this , MainActivity.class);
+                intent = new Intent(PhoneNumerActivity.this, MainActivity.class);
                 uploadSaloon();
             } else if (i < 0) {
                 saloon.setSaloonPoint(i);
                 uploadSaloon();
             }
 
-        }else{
-            intent =null;
+        } else {
+            intent = null;
             uploadSaloon();
         }
 
@@ -242,7 +259,7 @@ public class PhoneNumerActivity extends AppCompatActivity {
             @Override
             public void onSaloonValueUploaded(boolean isSucessful) {
 
-                if (isSucessful){
+                if (isSucessful) {
                     openActivity();
                 }
 
@@ -254,12 +271,12 @@ public class PhoneNumerActivity extends AppCompatActivity {
     }
 
     private void openActivity() {
-        if (intent!=null){
+        if (intent != null) {
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
             startActivity(intent);
             finish();
-        }else{
+        } else {
             finish();
         }
     }

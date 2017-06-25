@@ -57,7 +57,7 @@
             android:layout_marginLeft="5dp"
             android:fontFamily="monospace"
             android:hint="Enter Email id"
-            android:textColor="@color/yellow"
+            android:textColor="@color/white"
             android:textColorHint="@color/whitish"
             android:textSize="14sp" />
 
@@ -94,7 +94,7 @@
             android:fontFamily="monospace"
             android:hint="Enter Password"
             android:inputType="textPassword"
-            android:textColor="@color/yellow"
+            android:textColor="@color/white"
             android:textColorHint="@color/whitish"
             android:textSize="14sp" />
 
@@ -131,7 +131,7 @@
             android:layout_marginLeft="5dp"
             android:fontFamily="monospace"
             android:hint="Saloon Name"
-            android:textColor="@color/yellow"
+            android:textColor="@color/white"
             android:textColorHint="@color/whitish"
             android:textSize="14sp" />
 

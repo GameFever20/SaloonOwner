@@ -25,6 +25,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.DatePicker;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -66,6 +67,8 @@ public class MainActivity extends AppCompatActivity
 
     SwipeRefreshLayout swipeRefreshLayout;
 
+    ImageView mBackgroundImageview;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -99,6 +102,8 @@ public class MainActivity extends AppCompatActivity
                 saloonOrderFetch();
             }
         });
+
+        mBackgroundImageview=(ImageView)findViewById(R.id.main_background_imageview);
 
         orderAdapter = new OrderAdapter(orderArrayList, this);
 
@@ -167,6 +172,8 @@ public class MainActivity extends AppCompatActivity
         }else if(saloon.getSaloonPoint()==0){
             showSomethingWrongDialogue();
         } else if(saloon.getSaloonPoint()== -100){
+
+            mBackgroundImageview.setImageResource(R.drawable.pendingsaloon_bgdesign);
             Toast.makeText(this, "Pending for approval", Toast.LENGTH_SHORT).show();
         }else{
             showExitDialogue();
@@ -195,6 +202,12 @@ public class MainActivity extends AppCompatActivity
 
                 //Reverse arraylist
                 Collections.reverse(orderArrayList);
+
+                if(orderArrayList.size()==0){
+                    mBackgroundImageview.setImageResource(R.drawable.no_order_design);
+                }else{
+
+                }
 
                 MainActivity.this.orderArrayList = orderArrayList;
 
