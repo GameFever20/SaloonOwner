@@ -137,7 +137,16 @@ public class MainActivity extends AppCompatActivity
 
 
 
+
         if (saloon.getSaloonPoint()<0 && saloon.getSaloonPoint() >-100) {
+
+            if (saloon.getSaloonPhoneNumber() == null){
+                openPhoneNumberActivity();
+                return;
+            }else if(saloon.getSaloonPhoneNumber().isEmpty()){
+                openPhoneNumberActivity();
+                return;
+            }
 
             if (!saloon.isSaloonUpdated()) {
                 openSaloonProfileActivity();
@@ -164,6 +173,13 @@ public class MainActivity extends AppCompatActivity
         }
 
 
+    }
+
+    private void openPhoneNumberActivity() {
+        Intent intent = new Intent(MainActivity.this, PhoneNumerActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
     private void openSaloonServiceActivity() {
@@ -456,7 +472,8 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, ServiceListActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_send) {
-
+            Intent intent = new Intent(MainActivity.this, PhoneNumerActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

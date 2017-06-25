@@ -164,7 +164,7 @@ public class SignUpActivity extends AppCompatActivity {
         hideProgressDialog();
         if (user != null) {
             LoginActivity.saloonUID = user.getUid();
-            Intent intent = new Intent(this, SaloonProfile.class);
+            Intent intent = new Intent(this, PhoneNumerActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
@@ -215,7 +215,7 @@ public class SignUpActivity extends AppCompatActivity {
         } else {
             LoginActivity.saloonUID = currentUser.getUid();
             updateUI(currentUser);
-            Toast.makeText(this, "phone " + currentUser.getPhoneNumber(), Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "phone " + currentUser.getPhoneNumber(), Toast.LENGTH_SHORT).show();
             //Toast.makeText(this, "email "+currentUser.getEmail(), Toast.LENGTH_SHORT).show();
         }
 
