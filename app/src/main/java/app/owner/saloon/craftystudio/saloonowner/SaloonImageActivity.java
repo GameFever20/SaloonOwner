@@ -14,6 +14,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -286,7 +288,7 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
 
     }
 
-    public void uploadImageToFireBase(View view) {
+    public void uploadImageToFireBase() {
 
         if(saloon.getSaloonPoint() == 0){
             Toast.makeText(this, "Not a registered saloon", Toast.LENGTH_SHORT).show();
@@ -672,5 +674,31 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
         });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_image, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_hire_photographer) {
+
+            //replace it with hire photographer option
+            return true;
+        }
+        if (id == R.id.action_post_image) {
+            //upload images
+            uploadImageToFireBase();
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 }

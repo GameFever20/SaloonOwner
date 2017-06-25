@@ -130,6 +130,11 @@ public class SignUpActivity extends AppCompatActivity {
         // [END sign_in_with_email]
     }
 
+    public void signInOptionalButton(View view){
+        Intent intent=new Intent(SignUpActivity.this,LoginActivity.class);
+        startActivity(intent);
+    }
+
     private void uploadSaloon() {
         final Saloon saloon = new Saloon();
         saloon.setSaloonPoint(-10);

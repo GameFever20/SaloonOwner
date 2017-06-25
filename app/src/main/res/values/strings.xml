@@ -1,14 +1,14 @@
 <resources>
-    <string name="app_name">Saloon Owner</string>
+    <string name="app_name">Orders</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
 
     <string name="action_settings">Settings</string>
-    <string name="title_activity_saloon_profile">SaloonProfile</string>
-    <string name="title_activity_saloon_image">SaloonImageActivity</string>
-    <string name="title_activity_login">LoginActivity</string>
-    <string name="title_activity_add_saloon_service">AddSaloonServiceActivity</string>
+    <string name="title_activity_saloon_profile">Saloon Profile</string>
+    <string name="title_activity_saloon_image">Images</string>
+    <string name="title_activity_login">Saloon</string>
+    <string name="title_activity_add_saloon_service">AddSaloonService</string>
 
     <string name="service_type_prompt">Select Service Type</string>
 

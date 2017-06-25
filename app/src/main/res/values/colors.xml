@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="colorPrimary">#f5444a</color>
+    <color name="colorPrimary">#f23c43</color>
     <color name="colorPrimaryDark">#cc1d1d</color>
     <color name="colorAccent">#e6c716</color>
 
@@ -18,19 +18,24 @@
 
     <color name="purplish">#270831</color>
     <color name="lightpurple">#AD91B3</color>
-    <color name="purple">#3a1339</color>
+    <color name="purple">#7721a6</color>
     <color name="cardpurple">#f7641662</color>
+
 
     <color name="black">#000000</color>
     <color name="blackish">#1e1d1d</color>
-    <color name="lightblack">#96000000</color>
+    <color name="lightblack">#68312f2f</color>
     <color name="greyish">#545454</color>
 
     <color name="red">#ea0800</color>
-    <color name="light_red">#bbea0800</color>
+    <color name="light_red">#9ce43f3f</color>
     <color name="redishdark">#cc1d1d</color>
     <color name="redish">#f55056</color>
     <color name="redishbutton">#e43f3f</color>
+    <color name="light_redishbutton">#ed6262</color>
+
+    <color name="morered">#ea2f2f</color>
+
 
     <color name="green">#47ec00</color>
     <color name="yellow1">#f9f501</color>
