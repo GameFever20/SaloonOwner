@@ -168,6 +168,7 @@ public class SaloonProfile extends EasyLocationActivity {
 
 
         if (saloon.getSaloonPoint() < -1 && saloon.getSaloonPoint()> -100){
+            intent = new Intent(SaloonProfile.this , MainActivity.class);
 
             int i=-100;
             if (!saloon.isSaloonUpdated()){
@@ -183,6 +184,16 @@ public class SaloonProfile extends EasyLocationActivity {
                 intent = new Intent(SaloonProfile.this , SaloonImageActivity.class);
             }
 
+            if (saloon.getSaloonPhoneNumber() == null ){
+                i=i+10;
+                intent = new Intent(SaloonProfile.this , PhoneNumerActivity.class);
+            }else{
+                if (saloon.getSaloonPhoneNumber().isEmpty()){
+                    i=i+10;
+                    intent = new Intent(SaloonProfile.this , PhoneNumerActivity.class);
+                }
+            }
+
             if(i==-100){
                 //show pending approval screen
                 saloon.setSaloonPoint(i);
@@ -190,6 +201,8 @@ public class SaloonProfile extends EasyLocationActivity {
                 saloon.setSaloonPoint(i);
             }
 
+        }else{
+            intent=null;
         }
 
         if (saloon.getSaloonPoint()==-1000){

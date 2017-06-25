@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="app.owner.saloon.craftystudio.saloonowner.PhoneNumerActivity"
+    tools:showIn="@layout/activity_phone_numer">
+
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"
+        android:src="@drawable/logoforsaloon" />
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="70dp"
+        android:background="@color/lightblack">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_action_email" />
+
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray" />
+
+        <EditText
+            android:id="@+id/phoneNumber_phoneNumber_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Email id"
+            android:textColor="@color/yellow"
+            android:textColorHint="@color/whitish" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@color/lightblack">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:src="@drawable/ic_action_password" />
+
+
+        <View
+            android:layout_width="1dp"
+            android:layout_height="match_parent"
+            android:background="@android:color/darker_gray" />
+
+
+        <EditText
+            android:id="@+id/phoneNumber_otp_EditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter Password"
+            android:textColor="@color/yellow"
+            android:inputType="textPassword"
+            android:textColorHint="@color/whitish" />
+
+
+    </LinearLayout>
+
+
+
+
+    <Button
+        android:id="@+id/phoneNumber_sentOtp_Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:textColor="@color/white"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="30dp"
+        android:onClick="sendotp"
+        android:background="@drawable/roundbuttoncustomize"
+        android:text="Sign In" />
+
+    <Button
+        android:id="@+id/phoneNumber_verifyOtp_Button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:textColor="@color/white"
+        android:layout_marginRight="50dp"
+        android:layout_marginTop="30dp"
+        android:onClick="verifyOtp"
+        android:background="@drawable/roundbuttoncustomize"
+        android:text="Sign In" />
+
+
+
+</LinearLayout>

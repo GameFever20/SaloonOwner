@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -26,7 +25,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.DatePicker;
-import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
@@ -54,7 +52,7 @@ public class MainActivity extends AppCompatActivity
     boolean isRegistered = false;
     public static Saloon SALOON = null;
 
-    public static Order ORDER = null;
+    public static Order ORDER =null;
 
 
     ArrayList<Order> orderArrayList = new ArrayList<>();
@@ -67,8 +65,6 @@ public class MainActivity extends AppCompatActivity
     int selectedyear, selectedMonth, selectedDay;
 
     SwipeRefreshLayout swipeRefreshLayout;
-
-    ImageView mBackgroundImageview;
 
 
     @Override
@@ -96,16 +92,13 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.mainActivity_refresh_swipeRefresh);
+        swipeRefreshLayout =(SwipeRefreshLayout)findViewById(R.id.mainActivity_refresh_swipeRefresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
                 saloonOrderFetch();
             }
         });
-
-        mBackgroundImageview = (ImageView) findViewById(R.id.no_order_background_imageview);
-
 
         orderAdapter = new OrderAdapter(orderArrayList, this);
 
@@ -143,7 +136,17 @@ public class MainActivity extends AppCompatActivity
         //check values of saloon obj and redirect to desiered screen
 
 
-        if (saloon.getSaloonPoint() < 0 && saloon.getSaloonPoint() > -100) {
+
+
+        if (saloon.getSaloonPoint()<0 && saloon.getSaloonPoint() >-100) {
+
+            if (saloon.getSaloonPhoneNumber() == null){
+                openPhoneNumberActivity();
+                return;
+            }else if(saloon.getSaloonPhoneNumber().isEmpty()){
+                openPhoneNumberActivity();
+                return;
+            }
 
             if (!saloon.isSaloonUpdated()) {
                 openSaloonProfileActivity();
@@ -159,18 +162,24 @@ public class MainActivity extends AppCompatActivity
                 openSaloonServiceActivity();
                 return;
             }
-        } else if (saloon.getSaloonPoint() > 0) {
+        }else if (saloon.getSaloonPoint() >0){
             saloonOrderFetch();
-        } else if (saloon.getSaloonPoint() == 0) {
+        }else if(saloon.getSaloonPoint()==0){
             showSomethingWrongDialogue();
-        } else if (saloon.getSaloonPoint() == -100) {
+        } else if(saloon.getSaloonPoint()== -100){
             Toast.makeText(this, "Pending for approval", Toast.LENGTH_SHORT).show();
-            mBackgroundImageview.setImageResource(R.drawable.pendingsaloon_bgdesign);
-        } else {
+        }else{
             showExitDialogue();
         }
 
 
+    }
+
+    private void openPhoneNumberActivity() {
+        Intent intent = new Intent(MainActivity.this, PhoneNumerActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
     private void openSaloonServiceActivity() {
@@ -188,13 +197,6 @@ public class MainActivity extends AppCompatActivity
                 Collections.reverse(orderArrayList);
 
                 MainActivity.this.orderArrayList = orderArrayList;
-
-                //set Background Image
-                if (orderArrayList.size() == 0) {
-                    mBackgroundImageview.setImageResource(R.drawable.no_order_design);
-                } else {
-
-                }
 
                 orderAdapter = new OrderAdapter(MainActivity.this.orderArrayList, MainActivity.this);
                 initializeRecyclerView();
@@ -250,7 +252,7 @@ public class MainActivity extends AppCompatActivity
                 Bundle bundle = new Bundle();
 
                 //bundle.putParcelable("orderParcel", order);
-                ORDER = order;
+                ORDER =order;
 
                 Intent intent = new Intent(MainActivity.this, FullDetailActivity.class);
                 intent.putExtras(bundle);
@@ -470,7 +472,8 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, ServiceListActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_send) {
-
+            Intent intent = new Intent(MainActivity.this, PhoneNumerActivity.class);
+            startActivity(intent);
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
