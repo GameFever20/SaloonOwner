@@ -121,7 +121,7 @@ public class MainActivity extends AppCompatActivity
                 if (saloon != null) {
                     saloonCheck(saloon);
                     //saloon.setSaloonUID(LoginActivity.saloonUID);
-                    Toast.makeText(MainActivity.this, "Saloon fetched ", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Welcome "+saloon.getSaloonName(), Toast.LENGTH_SHORT).show();
 
                 } else {
                     showExitDialogue();
@@ -159,8 +159,12 @@ public class MainActivity extends AppCompatActivity
             }
 
             if (!saloon.checkSaloonImageUpdated()) {
-                openSaloonImageActivity();
-                return;
+                if(!saloon.isSaloonHirePhotographer()) {
+                    openSaloonImageActivity();
+                    return;
+                }else{
+                    Toast.makeText(this, "We will be visiting you soon for Photographs", Toast.LENGTH_SHORT).show();
+                }
             }
 
             if (!saloon.isSaloonServiceUpdated()) {
@@ -190,7 +194,10 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void openSaloonServiceActivity() {
-
+        Intent intent = new Intent(MainActivity.this, AddSaloonServiceActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
     private void saloonOrderFetch() {
@@ -214,7 +221,7 @@ public class MainActivity extends AppCompatActivity
                 orderAdapter = new OrderAdapter(MainActivity.this.orderArrayList, MainActivity.this);
                 initializeRecyclerView();
 
-                Toast.makeText(MainActivity.this, "orderList Fetched", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Total "+orderArrayList.size()+" orders", Toast.LENGTH_SHORT).show();
                 swipeRefreshLayout.setRefreshing(false);
 
             }
@@ -456,7 +463,7 @@ public class MainActivity extends AppCompatActivity
                 orderAdapter = new OrderAdapter(MainActivity.this.orderArrayList, MainActivity.this);
                 initializeRecyclerView();
 
-                Toast.makeText(MainActivity.this, "orderList Fetched", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Total "+orderArrayList.size()+"order", Toast.LENGTH_SHORT).show();
 
             }
         });

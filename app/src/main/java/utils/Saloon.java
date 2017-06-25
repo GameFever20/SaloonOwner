@@ -23,6 +23,7 @@ public class Saloon {
 
     //for initiale
     boolean saloonServiceUpdated;
+    boolean saloonHirePhotographer;
 
 
     private Map<String ,String> saloonImageList ;
@@ -156,6 +157,14 @@ public class Saloon {
         this.saloonServiceUpdated = saloonServiceUpdated;
     }
 
+    public boolean isSaloonHirePhotographer() {
+        return saloonHirePhotographer;
+    }
+
+    public void setSaloonHirePhotographer(boolean saloonHirePhotographer) {
+        this.saloonHirePhotographer = saloonHirePhotographer;
+    }
+
     public boolean isSaloonUpdated(){
 
         if(saloonPhoneNumber == null || saloonAddress==null ){
@@ -182,7 +191,7 @@ public class Saloon {
 
     public boolean checkSaloonImageUpdated(){
         if(saloonImageList != null) {
-            if (!saloonImageList.get("profile_image").isEmpty()) {
+            if (saloonImageList.containsKey("profile_image")) {
                 return true;
             } else {
                 return false;

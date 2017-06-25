@@ -291,7 +291,7 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
         String serviceName = editText.getText().toString().trim();
         if (serviceName.isEmpty()) {
             Toast.makeText(this, "Enter service name ", Toast.LENGTH_SHORT).show();
-            editText.setError("Required");
+            //editText.setError("Required");
             return null;
         } else {
 
@@ -303,7 +303,7 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
         String servicePrice = editText.getText().toString().trim();
         if (servicePrice.isEmpty()) {
             Toast.makeText(this, "Enter service price ", Toast.LENGTH_SHORT).show();
-            editText.setError("Required");
+            //editText.setError("Required");
             return null;
         } else {
             int servicePriceint = Integer.valueOf(servicePrice);

@@ -64,6 +64,7 @@
                     android:hint="Saloon Phone Number"
                     android:inputType="phone"
                     android:textColor="@color/white"
+                    android:visibility="gone"
 
                     />
             </android.support.design.widget.TextInputLayout>

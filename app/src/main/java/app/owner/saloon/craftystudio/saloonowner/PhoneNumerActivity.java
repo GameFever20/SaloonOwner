@@ -1,5 +1,6 @@
 package app.owner.saloon.craftystudio.saloonowner;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -50,7 +51,9 @@ public class PhoneNumerActivity extends AppCompatActivity {
 
     TextView mHeadingTextview;
 
-    LinearLayout mOptlinerlayout,mPhonenumberLinearlayout;
+    LinearLayout mOptlinerlayout, mPhonenumberLinearlayout;
+
+    ProgressDialog progressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,9 +72,10 @@ public class PhoneNumerActivity extends AppCompatActivity {
             }
         });
 
+        progressDialog = new ProgressDialog(this);
 
-        mOptlinerlayout=(LinearLayout)findViewById(R.id.otp_Linearlayout) ;
-        mPhonenumberLinearlayout=(LinearLayout)findViewById(R.id.phonenumber_Linearlayout);
+        mOptlinerlayout = (LinearLayout) findViewById(R.id.otp_Linearlayout);
+        mPhonenumberLinearlayout = (LinearLayout) findViewById(R.id.phonenumber_Linearlayout);
 
 
         mHeadingTextview = (TextView) findViewById(R.id.heading_phone_number_textview);
@@ -93,13 +97,14 @@ public class PhoneNumerActivity extends AppCompatActivity {
     public void sendOtpRequest(final String phoneNumber) {
         RequestQueue queue = Volley.newRequestQueue(this);
 
+        showProgressDialog("sending otp", "");
 
         String url = "https://2factor.in/API/V1/" + apiKeyFacto + "/SMS/+91" + phoneNumber + "/AUTOGEN";
         JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
-                Toast.makeText(PhoneNumerActivity.this, "response " + response, Toast.LENGTH_SHORT).show();
-
+                //Toast.makeText(PhoneNumerActivity.this, "response " + response, Toast.LENGTH_SHORT).show();
+                closeProgressDialog();
                 try {
                     if (response.getString("Status").equalsIgnoreCase("Success")) {
                         mVerificationID = response.getString("Details");
@@ -121,6 +126,7 @@ public class PhoneNumerActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                closeProgressDialog();
             }
         });
 
@@ -131,16 +137,17 @@ public class PhoneNumerActivity extends AppCompatActivity {
     public void verifyOtpRequest(String mVerificationID, String otp) {
         RequestQueue queue = Volley.newRequestQueue(this);
 
-
+showProgressDialog("Verifying Otp","");
         String url = "https://2factor.in/API/V1/" + apiKeyFacto + "/SMS/VERIFY/" + mVerificationID + "/" + otp;
         JsonObjectRequest jsObjRequest = new JsonObjectRequest(Request.Method.GET, url, null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 Toast.makeText(PhoneNumerActivity.this, "response " + response, Toast.LENGTH_SHORT).show();
-
+                closeProgressDialog();
                 try {
+
                     if (response.getString("Status").equalsIgnoreCase("Success")) {
-                        Toast.makeText(PhoneNumerActivity.this, response.getString("Details"), Toast.LENGTH_SHORT).show();
+                        //Toast.makeText(PhoneNumerActivity.this, response.getString("Details"), Toast.LENGTH_SHORT).show();
 
                         checkSaloonPoint();
 
@@ -158,7 +165,8 @@ public class PhoneNumerActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(PhoneNumerActivity.this, "Error", Toast.LENGTH_SHORT).show();
+                Toast.makeText(PhoneNumerActivity.this, "Otp is incorrect", Toast.LENGTH_SHORT).show();
+                closeProgressDialog();
             }
         });
 
@@ -173,7 +181,7 @@ public class PhoneNumerActivity extends AppCompatActivity {
         verifyOtpButton.setVisibility(View.VISIBLE);
         mHeadingTextview.setText("Validate your number");
 
-      //  mPhoneNumberEditText.setVisibility(View.GONE);
+        //  mPhoneNumberEditText.setVisibility(View.GONE);
         mPhonenumberLinearlayout.setVisibility(View.GONE);
         sendOtpButton.setVisibility(View.GONE);
     }
@@ -279,6 +287,16 @@ public class PhoneNumerActivity extends AppCompatActivity {
         } else {
             finish();
         }
+    }
+
+    public void showProgressDialog(String title, String message) {
+        progressDialog.setMessage(message);
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+
+    public void closeProgressDialog() {
+        progressDialog.dismiss();
     }
 
 
