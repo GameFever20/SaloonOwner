@@ -31,6 +31,7 @@ import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -95,6 +96,10 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
+
+
+
+
         swipeRefreshLayout =(SwipeRefreshLayout)findViewById(R.id.mainActivity_refresh_swipeRefresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
@@ -122,6 +127,8 @@ public class MainActivity extends AppCompatActivity
                     saloonCheck(saloon);
                     //saloon.setSaloonUID(LoginActivity.saloonUID);
                     Toast.makeText(MainActivity.this, "Welcome "+saloon.getSaloonName(), Toast.LENGTH_SHORT).show();
+                    /*for push notification*/
+                    FirebaseMessaging.getInstance().subscribeToTopic("saloon_"+saloon.getSaloonUID());
 
                 } else {
                     showExitDialogue();

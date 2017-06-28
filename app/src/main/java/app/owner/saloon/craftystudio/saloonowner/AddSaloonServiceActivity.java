@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import utils.FireBaseHandler;
+import utils.PendingSaloonRequest;
 import utils.Saloon;
 import utils.Service;
 import utils.ServiceAdapter;
@@ -226,6 +227,7 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
                 saloon.setSaloonPoint(i);
 
                 uploadSaloon();
+
             } else if (i < 0) {
                 saloon.setSaloonPoint(i);
                 uploadSaloon();
@@ -254,10 +256,24 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
                 Toast.makeText(AddSaloonServiceActivity.this, "Saloon ready to be verified ", Toast.LENGTH_SHORT).show();
 
 
+                postRequestNotification();
+
             }
         });
 
 
+    }
+
+    private void postRequestNotification() {
+        PendingSaloonRequest pendingSaloonRequest =new PendingSaloonRequest(saloon.getSaloonName() , saloon.getSaloonUID() , saloon.getSaloonAddress());
+        new FireBaseHandler().uploadPendingSaloonRequest(pendingSaloonRequest, new FireBaseHandler.OnPendingSaloonRequest() {
+            @Override
+            public void onSaloonRequest(boolean isSuccessful) {
+                if (isSuccessful){
+
+                }
+            }
+        });
     }
 
     private void reInitializeActivity() {
