@@ -10,10 +10,11 @@ public class PendingSaloonRequest {
     String saloonAddress;
     boolean pendingStatus;
 
-    public PendingSaloonRequest(String saloonName, String saloonUID, String saloonAddress) {
+    public PendingSaloonRequest(String saloonName, String saloonUID, String saloonAddress ,boolean pendingStatus) {
         this.saloonName = saloonName;
         this.saloonUID = saloonUID;
         this.saloonAddress = saloonAddress;
+        this.pendingStatus =pendingStatus;
     }
 
     public String getSaloonName() {

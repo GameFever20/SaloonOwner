@@ -265,7 +265,7 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
     }
 
     private void postRequestNotification() {
-        PendingSaloonRequest pendingSaloonRequest =new PendingSaloonRequest(saloon.getSaloonName() , saloon.getSaloonUID() , saloon.getSaloonAddress());
+        PendingSaloonRequest pendingSaloonRequest =new PendingSaloonRequest(saloon.getSaloonName() , saloon.getSaloonUID() , saloon.getSaloonAddress() ,true);
         new FireBaseHandler().uploadPendingSaloonRequest(pendingSaloonRequest, new FireBaseHandler.OnPendingSaloonRequest() {
             @Override
             public void onSaloonRequest(boolean isSuccessful) {
