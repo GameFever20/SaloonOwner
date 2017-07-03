@@ -23,6 +23,18 @@
         <item>Threading</item>
 
     </string-array>
+
+
+    <string-array name="service_sub_type">
+        <item>Hair Cut</item>
+        <item>Hair color</item>
+        <item>HAIR STRAIGHTENING</item>
+        <item>Hair SPA</item>
+
+    </string-array>
+
+
+
     <string name="title_activity_service_list">Service List</string>
     <string name="camera_and_location_rationale">Get permission</string>
     <string name="title_activity_full_detail">FullDetailActivity</string>

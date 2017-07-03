@@ -6,6 +6,7 @@ import android.os.Parcelable;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Map;
 
 /**
  * Created by bunny on 12/06/17.
@@ -22,6 +23,9 @@ public class Order implements Serializable ,Parcelable{
     private long orderTime = 0 ;
     private int orderPrice =0 ;
     private String orderServiceName ="" ;
+    Map<String,String> orederServiceIDList;
+    int orderTotalServiceCount;
+
 
 
 
@@ -99,6 +103,22 @@ public class Order implements Serializable ,Parcelable{
 
     public void setOrderServiceName(String orderServiceName) {
         this.orderServiceName = orderServiceName;
+    }
+
+    public Map<String, String> getOrederServiceIDList() {
+        return orederServiceIDList;
+    }
+
+    public void setOrederServiceIDList(Map<String, String> orederServiceIDList) {
+        this.orederServiceIDList = orederServiceIDList;
+    }
+
+    public int getOrderTotalServiceCount() {
+        return orderTotalServiceCount;
+    }
+
+    public void setOrderTotalServiceCount(int orderTotalServiceCount) {
+        this.orderTotalServiceCount = orderTotalServiceCount;
     }
 
     public String resolveOrderStatus() {

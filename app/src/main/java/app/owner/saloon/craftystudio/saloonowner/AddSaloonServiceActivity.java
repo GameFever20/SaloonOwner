@@ -402,6 +402,36 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
     }
 
 
+    public void selectServiceSubType(View view) {
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select Service Sub Type")
+                .setItems(R.array.service_type, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // The 'which' argument contains the index position
+                        // of the selected item
+
+
+                        String serviceSubTypeName = getResources().getStringArray(R.array.service_type)[which];
+                        service.setServiceSubTypeName(serviceSubTypeName);
+                        service.setServiceSubType(which + 1);
+                        Log.d("spinner", service.getServiceType() + service.getServiceTypeName());
+
+
+                        TextView textView = (TextView) findViewById(R.id.addSaloonService_serviceType_textView);
+                        textView.setText(serviceSubTypeName);
+
+
+                    }
+                });
+        builder.create();
+        builder.show();
+
+
+    }
+
+
     public void showProgressDialog(String title, String message) {
         progressDialog.setMessage(message);
         progressDialog.setTitle(title);
