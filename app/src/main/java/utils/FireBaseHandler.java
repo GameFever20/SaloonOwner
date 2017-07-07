@@ -198,6 +198,36 @@ public class FireBaseHandler {
 
     }
 
+    public void downloadOrderList(String saloonUID, String userPhoneNumber,int limitTo, final OnOrderListener onOrderListener) {
+
+        DatabaseReference myRef = mDatabase.getReference().child("Orders/" + saloonUID);
+
+        Query myref2 = myRef.orderByChild("userPhoneNumber").equalTo(userPhoneNumber).limitToLast(limitTo);
+        myref2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                ArrayList<Order> orderArrayList = new ArrayList<Order>();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                    Order order = snapshot.getValue(Order.class);
+                    order.setOrderID(snapshot.getKey());
+                    orderArrayList.add(order);
+                }
+
+                onOrderListener.onOrderList(orderArrayList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
+
     public void uploadSaloonInfo(String saloonUID, String saloonKeyValue, int value, final OnSaloonDownload onSaloonDownload) {
 
         mDatabase.getReference().child("saloon/" + saloonUID + "/" + saloonKeyValue).setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
