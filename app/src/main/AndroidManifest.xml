@@ -58,6 +58,10 @@
         <activity
             android:name=".PhoneNumerActivity"
             android:label="@string/title_activity_phone_numer"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".SearchCustomerPhoneNo"
+            android:label="@string/title_activity_search_customer_phone_no"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 

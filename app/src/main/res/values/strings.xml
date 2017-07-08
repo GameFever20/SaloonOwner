@@ -29,5 +29,6 @@
     <string name="section_format">Hello World from section: %1$d</string>
     <string name="title_activity_sign_up">SignUpActivity</string>
     <string name="title_activity_phone_numer">PhoneNumerActivity</string>
+    <string name="title_activity_search_customer_phone_no">Search Customer</string>
 
 </resources>
