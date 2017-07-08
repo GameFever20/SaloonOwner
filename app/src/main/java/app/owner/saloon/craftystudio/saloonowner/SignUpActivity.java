@@ -179,7 +179,7 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
     public void showProgressDialog() {
-        progressDialog.setMessage("Signing in..");
+        progressDialog.setMessage("Signing up..");
         progressDialog.show();
     }
 

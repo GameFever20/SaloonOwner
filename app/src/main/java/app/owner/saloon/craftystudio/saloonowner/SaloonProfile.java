@@ -355,6 +355,7 @@ public class SaloonProfile extends EasyLocationActivity {
         boolean valid = true;
         if (string.isEmpty()) {
            // saloonAddressEditText.setError("Required");
+            Toast.makeText(this, "Address required", Toast.LENGTH_SHORT).show();
             valid = false;
         } else {
 
@@ -364,6 +365,8 @@ public class SaloonProfile extends EasyLocationActivity {
 
         if (string.isEmpty()) {
            // saloonPhoneNumberEditText.setError("Required");
+            Toast.makeText(this, "Phone Number required", Toast.LENGTH_SHORT).show();
+
             valid = false;
         } else {
 

@@ -680,6 +680,9 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
 
                 if (isSucessful){
 
+                    intent = new Intent(SaloonImageActivity.this ,AddSaloonServiceActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
             }
         });
@@ -703,6 +706,7 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
         if (id == R.id.action_hire_photographer) {
 
             //replace it with hire photographer option
+            showHireUsInfoDialog();
             return true;
         }
         if (id == R.id.action_post_image) {
@@ -711,5 +715,25 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    public void showHireUsInfoDialog(){
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Hire us For Photograph")
+                .setMessage("Hire us for top Quality photograph for 500rs")
+                .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                       hireUsForImageClick();
+                    }
+                }).setNegativeButton("Exit", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //exit
+            }
+        });
+
+        builder.create();
+        builder.show();
     }
 }

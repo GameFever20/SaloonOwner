@@ -20,6 +20,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import utils.FireBaseHandler;
+import utils.PendingSaloonRequest;
 import utils.Saloon;
 import utils.Service;
 import utils.ServiceAdapter;
@@ -226,6 +227,7 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
                 saloon.setSaloonPoint(i);
 
                 uploadSaloon();
+
             } else if (i < 0) {
                 saloon.setSaloonPoint(i);
                 uploadSaloon();
@@ -254,10 +256,24 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
                 Toast.makeText(AddSaloonServiceActivity.this, "Saloon ready to be verified ", Toast.LENGTH_SHORT).show();
 
 
+                postRequestNotification();
+
             }
         });
 
 
+    }
+
+    private void postRequestNotification() {
+        PendingSaloonRequest pendingSaloonRequest =new PendingSaloonRequest(saloon.getSaloonName() , saloon.getSaloonUID() , saloon.getSaloonAddress() ,true);
+        new FireBaseHandler().uploadPendingSaloonRequest(pendingSaloonRequest, new FireBaseHandler.OnPendingSaloonRequest() {
+            @Override
+            public void onSaloonRequest(boolean isSuccessful) {
+                if (isSuccessful){
+
+                }
+            }
+        });
     }
 
     private void reInitializeActivity() {
@@ -291,7 +307,7 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
         String serviceName = editText.getText().toString().trim();
         if (serviceName.isEmpty()) {
             Toast.makeText(this, "Enter service name ", Toast.LENGTH_SHORT).show();
-            editText.setError("Required");
+            //editText.setError("Required");
             return null;
         } else {
 
@@ -303,7 +319,7 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
         String servicePrice = editText.getText().toString().trim();
         if (servicePrice.isEmpty()) {
             Toast.makeText(this, "Enter service price ", Toast.LENGTH_SHORT).show();
-            editText.setError("Required");
+            //editText.setError("Required");
             return null;
         } else {
             int servicePriceint = Integer.valueOf(servicePrice);
@@ -375,6 +391,36 @@ public class AddSaloonServiceActivity extends AppCompatActivity {
 
                         TextView textView = (TextView) findViewById(R.id.addSaloonService_serviceType_textView);
                         textView.setText(serviceTypeName);
+
+
+                    }
+                });
+        builder.create();
+        builder.show();
+
+
+    }
+
+
+    public void selectServiceSubType(View view) {
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select Service Sub Type")
+                .setItems(R.array.service_type, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // The 'which' argument contains the index position
+                        // of the selected item
+
+
+                        String serviceSubTypeName = getResources().getStringArray(R.array.service_type)[which];
+                        service.setServiceSubTypeName(serviceSubTypeName);
+                        service.setServiceSubType(which + 1);
+                        Log.d("spinner", service.getServiceType() + service.getServiceTypeName());
+
+
+                        TextView textView = (TextView) findViewById(R.id.addSaloonService_serviceType_textView);
+                        textView.setText(serviceSubTypeName);
 
 
                     }

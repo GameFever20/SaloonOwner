@@ -43,9 +43,9 @@ public class FireBaseHandler {
 
     }
 
-    public void downloadOrder(String saloonUID , String orderID , final OnOrderDownloadListner onOrderDownloadListner ) {
+    public void downloadOrder(String saloonUID, String orderID, final OnOrderDownloadListner onOrderDownloadListner) {
 
-        DatabaseReference mDatabaseRef = mDatabase.getReference().child("Orders/" + saloonUID+"/"+orderID);
+        DatabaseReference mDatabaseRef = mDatabase.getReference().child("Orders/" + saloonUID + "/" + orderID);
 
 
         mDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -55,7 +55,7 @@ public class FireBaseHandler {
                 //String saloonName = dataSnapshot.child("saloonName").getValue(String.class);
 
                 Order order = dataSnapshot.getValue(Order.class);
-                if(order != null) {
+                if (order != null) {
                     order.setOrderID(dataSnapshot.getKey());
                 }
                 onOrderDownloadListner.onOrder(order);
@@ -76,7 +76,7 @@ public class FireBaseHandler {
 
     }
 
-    public void downloadService(String saloonUID , String serviceID , final OnServiceDownLoadListner onServiceDownLoadListner ) {
+    public void downloadService(String saloonUID, String serviceID, final OnServiceDownLoadListner onServiceDownLoadListner) {
 
         DatabaseReference mDatabaseRef = mDatabase.getReference().child("services/" + serviceID);
 
@@ -88,7 +88,7 @@ public class FireBaseHandler {
                 //String saloonName = dataSnapshot.child("saloonName").getValue(String.class);
 
                 Service service = dataSnapshot.getValue(Service.class);
-                if(service != null) {
+                if (service != null) {
                     service.setServiceUID(dataSnapshot.getKey());
                 }
                 onServiceDownLoadListner.onServiceDownload(service);
@@ -152,7 +152,7 @@ public class FireBaseHandler {
                     orderArrayList.add(order);
                 }
 
-                if(orderArrayList.size()>0) {
+                if (orderArrayList.size() > 0) {
                     orderArrayList.remove(orderArrayList.size() - 1);
                 }
                 onOrderListener.onOrderList(orderArrayList);
@@ -167,7 +167,7 @@ public class FireBaseHandler {
 
     }
 
-    public void downloadOrderList(String saloonUID, Long fromTimeInMillis , Long toTimeInMillis , final OnOrderListener onOrderListener){
+    public void downloadOrderList(String saloonUID, Long fromTimeInMillis, Long toTimeInMillis, final OnOrderListener onOrderListener) {
 
 
         DatabaseReference myRef = mDatabase.getReference().child("Orders/" + saloonUID);
@@ -197,6 +197,36 @@ public class FireBaseHandler {
 
 
     }
+
+    public void downloadOrderList(String saloonUID, String userPhoneNumber,int limitTo, final OnOrderListener onOrderListener) {
+
+        DatabaseReference myRef = mDatabase.getReference().child("Orders/" + saloonUID);
+
+        Query myref2 = myRef.orderByChild("userPhoneNumber").equalTo(userPhoneNumber).limitToLast(limitTo);
+        myref2.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+                ArrayList<Order> orderArrayList = new ArrayList<Order>();
+
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+
+                    Order order = snapshot.getValue(Order.class);
+                    order.setOrderID(snapshot.getKey());
+                    orderArrayList.add(order);
+                }
+
+                onOrderListener.onOrderList(orderArrayList);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+    }
+
 
     public void uploadSaloonInfo(String saloonUID, String saloonKeyValue, int value, final OnSaloonDownload onSaloonDownload) {
 
@@ -342,10 +372,10 @@ public class FireBaseHandler {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 // taskSnapshot.getMetadata() contains file metadata such as size, content-type, and download URL.
-                Uri uri= taskSnapshot.getDownloadUrl();
+                Uri uri = taskSnapshot.getDownloadUrl();
                 try {
                     onSaloonImageListner.onImageUploaded(true, uri);
-                }catch (Exception e){
+                } catch (Exception e) {
 
                 }
             }
@@ -411,6 +441,7 @@ public class FireBaseHandler {
 // Create the data we want to update
         Map post = new HashMap();
         post.put("Orders/" + saloonUID + "/" + orderId + "/" + "orderStatus", orderStatus);
+        post.put("userOrders/" + saloonUID + "/" + orderId + "/" + "orderStatus", orderStatus);
 
 
 
@@ -424,24 +455,25 @@ public class FireBaseHandler {
             @Override
             public void onFailure(@NonNull Exception e) {
 
-                onOrderStatusUpdate.onOrderStatusUpdate(0 , false);
+                onOrderStatusUpdate.onOrderStatusUpdate(0, false);
 
             }
         });
     }
 
-    public void updateOrderstatus(String saloonUID, String orderId, final int orderStatus,int saloonPoint , final OnOrderStatusUpdateListener onOrderStatusUpdate) {
+    public void updateOrderstatus( Order order, final int orderStatus, int saloonPoint, final OnOrderStatusUpdateListener onOrderStatusUpdate) {
 
         DatabaseReference ref = mDatabase.getReference();
 
 
 // Create the data we want to update
         Map post = new HashMap();
-        post.put("Orders/" + saloonUID + "/" + orderId + "/" + "orderStatus", orderStatus);
-        post.put("saloon/" + saloonUID+"/"+"saloonPoint", saloonPoint+1);
+        post.put("Orders/" + order.getSaloonID() + "/" + order.getOrderID() + "/" + "orderStatus", orderStatus);
+        post.put("userOrders/" + order.getUserID() + "/" + order.getOrderID() + "/" + "orderStatus", orderStatus);
 
-
-
+        if (orderStatus == 3 && saloonPoint >=10) {
+            post.put("saloon/" + order.getSaloonID() + "/" + "saloonPoint", saloonPoint + 3);
+        }
 
 // Do a deep-path update
         ref.updateChildren(post).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -453,14 +485,14 @@ public class FireBaseHandler {
             @Override
             public void onFailure(@NonNull Exception e) {
 
-                onOrderStatusUpdate.onOrderStatusUpdate(0 , false);
+                onOrderStatusUpdate.onOrderStatusUpdate(0, false);
 
             }
         });
     }
 
 
-    public void downloadServiceList(String saloonUID , int limitTo  , final OnServiceListener onServiceListener){
+    public void downloadServiceList(String saloonUID, int limitTo, final OnServiceListener onServiceListener) {
 
         DatabaseReference myRef = mDatabase.getReference().child("services/");
 
@@ -474,28 +506,43 @@ public class FireBaseHandler {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
 
                     Service service = snapshot.getValue(Service.class);
-                    if(service != null) {
+                    if (service != null) {
                         service.setServiceUID(snapshot.getKey());
                     }
                     serviceArrayList.add(service);
                 }
 
 
-                onServiceListener.onServiceList(serviceArrayList,true);
+                onServiceListener.onServiceList(serviceArrayList, true);
 
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-                onServiceListener.onServiceList(null,false);
+                onServiceListener.onServiceList(null, false);
 
             }
         });
 
     }
 
+    public void uploadPendingSaloonRequest(PendingSaloonRequest pendingSaloonRequest , final OnPendingSaloonRequest onPendingSaloonRequest) {
 
+        mDatabase.getReference().child("pendingApproval/"+pendingSaloonRequest.getSaloonUID()).setValue(pendingSaloonRequest).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
 
+                onPendingSaloonRequest.onSaloonRequest(true);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                onPendingSaloonRequest.onSaloonRequest(false);
+            }
+        });
+
+    }
 
 
     public interface OnSaloonInfoCheckListner {
@@ -525,7 +572,7 @@ public class FireBaseHandler {
     public interface OnServiceListener {
         public void onSeviceUpload(boolean isSuccesful);
 
-        public void onServiceList(ArrayList<Service> serviceArrayList , boolean isSuccesful);
+        public void onServiceList(ArrayList<Service> serviceArrayList, boolean isSuccesful);
     }
 
     public interface OnOrderListener {
@@ -542,12 +589,13 @@ public class FireBaseHandler {
 
     }
 
-    public interface OnServiceDownLoadListner{
+    public interface OnServiceDownLoadListner {
         public void onServiceDownload(Service service);
     }
 
-
-
+    public interface OnPendingSaloonRequest{
+        public void onSaloonRequest(boolean isSuccessful);
+    }
 
 
 }

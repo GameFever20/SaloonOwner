@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TabLayout;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 
@@ -55,19 +57,26 @@ public class FullDetailActivity extends AppCompatActivity {
     static Order ORDER;
     static Service SERVICE;
 
+    String saloonUID, orderID;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_full_detail);
 
 
-        Intent intent = getIntent();
-        Bundle bundle = intent.getExtras();
+
         //SaloonID = bundle.getString("SaloonID");
 
         //ORDER = bundle.getParcelable("orderParcel");
 
         ORDER = MainActivity.ORDER;
+
+        if (ORDER == null) {
+            saloonUID = getIntent().getStringExtra("SaloonUID");
+            orderID = getIntent().getStringExtra("OrderID");
+
+        }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -84,14 +93,19 @@ public class FullDetailActivity extends AppCompatActivity {
         });
 
 
-        new FireBaseHandler().downloadService(ORDER.getSaloonID(), ORDER.getServiceID(), new FireBaseHandler.OnServiceDownLoadListner() {
-            @Override
-            public void onServiceDownload(Service service) {
-                SERVICE = service;
+        if (ORDER != null) {
+            initializeActivity();
+        } else {
 
-                initializeActivity();
-            }
-        });
+            new FireBaseHandler().downloadOrder(saloonUID, orderID, new FireBaseHandler.OnOrderDownloadListner() {
+                @Override
+                public void onOrder(Order order) {
+                    ORDER = order;
+                    initializeActivity();
+                }
+            });
+
+        }
 
 
         imageView = (ImageView) findViewById(R.id.full_detail_showcase_imageview);
@@ -122,6 +136,19 @@ public class FullDetailActivity extends AppCompatActivity {
 
 
     @Override
+    public void onBackPressed() {
+        if (saloonUID == null){
+            super.onBackPressed();
+
+        }else {
+            Intent intent =new Intent(FullDetailActivity.this ,MainActivity.class);
+            intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
+            finish();
+        }
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_full_detail, menu);
@@ -146,7 +173,7 @@ public class FullDetailActivity extends AppCompatActivity {
     public void acceptOrderClick(View view) {
         if (ORDER.getOrderStatus() == 1) {
             FireBaseHandler fireBaseHandler = new FireBaseHandler();
-            fireBaseHandler.updateOrderstatus(ORDER.getSaloonID(), ORDER.getOrderID(), 2, new FireBaseHandler.OnOrderStatusUpdateListener() {
+            fireBaseHandler.updateOrderstatus(ORDER, 2, 5, new FireBaseHandler.OnOrderStatusUpdateListener() {
                 @Override
                 public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
                     if (isSuccesful) {
@@ -155,7 +182,7 @@ public class FullDetailActivity extends AppCompatActivity {
                     }
                 }
             });
-        }else{
+        } else {
             Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
 
         }
@@ -164,7 +191,7 @@ public class FullDetailActivity extends AppCompatActivity {
     public void cancelOrderClick(View view) {
         if (ORDER.getOrderStatus() == 1) {
             FireBaseHandler fireBaseHandler = new FireBaseHandler();
-            fireBaseHandler.updateOrderstatus(ORDER.getSaloonID(), ORDER.getOrderID(), -1, new FireBaseHandler.OnOrderStatusUpdateListener() {
+            fireBaseHandler.updateOrderstatus(ORDER,-1 ,5, new FireBaseHandler.OnOrderStatusUpdateListener() {
                 @Override
                 public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
                     if (isSuccesful) {
@@ -173,7 +200,7 @@ public class FullDetailActivity extends AppCompatActivity {
                     }
                 }
             });
-        }else{
+        } else {
             Toast.makeText(this, "Something went wrong", Toast.LENGTH_SHORT).show();
         }
     }
@@ -181,7 +208,7 @@ public class FullDetailActivity extends AppCompatActivity {
     public void completeOrderClick(View view) {
         if (ORDER.getOrderStatus() == 2) {
             FireBaseHandler fireBaseHandler = new FireBaseHandler();
-            fireBaseHandler.updateOrderstatus(ORDER.getSaloonID(), ORDER.getOrderID(), 3, new FireBaseHandler.OnOrderStatusUpdateListener() {
+            fireBaseHandler.updateOrderstatus(ORDER, 3, MainActivity.SALOON.getSaloonPoint(), new FireBaseHandler.OnOrderStatusUpdateListener() {
                 @Override
                 public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
                     if (isSuccesful) {
