@@ -18,7 +18,7 @@
             android:layout_width="4dp"
             android:id="@+id/orderAdapter_colorCard_cardView"
             android:layout_height="match_parent"
-            card_view:cardBackgroundColor="@color/yellow1"
+            card_view:cardBackgroundColor="@color/dark_yellow"
             card_view:cardCornerRadius="0dp"
             card_view:cardElevation="0dp">
 
@@ -94,7 +94,7 @@
                     android:textAlignment="viewEnd"
                     android:layout_gravity="end|right"
                     android:text="Order Status"
-                    android:textColor="@color/yellow1" />
+                    android:textColor="@color/dark_yellow" />
 
 
             </LinearLayout>

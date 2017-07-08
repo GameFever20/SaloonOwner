@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity
     boolean isRegistered = false;
     public static Saloon SALOON = null;
 
-    public static Order ORDER =null;
+    public static Order ORDER = null;
 
 
     ArrayList<Order> orderArrayList = new ArrayList<>();
@@ -97,10 +97,7 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
 
-
-
-
-        swipeRefreshLayout =(SwipeRefreshLayout)findViewById(R.id.mainActivity_refresh_swipeRefresh);
+        swipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.mainActivity_refresh_swipeRefresh);
         swipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -108,7 +105,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        mBackgroundImageview=(ImageView)findViewById(R.id.main_background_imageview);
+        mBackgroundImageview = (ImageView) findViewById(R.id.main_background_imageview);
 
         orderAdapter = new OrderAdapter(orderArrayList, this);
 
@@ -126,9 +123,9 @@ public class MainActivity extends AppCompatActivity
                 if (saloon != null) {
                     saloonCheck(saloon);
                     //saloon.setSaloonUID(LoginActivity.saloonUID);
-                    Toast.makeText(MainActivity.this, "Welcome "+saloon.getSaloonName(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(MainActivity.this, "Welcome " + saloon.getSaloonName(), Toast.LENGTH_SHORT).show();
                     /*for push notification*/
-                    FirebaseMessaging.getInstance().subscribeToTopic("saloon_"+saloon.getSaloonUID());
+                    FirebaseMessaging.getInstance().subscribeToTopic("saloon_" + saloon.getSaloonUID());
 
                 } else {
                     showExitDialogue();
@@ -148,14 +145,12 @@ public class MainActivity extends AppCompatActivity
         //check values of saloon obj and redirect to desiered screen
 
 
+        if (saloon.getSaloonPoint() < 0 && saloon.getSaloonPoint() > -100) {
 
-
-        if (saloon.getSaloonPoint()<0 && saloon.getSaloonPoint() >-100) {
-
-            if (saloon.getSaloonPhoneNumber() == null){
+            if (saloon.getSaloonPhoneNumber() == null) {
                 openPhoneNumberActivity();
                 return;
-            }else if(saloon.getSaloonPhoneNumber().isEmpty()){
+            } else if (saloon.getSaloonPhoneNumber().isEmpty()) {
                 openPhoneNumberActivity();
                 return;
             }
@@ -166,10 +161,10 @@ public class MainActivity extends AppCompatActivity
             }
 
             if (!saloon.checkSaloonImageUpdated()) {
-                if(!saloon.isSaloonHirePhotographer()) {
+                if (!saloon.isSaloonHirePhotographer()) {
                     openSaloonImageActivity();
                     return;
-                }else{
+                } else {
                     Toast.makeText(this, "We will be visiting you soon for Photographs", Toast.LENGTH_SHORT).show();
                 }
             }
@@ -178,15 +173,15 @@ public class MainActivity extends AppCompatActivity
                 openSaloonServiceActivity();
                 return;
             }
-        }else if (saloon.getSaloonPoint() >0){
+        } else if (saloon.getSaloonPoint() > 0) {
             saloonOrderFetch();
-        }else if(saloon.getSaloonPoint()==0){
+        } else if (saloon.getSaloonPoint() == 0) {
             showSomethingWrongDialogue();
-        } else if(saloon.getSaloonPoint()== -100){
+        } else if (saloon.getSaloonPoint() == -100) {
 
             mBackgroundImageview.setImageResource(R.drawable.pendingsaloon_bgdesign);
             Toast.makeText(this, "Pending for approval", Toast.LENGTH_SHORT).show();
-        }else{
+        } else {
             showExitDialogue();
         }
 
@@ -217,9 +212,9 @@ public class MainActivity extends AppCompatActivity
                 //Reverse arraylist
                 Collections.reverse(orderArrayList);
 
-                if(orderArrayList.size()==0){
+                if (orderArrayList.size() == 0) {
                     mBackgroundImageview.setImageResource(R.drawable.no_order_design);
-                }else{
+                } else {
 
                 }
 
@@ -228,7 +223,7 @@ public class MainActivity extends AppCompatActivity
                 orderAdapter = new OrderAdapter(MainActivity.this.orderArrayList, MainActivity.this);
                 initializeRecyclerView();
 
-                Toast.makeText(MainActivity.this, "Total "+orderArrayList.size()+" orders", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Total " + orderArrayList.size() + " orders", Toast.LENGTH_SHORT).show();
                 swipeRefreshLayout.setRefreshing(false);
 
             }
@@ -279,7 +274,7 @@ public class MainActivity extends AppCompatActivity
                 Bundle bundle = new Bundle();
 
                 //bundle.putParcelable("orderParcel", order);
-                ORDER =order;
+                ORDER = order;
 
                 Intent intent = new Intent(MainActivity.this, FullDetailActivity.class);
                 intent.putExtras(bundle);
@@ -470,7 +465,7 @@ public class MainActivity extends AppCompatActivity
                 orderAdapter = new OrderAdapter(MainActivity.this.orderArrayList, MainActivity.this);
                 initializeRecyclerView();
 
-                Toast.makeText(MainActivity.this, "Total "+orderArrayList.size()+"order", Toast.LENGTH_SHORT).show();
+                Toast.makeText(MainActivity.this, "Total " + orderArrayList.size() + "order", Toast.LENGTH_SHORT).show();
 
             }
         });
@@ -499,7 +494,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, ServiceListActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_send) {
-            Intent intent = new Intent(MainActivity.this, PhoneNumerActivity.class);
+            Intent intent = new Intent(MainActivity.this, SearchCustomerPhoneNo.class);
             startActivity(intent);
         }
 
