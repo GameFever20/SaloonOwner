@@ -441,6 +441,7 @@ public class FireBaseHandler {
 // Create the data we want to update
         Map post = new HashMap();
         post.put("Orders/" + saloonUID + "/" + orderId + "/" + "orderStatus", orderStatus);
+        post.put("userOrders/" + saloonUID + "/" + orderId + "/" + "orderStatus", orderStatus);
 
 
 
@@ -460,16 +461,19 @@ public class FireBaseHandler {
         });
     }
 
-    public void updateOrderstatus(String saloonUID, String orderId, final int orderStatus, int saloonPoint, final OnOrderStatusUpdateListener onOrderStatusUpdate) {
+    public void updateOrderstatus( Order order, final int orderStatus, int saloonPoint, final OnOrderStatusUpdateListener onOrderStatusUpdate) {
 
         DatabaseReference ref = mDatabase.getReference();
 
 
 // Create the data we want to update
         Map post = new HashMap();
-        post.put("Orders/" + saloonUID + "/" + orderId + "/" + "orderStatus", orderStatus);
-        post.put("saloon/" + saloonUID + "/" + "saloonPoint", saloonPoint + 1);
+        post.put("Orders/" + order.getSaloonID() + "/" + order.getOrderID() + "/" + "orderStatus", orderStatus);
+        post.put("userOrders/" + order.getUserID() + "/" + order.getOrderID() + "/" + "orderStatus", orderStatus);
 
+        if (orderStatus == 3 && saloonPoint >=10) {
+            post.put("saloon/" + order.getSaloonID() + "/" + "saloonPoint", saloonPoint + 3);
+        }
 
 // Do a deep-path update
         ref.updateChildren(post).addOnCompleteListener(new OnCompleteListener<Void>() {

@@ -173,7 +173,7 @@ public class FullDetailActivity extends AppCompatActivity {
     public void acceptOrderClick(View view) {
         if (ORDER.getOrderStatus() == 1) {
             FireBaseHandler fireBaseHandler = new FireBaseHandler();
-            fireBaseHandler.updateOrderstatus(ORDER.getSaloonID(), ORDER.getOrderID(), 2, new FireBaseHandler.OnOrderStatusUpdateListener() {
+            fireBaseHandler.updateOrderstatus(ORDER, 2, 5, new FireBaseHandler.OnOrderStatusUpdateListener() {
                 @Override
                 public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
                     if (isSuccesful) {
@@ -191,7 +191,7 @@ public class FullDetailActivity extends AppCompatActivity {
     public void cancelOrderClick(View view) {
         if (ORDER.getOrderStatus() == 1) {
             FireBaseHandler fireBaseHandler = new FireBaseHandler();
-            fireBaseHandler.updateOrderstatus(ORDER.getSaloonID(), ORDER.getOrderID(), -1, new FireBaseHandler.OnOrderStatusUpdateListener() {
+            fireBaseHandler.updateOrderstatus(ORDER,-1 ,5, new FireBaseHandler.OnOrderStatusUpdateListener() {
                 @Override
                 public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
                     if (isSuccesful) {
@@ -208,7 +208,7 @@ public class FullDetailActivity extends AppCompatActivity {
     public void completeOrderClick(View view) {
         if (ORDER.getOrderStatus() == 2) {
             FireBaseHandler fireBaseHandler = new FireBaseHandler();
-            fireBaseHandler.updateOrderstatus(ORDER.getSaloonID(), ORDER.getOrderID(), 3, new FireBaseHandler.OnOrderStatusUpdateListener() {
+            fireBaseHandler.updateOrderstatus(ORDER, 3, MainActivity.SALOON.getSaloonPoint(), new FireBaseHandler.OnOrderStatusUpdateListener() {
                 @Override
                 public void onOrderStatusUpdate(int newStatus, boolean isSuccesful) {
                     if (isSuccesful) {
