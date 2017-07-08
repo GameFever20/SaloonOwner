@@ -6,11 +6,13 @@ import android.os.Parcelable;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
  * Created by bunny on 12/06/17.
  */
+
 
 public class Order implements Serializable ,Parcelable{
 
@@ -23,9 +25,10 @@ public class Order implements Serializable ,Parcelable{
     private long orderTime = 0 ;
     private int orderPrice =0 ;
     private String orderServiceName ="" ;
-    Map<String,String> orederServiceIDList;
-    int orderTotalServiceCount;
+    private Map<String,String> orderServiceIDList =new HashMap<String, String>();
+    private int orderTotalServiceCount;
 
+    private long orderBookingTime ;
 
 
 
@@ -105,12 +108,12 @@ public class Order implements Serializable ,Parcelable{
         this.orderServiceName = orderServiceName;
     }
 
-    public Map<String, String> getOrederServiceIDList() {
-        return orederServiceIDList;
+    public Map<String, String> getOrderServiceIDList() {
+        return orderServiceIDList;
     }
 
-    public void setOrederServiceIDList(Map<String, String> orederServiceIDList) {
-        this.orederServiceIDList = orederServiceIDList;
+    public void setOrderServiceIDList(Map<String, String> orderServiceIDList) {
+        this.orderServiceIDList = orderServiceIDList;
     }
 
     public int getOrderTotalServiceCount() {
@@ -119,6 +122,14 @@ public class Order implements Serializable ,Parcelable{
 
     public void setOrderTotalServiceCount(int orderTotalServiceCount) {
         this.orderTotalServiceCount = orderTotalServiceCount;
+    }
+
+    public long getOrderBookingTime() {
+        return orderBookingTime;
+    }
+
+    public void setOrderBookingTime(long orderBookingTime) {
+        this.orderBookingTime = orderBookingTime;
     }
 
     public String resolveOrderStatus() {
@@ -136,12 +147,26 @@ public class Order implements Serializable ,Parcelable{
     }
 
     public String resolveOrderDate() {
-         String dateFormat = "dd/MM/yyyy  hh:mm";
+        String dateFormat = "dd/MM/yyyy  hh:mm";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
 
         Date date = new Date();
         date.setTime(orderTime);
         return simpleDateFormat.format(date);
+
+    }
+
+    public String resolveOrderServiceList(){
+
+        String serviceList ="";
+
+        for (String string : getOrderServiceIDList().values()){
+            serviceList =serviceList+"* "+string+"\n";
+
+        }
+
+        return serviceList;
+
 
     }
 

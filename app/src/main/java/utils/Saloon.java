@@ -14,6 +14,7 @@ public class Saloon {
     private String saloonPhoneNumber ;//input
     private String saloonAddress;//input
     private String saloonLocation ;//input in background
+    private String saloonEmailID;
     private int saloonPoint ;
     private int saloonRating ;
     //images
@@ -159,6 +160,14 @@ public class Saloon {
 
     public boolean isSaloonHirePhotographer() {
         return saloonHirePhotographer;
+    }
+
+    public String getSaloonEmailID() {
+        return saloonEmailID;
+    }
+
+    public void setSaloonEmailID(String saloonEmailID) {
+        this.saloonEmailID = saloonEmailID;
     }
 
     public void setSaloonHirePhotographer(boolean saloonHirePhotographer) {

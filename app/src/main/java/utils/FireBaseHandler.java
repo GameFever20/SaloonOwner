@@ -443,6 +443,7 @@ public class FireBaseHandler {
         post.put("Orders/" + saloonUID + "/" + orderId + "/" + "orderStatus", orderStatus);
 
 
+
 // Do a deep-path update
         ref.updateChildren(post).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override

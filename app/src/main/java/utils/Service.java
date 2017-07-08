@@ -9,7 +9,7 @@ import java.io.Serializable;
  * Created by bunny on 12/06/17.
  */
 
-public class Service implements Serializable,Parcelable {
+public class Service implements Serializable ,Parcelable {
 
     String saloonName ;
     String serviceUID ;
