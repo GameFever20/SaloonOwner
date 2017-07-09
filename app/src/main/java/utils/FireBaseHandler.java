@@ -544,6 +544,33 @@ public class FireBaseHandler {
 
     }
 
+    public void downloadUser(String userUID, final OnUserlistener onUserlistener) {
+
+
+        DatabaseReference mDatabaseRef = mDatabase.getReference().child("user/" + userUID);
+
+
+        mDatabaseRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                User user = dataSnapshot.getValue(User.class);
+
+                onUserlistener.onUserDownLoad(user, true);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                onUserlistener.onUserUpload(false);
+
+
+            }
+        });
+
+
+    }
+
 
     public interface OnSaloonInfoCheckListner {
 
@@ -551,6 +578,14 @@ public class FireBaseHandler {
 
         public void onIsSaloonUpdated();
 
+    }
+
+    public interface OnUserlistener {
+
+
+        public void onUserDownLoad(User user, boolean isSuccessful);
+
+        public void onUserUpload(boolean isSuccessful);
     }
 
     public interface OnSaloonDownload {

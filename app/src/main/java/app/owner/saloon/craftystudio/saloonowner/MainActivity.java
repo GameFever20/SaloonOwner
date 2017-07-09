@@ -435,7 +435,6 @@ public class MainActivity extends AppCompatActivity
                             calendar.set(year, month, dayOfMonth,
                                     0, 0, 0);
 
-
                             saloonListByDate(calendar.getTimeInMillis());
 
                         }

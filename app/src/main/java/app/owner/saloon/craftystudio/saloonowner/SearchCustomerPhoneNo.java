@@ -1,6 +1,7 @@
 package app.owner.saloon.craftystudio.saloonowner;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -15,9 +16,11 @@ import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import utils.ClickListener;
 import utils.FireBaseHandler;
 import utils.Order;
 import utils.OrderAdapter;
+import utils.RecyclerTouchListener;
 
 public class SearchCustomerPhoneNo extends AppCompatActivity {
 
@@ -55,7 +58,7 @@ public class SearchCustomerPhoneNo extends AppCompatActivity {
 
         mSearchPhoneNoEditText = (EditText) findViewById(R.id.search_phone_no_edittext);
 
-
+initializeRecyclerView();
     }
 
     public void searchOrdersByPhoneNo(View view) {
@@ -73,20 +76,44 @@ public class SearchCustomerPhoneNo extends AppCompatActivity {
     }
 
     private void downloadOrdersByPhoneSearch() {
-        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
-        recyclerView.setLayoutManager(mLayoutManager);
-        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        //recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
 
         fireBaseHandler.downloadOrderList(LoginActivity.saloonUID, mPhoneNumber, 20, new FireBaseHandler.OnOrderListener() {
             @Override
             public void onOrderList(ArrayList<Order> orderArrayList) {
-                orderAdapter = new OrderAdapter(orderArrayList, SearchCustomerPhoneNo.this);
+                SearchCustomerPhoneNo.this.orderArrayList =orderArrayList ;
+
+                orderAdapter = new OrderAdapter(SearchCustomerPhoneNo.this.orderArrayList, SearchCustomerPhoneNo.this);
                 recyclerView.setAdapter(orderAdapter);
 
                 closeProgressDialog();
             }
         });
+
+    }
+
+    public void initializeRecyclerView(){
+        RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        //recyclerView.addItemDecoration(new DividerItemDecoration(this, LinearLayoutManager.VERTICAL));
+
+        recyclerView.addOnItemTouchListener(new RecyclerTouchListener(this, recyclerView, new ClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+
+
+                Intent intent =new Intent(SearchCustomerPhoneNo.this ,FullDetailActivity.class);
+
+                MainActivity.ORDER =orderArrayList.get(position);
+
+                startActivity(intent);
+            }
+
+            @Override
+            public void onLongClick(View view, int position) {
+
+            }
+        }));
 
     }
 
