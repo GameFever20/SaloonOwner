@@ -141,7 +141,7 @@ public class FullDetailActivity extends AppCompatActivity {
             super.onBackPressed();
 
         }else {
-            Intent intent =new Intent(FullDetailActivity.this ,MainActivity.class);
+            Intent intent =new Intent(FullDetailActivity.this ,LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             finish();
