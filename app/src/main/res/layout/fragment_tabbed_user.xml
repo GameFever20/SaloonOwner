@@ -24,7 +24,7 @@
             android:fontFamily="sans-serif"
             android:text=" No User Detail yet!"
             android:textSize="20dp"
-            android:textStyle="italic"
+            android:textStyle="normal"
             android:typeface="sans" />
 
 
@@ -36,7 +36,7 @@
             android:fontFamily="sans-serif"
             android:text="+91**********"
             android:textSize="20dp"
-            android:textStyle="italic"
+            android:textStyle="normal"
             android:typeface="sans" />
 
         <TextView
@@ -47,7 +47,7 @@
             android:fontFamily="sans-serif"
             android:text="Male"
             android:textSize="20dp"
-            android:textStyle="italic"
+            android:textStyle="normal"
             android:typeface="sans" />
 
 
@@ -59,7 +59,7 @@
             android:fontFamily="sans-serif"
             android:text="18"
             android:textSize="20dp"
-            android:textStyle="italic"
+            android:textStyle="normal"
             android:typeface="sans" />
 
 
