@@ -24,7 +24,7 @@
             android:fontFamily="sans-serif"
             android:text="Order Status :"
             android:textSize="18dp"
-            android:textStyle="italic"
+            android:textStyle="normal"
             android:typeface="sans" />
 
         <TextView
@@ -35,7 +35,7 @@
             android:fontFamily="sans-serif"
             android:text="Order Time :"
             android:textSize="18dp"
-            android:textStyle="italic"
+            android:textStyle="normal"
             android:typeface="sans" />
 
 

@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="6dp"
-        card_view:cardBackgroundColor="@color/whitish"
-        card_view:cardCornerRadius="2dp"
+        card_view:cardBackgroundColor="@color/white"
+        card_view:cardCornerRadius="0dp"
         card_view:cardElevation="3sp">
 
         <android.support.v7.widget.CardView
@@ -27,19 +27,19 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_margin="10dp"
+            android:layout_margin="6dp"
             android:orientation="vertical">
 
             <TextView
                 android:id="@+id/orderAdapterRow_serviceName_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="10dp"
+                android:layout_marginBottom="5dp"
                 android:text="Service Name"
                 android:textAlignment="center"
                 android:textColor="@color/black"
                 android:textSize="16sp"
-                android:textStyle="bold|italic" />
+                android:textStyle="bold" />
 
 
             <LinearLayout
@@ -52,22 +52,24 @@
                     android:id="@+id/orderAdapterRow_saloonName_textview"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginLeft="5dp"
                     android:text="Saloon Name"
-                    android:textColor="@color/lightblack"
-                    android:textSize="14sp"
-                    android:textStyle="italic" />
+                    android:textColor="@color/blackish"
+                    android:textSize="15sp"
+                    android:textStyle="normal" />
 
 
                 <TextView
                     android:id="@+id/orderAdapterRow_orderDate_textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="2dp"
+                    android:layout_marginRight="8dp"
                     android:layout_weight="1"
                     android:text="Order date"
                     android:textAlignment="viewEnd"
-                    android:textColor="@color/lightblack" />
+                    android:textColor="@color/blackish" />
 
 
             </LinearLayout>
@@ -75,7 +77,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
+                android:layout_marginTop="5dp"
                 android:orientation="horizontal">
 
                 <TextView
@@ -83,17 +85,20 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right|end"
-                    android:layout_marginLeft="0dp"
+                    android:layout_marginLeft="5dp"
                     android:text="Order Price"
+                    android:textStyle="bold"
                     android:textColor="@color/blackish" />
 
                 <TextView
                     android:id="@+id/orderAdapterRow_orderStatus_textview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginRight="8dp"
                     android:textAlignment="viewEnd"
                     android:layout_gravity="end|right"
                     android:text="Order Status"
+                    android:textStyle="bold"
                     android:textColor="@color/dark_yellow" />
 
 
