@@ -266,6 +266,33 @@ public class FireBaseHandler {
 
     }
 
+    public void uploadSaloonInfo(String saloonUID, String saloonKeyValue, boolean value,int saloonPoint, final OnSaloonDownload onSaloonDownload) {
+
+        Map post = new HashMap();
+        post.put("saloon/" + saloonUID + "/"+saloonKeyValue , value);
+        post.put("saloon/" + saloonUID + "/saloonPoint", saloonPoint);
+
+
+        DatabaseReference ref = mDatabase.getReference();
+        ref.updateChildren(post).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                onSaloonDownload.onSaloonValueUploaded(true);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                onSaloonDownload.onSaloonValueUploaded(false);
+
+            }
+        });
+
+
+
+
+    }
+
     public void uploadSaloon(String saloonUID, Saloon saloon, final OnSaloonDownload onSaloonDownload) {
 
         mDatabase.getReference().child("saloon/" + saloonUID).setValue(saloon).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -416,8 +443,20 @@ public class FireBaseHandler {
 
     public void uploadService(Service service, final OnServiceListener onServiceListener) {
 
+        DatabaseReference myref =mDatabase.getReference().child("services/");
 
-        mDatabase.getReference().child("services/").push().setValue(service).addOnCompleteListener(new OnCompleteListener<Void>() {
+        if (service.getServiceUID() == null){
+            service.setServiceUID(myref.push().getKey());
+        }else {
+
+            if (service.getServiceUID().isEmpty()) {
+                service.setServiceUID(myref.push().getKey());
+            }
+        }
+
+        myref =mDatabase.getReference().child("services/"+service.getServiceUID());
+
+        myref.setValue(service).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
 

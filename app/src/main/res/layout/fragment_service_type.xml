@@ -1,0 +1,19 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/whitish"
+    tools:context="app.owner.saloon.craftystudio.saloonowner.ServiceTypeActivity">
+
+
+    <ExpandableListView
+        android:id="@+id/serviceTypeFragment_ExpandableListView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:cacheColorHint="@color/colorAccent"
+        android:childIndicator="@color/transparent"
+        android:divider="@color/transparent"
+        android:textDirection="inherit" />
+
+
+</LinearLayout>

@@ -65,6 +65,11 @@
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
+        <activity
+            android:name=".ServiceTypeActivity"
+            android:label="@string/title_activity_service_type"
+            android:theme="@style/AppTheme.NoActionBar" />
+
         <service
             android:name="utils.FireBasePushNotificationService">
             <intent-filter>

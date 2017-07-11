@@ -46,7 +46,9 @@
     <color name="pink">#FFFF4081</color>
 
 
-
+    <color name="transparent">#01ffffff</color>
+    <color name="light_white">#f7f7f7</color>
+    <color name="light_black">#d4767676</color>
 
 
 </resources>

@@ -208,7 +208,7 @@ showProgressDialog("Verifying Otp","");
 
             if (!saloon.isSaloonServiceUpdated()) {
                 i = i + 10;
-                intent = new Intent(PhoneNumerActivity.this, AddSaloonServiceActivity.class);
+                intent = new Intent(PhoneNumerActivity.this, ServiceTypeActivity.class);
             }
 
             if (!saloon.checkSaloonImageUpdated()) {

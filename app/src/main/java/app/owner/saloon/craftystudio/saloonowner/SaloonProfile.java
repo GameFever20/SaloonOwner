@@ -30,6 +30,7 @@ import com.akhgupta.easylocation.EasyLocationRequestBuilder;
 import com.google.android.gms.location.LocationRequest;
 
 import utils.FireBaseHandler;
+import utils.PendingSaloonRequest;
 import utils.Saloon;
 
 public class SaloonProfile extends EasyLocationActivity {
@@ -177,7 +178,7 @@ public class SaloonProfile extends EasyLocationActivity {
 
             if(!saloon.isSaloonServiceUpdated()){
                 i=i+10;
-                intent = new Intent(SaloonProfile.this , AddSaloonServiceActivity.class);
+                intent = new Intent(SaloonProfile.this , ServiceTypeActivity.class);
             }
             if(!saloon.checkSaloonImageUpdated()){
                 i=i+10;
@@ -197,6 +198,18 @@ public class SaloonProfile extends EasyLocationActivity {
             if(i==-100){
                 //show pending approval screen
                 saloon.setSaloonPoint(i);
+
+
+                    PendingSaloonRequest pendingSaloonRequest =new PendingSaloonRequest(saloon.getSaloonName() , saloon.getSaloonUID() , saloon.getSaloonAddress() ,true);
+                    new FireBaseHandler().uploadPendingSaloonRequest(pendingSaloonRequest, new FireBaseHandler.OnPendingSaloonRequest() {
+                        @Override
+                        public void onSaloonRequest(boolean isSuccessful) {
+                            if (isSuccessful){
+
+                            }
+                        }
+                    });
+
             }else if(i<0){
                 saloon.setSaloonPoint(i);
             }

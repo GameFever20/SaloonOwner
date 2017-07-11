@@ -42,6 +42,7 @@ import java.util.List;
 import pub.devrel.easypermissions.AfterPermissionGranted;
 import pub.devrel.easypermissions.EasyPermissions;
 import utils.FireBaseHandler;
+import utils.PendingSaloonRequest;
 import utils.Saloon;
 
 public class SaloonImageActivity extends AppCompatActivity implements EasyPermissions.PermissionCallbacks{
@@ -460,7 +461,7 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
             }
             if(!saloon.isSaloonServiceUpdated()){
                 i=i+10;
-                intent = new Intent(SaloonImageActivity.this , AddSaloonServiceActivity.class);
+                intent = new Intent(SaloonImageActivity.this , ServiceTypeActivity.class);
             }
             if (!saloon.isSaloonUpdated()){
                 i=i+10;
@@ -482,6 +483,17 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
             if(i==-100){
                 //show pending approval screen and initialize intent with pending approval screen
                 saloon.setSaloonPoint(i);
+                if (MainActivity.SALOON.getSaloonPoint() ==-100){
+                    PendingSaloonRequest pendingSaloonRequest =new PendingSaloonRequest(MainActivity.SALOON.getSaloonName() , MainActivity.SALOON.getSaloonUID() , MainActivity.SALOON.getSaloonAddress() ,true);
+                    new FireBaseHandler().uploadPendingSaloonRequest(pendingSaloonRequest, new FireBaseHandler.OnPendingSaloonRequest() {
+                        @Override
+                        public void onSaloonRequest(boolean isSuccessful) {
+                            if (isSuccessful){
+
+                            }
+                        }
+                    });
+                }
             }else if(i<0){
                 saloon.setSaloonPoint(i);
             }
@@ -511,6 +523,9 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
                 public void onSaloonValueUploaded(boolean isSucessful) {
 
                     Toast.makeText(SaloonImageActivity.this, "Uploaded images ", Toast.LENGTH_SHORT).show();
+
+
+
                     closeProgressDialog();
                     showExitDialogue();
                 }
@@ -680,7 +695,7 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
 
                 if (isSucessful){
 
-                    intent = new Intent(SaloonImageActivity.this ,AddSaloonServiceActivity.class);
+                    intent = new Intent(SaloonImageActivity.this ,ServiceTypeActivity.class);
                     startActivity(intent);
                     finish();
                 }

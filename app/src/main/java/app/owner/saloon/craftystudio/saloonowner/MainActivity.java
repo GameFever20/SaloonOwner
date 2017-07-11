@@ -490,7 +490,7 @@ public class MainActivity extends AppCompatActivity
 
         } else if (id == R.id.nav_share) {
 
-            Intent intent = new Intent(MainActivity.this, ServiceListActivity.class);
+            Intent intent = new Intent(MainActivity.this, ServiceTypeActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_send) {
             Intent intent = new Intent(MainActivity.this, SearchCustomerPhoneNo.class);
