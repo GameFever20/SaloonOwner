@@ -96,6 +96,8 @@ public class FullDetailActivity extends AppCompatActivity {
             initializeActivity();
         } else {
 
+            LoginActivity.authenticateUser();
+
             new FireBaseHandler().downloadOrder(saloonUID, orderID, new FireBaseHandler.OnOrderDownloadListner() {
                 @Override
                 public void onOrder(Order order) {

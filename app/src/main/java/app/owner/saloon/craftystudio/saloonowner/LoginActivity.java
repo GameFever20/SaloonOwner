@@ -22,6 +22,8 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import utils.User;
+
 public class LoginActivity extends AppCompatActivity {
 
     EditText mEmailEditText, mPasswordEditText;
@@ -78,6 +80,16 @@ public class LoginActivity extends AppCompatActivity {
         //progress dialog
         progressDialog = new ProgressDialog(this);
 
+
+    }
+
+    public static void  authenticateUser(){
+
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(currentUser != null) {
+            saloonUID=currentUser.getUid();
+        }
 
     }
 
