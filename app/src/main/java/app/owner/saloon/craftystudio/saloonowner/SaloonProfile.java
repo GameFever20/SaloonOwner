@@ -29,13 +29,15 @@ import com.akhgupta.easylocation.EasyLocationRequest;
 import com.akhgupta.easylocation.EasyLocationRequestBuilder;
 import com.google.android.gms.location.LocationRequest;
 
+import java.util.ArrayList;
+
 import utils.FireBaseHandler;
 import utils.PendingSaloonRequest;
 import utils.Saloon;
 
 public class SaloonProfile extends EasyLocationActivity {
 
-    EditText saloonNameEditText, saloonAddressEditText, saloonLocationEditText, saloonPhoneNumberEditText;
+    EditText saloonNameEditText, saloonAddressEditText, saloonLocationEditText, saloonPhoneNumberEditText, saloonYearofEstablishment;
     String saloonName, saloonAddress, saloonLocation, saloonPhoneNumber;
 
     TextView saloonNameTextView;
@@ -84,7 +86,7 @@ public class SaloonProfile extends EasyLocationActivity {
             // saloonLocationEditText = (EditText) findViewById(R.id.saloonprofile_saloonLocation_editText);
             saloonPhoneNumberEditText = (EditText) findViewById(R.id.saloonprofile_saloonPhoneNumber_editText);
             saloonNameTextView = (TextView) findViewById(R.id.saloonprofile_saloonName_textView);
-
+            saloonYearofEstablishment = (EditText) findViewById(R.id.saloonprofile_saloonYearOfEstablishment_editText);
 
             if (saloon.getSaloonPoint() != 0) {
                 try {
@@ -148,7 +150,7 @@ public class SaloonProfile extends EasyLocationActivity {
     public void onSaveButtonClick(View view) {
 
 
-        if(saloon.getSaloonPoint() == 0){
+        if (saloon.getSaloonPoint() == 0) {
             Toast.makeText(this, "Not a registered saloon", Toast.LENGTH_SHORT).show();
 
             return;
@@ -159,74 +161,71 @@ public class SaloonProfile extends EasyLocationActivity {
             //saloon.setSaloonName(saloonNameEditText.getText().toString().trim());
             saloon.setSaloonAddress(saloonAddressEditText.getText().toString().trim());
             saloon.setSaloonPhoneNumber(saloonPhoneNumberEditText.getText().toString().trim());
+            saloon.setSaloonYearOfEstablishment(saloonYearofEstablishment.getText().toString().trim());
             //saloon.setSaloonLocation(saloonLocationEditText.getText().toString().trim());
         } else {
             return;
         }
 
 
+        if (saloon.getSaloonPoint() < -1 && saloon.getSaloonPoint() > -100) {
+            intent = new Intent(SaloonProfile.this, MainActivity.class);
 
-
-
-        if (saloon.getSaloonPoint() < -1 && saloon.getSaloonPoint()> -100){
-            intent = new Intent(SaloonProfile.this , MainActivity.class);
-
-            int i=-100;
-            if (!saloon.isSaloonUpdated()){
-                i=i+10;
+            int i = -100;
+            if (!saloon.isSaloonUpdated()) {
+                i = i + 10;
             }
 
-            if(!saloon.isSaloonServiceUpdated()){
-                i=i+10;
-                intent = new Intent(SaloonProfile.this , ServiceTypeActivity.class);
+            if (!saloon.isSaloonServiceUpdated()) {
+                i = i + 10;
+                intent = new Intent(SaloonProfile.this, ServiceTypeActivity.class);
             }
-            if(!saloon.checkSaloonImageUpdated()){
-                i=i+10;
-                intent = new Intent(SaloonProfile.this , SaloonImageActivity.class);
+            if (!saloon.checkSaloonImageUpdated()) {
+                i = i + 10;
+                intent = new Intent(SaloonProfile.this, SaloonImageActivity.class);
             }
 
-            if (saloon.getSaloonPhoneNumber() == null ){
-                i=i+10;
-                intent = new Intent(SaloonProfile.this , PhoneNumerActivity.class);
-            }else{
-                if (saloon.getSaloonPhoneNumber().isEmpty()){
-                    i=i+10;
-                    intent = new Intent(SaloonProfile.this , PhoneNumerActivity.class);
+            if (saloon.getSaloonPhoneNumber() == null) {
+                i = i + 10;
+                intent = new Intent(SaloonProfile.this, PhoneNumerActivity.class);
+            } else {
+                if (saloon.getSaloonPhoneNumber().isEmpty()) {
+                    i = i + 10;
+                    intent = new Intent(SaloonProfile.this, PhoneNumerActivity.class);
                 }
             }
 
-            if(i==-100){
+            if (i == -100) {
                 //show pending approval screen
                 saloon.setSaloonPoint(i);
 
 
-                    PendingSaloonRequest pendingSaloonRequest =new PendingSaloonRequest(saloon.getSaloonName() , saloon.getSaloonUID() , saloon.getSaloonAddress() ,true);
-                    new FireBaseHandler().uploadPendingSaloonRequest(pendingSaloonRequest, new FireBaseHandler.OnPendingSaloonRequest() {
-                        @Override
-                        public void onSaloonRequest(boolean isSuccessful) {
-                            if (isSuccessful){
+                PendingSaloonRequest pendingSaloonRequest = new PendingSaloonRequest(saloon.getSaloonName(), saloon.getSaloonUID(), saloon.getSaloonAddress(), true);
+                new FireBaseHandler().uploadPendingSaloonRequest(pendingSaloonRequest, new FireBaseHandler.OnPendingSaloonRequest() {
+                    @Override
+                    public void onSaloonRequest(boolean isSuccessful) {
+                        if (isSuccessful) {
 
-                            }
                         }
-                    });
+                    }
+                });
 
-            }else if(i<0){
+            } else if (i < 0) {
                 saloon.setSaloonPoint(i);
             }
 
-        }else{
-            intent=null;
+        } else {
+            intent = null;
         }
 
-        if (saloon.getSaloonPoint()==-1000){
+        if (saloon.getSaloonPoint() == -1000) {
             //blocked by admin
             Toast.makeText(this, "Blocked by admin", Toast.LENGTH_SHORT).show();
             return;
         }
 
 
-
-        if(saloon.isSaloonUpdated()) {
+        if (saloon.isSaloonUpdated()) {
 
             showProgressDialog("Updating Profile", "Please wait");
 
@@ -246,12 +245,10 @@ public class SaloonProfile extends EasyLocationActivity {
                 }
             });
 
-        }else{
+        } else {
             Toast.makeText(this, "Some details not filled ", Toast.LENGTH_SHORT).show();
             return;
         }
-
-
 
 
     }
@@ -367,7 +364,7 @@ public class SaloonProfile extends EasyLocationActivity {
 
         boolean valid = true;
         if (string.isEmpty()) {
-           // saloonAddressEditText.setError("Required");
+            // saloonAddressEditText.setError("Required");
             Toast.makeText(this, "Address required", Toast.LENGTH_SHORT).show();
             valid = false;
         } else {
@@ -377,7 +374,7 @@ public class SaloonProfile extends EasyLocationActivity {
         string = saloonPhoneNumberEditText.getText().toString().trim();
 
         if (string.isEmpty()) {
-           // saloonPhoneNumberEditText.setError("Required");
+            // saloonPhoneNumberEditText.setError("Required");
             Toast.makeText(this, "Phone Number required", Toast.LENGTH_SHORT).show();
 
             valid = false;
@@ -387,6 +384,54 @@ public class SaloonProfile extends EasyLocationActivity {
 
         return valid;
 
+
+    }
+
+    public void  selectModeOfPaymentDialog(){
+        final ArrayList<Integer> mSelectedItems = new ArrayList();  // Where we track the selected items
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        // Set the dialog title
+        builder.setTitle("Select payment modes")
+                // Specify the list array, the items to be selected by default (null for none),
+                // and the listener through which to receive callbacks when items are selected
+                .setMultiChoiceItems(R.array.paymentmodetype, null,
+                        new DialogInterface.OnMultiChoiceClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which,
+                                                boolean isChecked) {
+                                if (isChecked) {
+                                    // If the user checked the item, add it to the selected items
+                                    mSelectedItems.add(which);
+                                } else if (mSelectedItems.contains(which)) {
+                                    // Else, if the item is already in the array, remove it
+                                    mSelectedItems.remove(Integer.valueOf(which));
+                                }
+                            }
+                        })
+                // Set the action buttons
+                .setPositiveButton("ok", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int id) {
+                        // User clicked OK, so save the mSelectedItems results somewhere
+                        // or return them to the component that opened the dialog
+
+                        String[] paymentMode = getResources().getStringArray(R.array.paymentmodetype);
+
+                        String paymentModeString ="";
+                        for (int i =0 ;i <mSelectedItems.size() ; i++){
+                            paymentModeString =paymentModeString+ paymentMode[mSelectedItems.get(i)] +" / ";
+                        }
+
+                        saloon.setSaloonPaymentMode(paymentModeString);
+
+                        TextView paymentModeTextView =(TextView)findViewById(R.id.saloonProfile_saloonPaymentMode_textView);
+                        paymentModeTextView.setText(paymentModeString);
+
+                    }
+                });
+
+         builder.create();
+        builder.show();
 
     }
 
@@ -401,4 +446,7 @@ public class SaloonProfile extends EasyLocationActivity {
         progressDialog.dismiss();
     }
 
+    public void selectPaymentMode(View view) {
+        selectModeOfPaymentDialog();
+    }
 }

@@ -142,6 +142,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         saloon.setSaloonName(editText.getText().toString().trim());
         saloon.setSaloonUID(LoginActivity.saloonUID);
+        saloon.setSaloonEmailID(mEmailEditText.getText().toString().trim());
 
 
         FireBaseHandler fireBaseHandler = new FireBaseHandler();

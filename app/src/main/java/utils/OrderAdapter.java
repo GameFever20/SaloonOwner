@@ -61,11 +61,13 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
     @Override
     public void onBindViewHolder(OrderViewHolder holder, int position) {
         Order order = orderArrayList.get(position);
-        holder.saloonNameTextView.setText(order.getSaloonName());
+        if (order.getOrderStatus() >1) {
+            holder.saloonNameTextView.setText(order.getUserPhoneNumber());
+        }
         holder.orderDateTextView.setText(order.resolveOrderDate());
         holder.orderPriceTextView.setText(order.getOrderPrice() + "");
         holder.orderStatusTextView.setText(order.resolveOrderStatus());
-        holder.serviceNameTextView.setText(order.getOrderServiceName());
+        holder.serviceNameTextView.setText(order.getUserName());
 
         if (order.getOrderStatus() == 2) {
 

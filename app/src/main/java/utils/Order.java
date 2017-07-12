@@ -30,6 +30,9 @@ public class Order implements Serializable ,Parcelable{
 
     private long orderBookingTime ;
 
+    private String userPhoneNumber;
+    private String userName;
+
 
 
     public Order() {
@@ -132,6 +135,22 @@ public class Order implements Serializable ,Parcelable{
         this.orderBookingTime = orderBookingTime;
     }
 
+    public String getUserPhoneNumber() {
+        return userPhoneNumber;
+    }
+
+    public void setUserPhoneNumber(String userPhoneNumber) {
+        this.userPhoneNumber = userPhoneNumber;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
     public String resolveOrderStatus() {
         if (orderStatus == 1){
             return "Placed";
@@ -169,6 +188,24 @@ public class Order implements Serializable ,Parcelable{
 
 
     }
+
+
+
+    public String resolveOrderBookingTime(){
+
+
+
+        String dateFormat = "dd/MM/yyyy  hh:mm";
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat);
+
+        Date date = new Date();
+        date.setTime(orderBookingTime);
+
+
+
+        return simpleDateFormat.format(date);
+    }
+
 
 
     //parcell implementation

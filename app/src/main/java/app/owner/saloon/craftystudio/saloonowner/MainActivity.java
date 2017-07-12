@@ -30,6 +30,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.messaging.FirebaseMessaging;
 
@@ -492,6 +493,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void saloonListByDate(long timeInMillis) {
+        showProgressDialog("Fetching orders");
+
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
         fireBaseHandler.downloadOrderList(SALOON.getSaloonUID(), timeInMillis, (timeInMillis + 86400000l), new FireBaseHandler.OnOrderListener() {
             @Override
@@ -501,6 +504,7 @@ public class MainActivity extends AppCompatActivity
                 orderAdapter = new OrderAdapter(MainActivity.this.orderArrayList, MainActivity.this);
                 initializeRecyclerView();
 
+                closeProgressDialog();
                 Toast.makeText(MainActivity.this, "Total " + orderArrayList.size() + "order", Toast.LENGTH_SHORT).show();
 
             }
@@ -528,11 +532,26 @@ public class MainActivity extends AppCompatActivity
             startActivity(intent);
         } else if (id == R.id.nav_share) {
             Toast.makeText(this, "Share App", Toast.LENGTH_SHORT).show();
+        }else if(id == R.id.nav_logout){
+            signOut();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void signOut() {
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+
+        FirebaseMessaging.getInstance().subscribeToTopic("saloon_" + MainActivity.SALOON.getSaloonUID());
+
+        mAuth.signOut();
+
+        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
+        finish();
     }
 
 
@@ -549,7 +568,13 @@ public class MainActivity extends AppCompatActivity
 
     public void showProgressDialog(String title, String message) {
         progressDialog.setMessage(message);
-        progressDialog.setTitle(title);
+
+        progressDialog.setCancelable(false);
+        progressDialog.show();
+    }
+    public void showProgressDialog( String message) {
+        progressDialog.setMessage(message);
+
         progressDialog.setCancelable(false);
         progressDialog.show();
     }

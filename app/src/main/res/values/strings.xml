@@ -90,6 +90,12 @@
     </string-array>
 
 
+    <string-array name="paymentmodetype">
+        <item>Cash</item>
+        <item>Debit Card</item>
+        <item>Credit Card</item>
+    </string-array>
+
 
 
     <string name="title_activity_service_list">Service List</string>

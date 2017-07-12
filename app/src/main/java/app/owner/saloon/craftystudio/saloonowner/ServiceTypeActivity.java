@@ -456,9 +456,12 @@ public class ServiceTypeActivity extends AppCompatActivity {
             mServicePriceEditText = (EditText) dialog.findViewById(R.id.dialog_addService_servicePrice_editText);
 
             mServiceNameEditText.setText(service.getServiceName());
-            mServicePriceEditText.setText(service.getServicePrice() + "");
-            mServiceOfferPriceEditText.setText(service.getServiceOfferPrice() + "");
-
+            if (service.getServicePrice() >0) {
+                mServicePriceEditText.setText(service.getServicePrice() + "");
+            }
+            if (service.getServiceOfferPrice() >0) {
+                mServiceOfferPriceEditText.setText(service.getServiceOfferPrice() + "");
+            }
 
             dialog.show();
 
@@ -594,6 +597,7 @@ public class ServiceTypeActivity extends AppCompatActivity {
                     break;
                 case 6:
                     serviceTypeName = getResources().getStringArray(R.array.makeup_service_sub_type);
+                    break;
                 default:
                     serviceTypeName = getResources().getStringArray(R.array.haircare_service_sub_type);
                     break;
