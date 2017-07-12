@@ -228,6 +228,34 @@ public class FireBaseHandler {
     }
 
 
+
+
+    public void uploadSaloonInfo(String saloonUID, String saloonKeyValue, int value ,PendingSaloonRequest pendingSaloonRequest, final OnSaloonDownload onSaloonDownload) {
+
+        Map post = new HashMap();
+        post.put("saloon/" + saloonUID + "/"+saloonKeyValue , value);
+        post.put("pendingApproval/"+pendingSaloonRequest.getSaloonUID() ,pendingSaloonRequest);
+
+
+        DatabaseReference ref = mDatabase.getReference();
+        ref.updateChildren(post).addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                onSaloonDownload.onSaloonValueUploaded(true);
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+
+                onSaloonDownload.onSaloonValueUploaded(false);
+
+            }
+        });
+
+
+
+    }
+
     public void uploadSaloonInfo(String saloonUID, String saloonKeyValue, int value, final OnSaloonDownload onSaloonDownload) {
 
         mDatabase.getReference().child("saloon/" + saloonUID + "/" + saloonKeyValue).setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -246,6 +274,7 @@ public class FireBaseHandler {
 
 
     }
+
 
     public void uploadSaloonInfo(String saloonUID, String saloonKeyValue, boolean value, final OnSaloonDownload onSaloonDownload) {
 

@@ -281,6 +281,7 @@ public class ServiceTypeActivity extends AppCompatActivity {
                 //Toast.makeText(AddSaloonServiceActivity.this, "Saloon ready to be verified ", Toast.LENGTH_SHORT).show();
 
                 MainActivity.SALOON.setSaloonServiceUpdated(updated);
+
                 MainActivity.SALOON.setSaloonPoint(saloonpoint);
 
                 nextLinearLayout.setVisibility(View.VISIBLE);
@@ -322,7 +323,7 @@ public class ServiceTypeActivity extends AppCompatActivity {
 
             }
             if (!saloon.isSaloonServiceUpdated()) {
-                i = i + 10;
+                //i = i + 10;
 
             }
             if (!saloon.isSaloonUpdated()) {

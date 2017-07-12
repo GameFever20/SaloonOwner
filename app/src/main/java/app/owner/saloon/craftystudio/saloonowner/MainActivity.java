@@ -45,6 +45,7 @@ import utils.ClickListener;
 import utils.FireBaseHandler;
 import utils.Order;
 import utils.OrderAdapter;
+import utils.PendingSaloonRequest;
 import utils.RecyclerTouchListener;
 import utils.Saloon;
 
@@ -175,6 +176,7 @@ public class MainActivity extends AppCompatActivity
                     return;
                 } else {
                     Toast.makeText(this, "We will be visiting you soon for Photographs", Toast.LENGTH_SHORT).show();
+                    return;
                 }
             }
 
@@ -182,6 +184,10 @@ public class MainActivity extends AppCompatActivity
                 openSaloonServiceActivity();
                 return;
             }
+
+            setSaloonPoint(-100);
+
+
         } else if (saloon.getSaloonPoint() > 0) {
             saloonOrderFetch();
         } else if (saloon.getSaloonPoint() == 0) {
@@ -197,6 +203,28 @@ public class MainActivity extends AppCompatActivity
 
     }
 
+    private void setSaloonPoint( int saloonpoint) {
+
+        PendingSaloonRequest pendingSaloonRequest =new PendingSaloonRequest(SALOON.getSaloonName() ,SALOON.getSaloonUID() ,SALOON.getSaloonAddress() ,true);
+
+        new FireBaseHandler().uploadSaloonInfo(SALOON.getSaloonUID(), "saloonPoint", saloonpoint, pendingSaloonRequest, new FireBaseHandler.OnSaloonDownload() {
+            @Override
+            public void onSaloon(Saloon saloon) {
+
+            }
+
+            @Override
+            public void onSaloonValueUploaded(boolean isSucessful) {
+                if (isSucessful){
+                    mBackgroundImageview.setImageResource(R.drawable.pendingsaloon_bgdesign);
+                    Toast.makeText(MainActivity.this, "Pending for approval", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        });
+
+    }
+
     private void openPhoneNumberActivity() {
         Intent intent = new Intent(MainActivity.this, PhoneNumerActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -205,7 +233,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void openSaloonServiceActivity() {
-        Intent intent = new Intent(MainActivity.this, AddSaloonServiceActivity.class);
+        Intent intent = new Intent(MainActivity.this, ServiceTypeActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
