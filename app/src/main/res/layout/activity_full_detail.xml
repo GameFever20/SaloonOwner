@@ -59,26 +59,36 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:visibility="gone"
+        android:visibility="visible"
+        android:background="@color/colorPrimary"
         android:orientation="horizontal">
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/white"
+            android:background="@color/colorPrimary"
             android:onClick="cancelOrderClick"
             android:text="Cancel"
-            android:textColor="@color/purplish" />
+            android:textColor="@color/white" />
+
+        <android.support.v7.widget.CardView
+            android:layout_width="1dp"
+            android:layout_marginTop="2dp"
+            android:layout_marginBottom="2dp"
+            android:layout_height="match_parent"
+            app:cardCornerRadius="0dp"
+            app:cardElevation="0dp"></android.support.v7.widget.CardView>
+
 
         <Button
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@color/white"
+            android:background="@color/colorPrimary"
             android:onClick="acceptOrderClick"
             android:text="Accept"
-            android:textColor="@color/purplish" />
+            android:textColor="@color/white" />
 
 
     </LinearLayout>
@@ -89,10 +99,10 @@
         android:layout_weight="1"
         android:visibility="gone"
         android:id="@+id/fullDetail_completed_button"
-        android:background="@color/white"
+        android:background="@color/colorPrimary"
         android:onClick="completeOrderClick"
         android:text="Completed"
         android:layout_gravity="bottom"
-        android:textColor="@color/purplish" />
+        android:textColor="@color/white" />
 
 </android.support.design.widget.CoordinatorLayout>

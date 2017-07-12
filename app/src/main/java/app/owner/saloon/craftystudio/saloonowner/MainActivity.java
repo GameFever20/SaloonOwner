@@ -112,7 +112,7 @@ public class MainActivity extends AppCompatActivity
 
         progressDialog = new ProgressDialog(this);
 
-        showProgressDialog("Fetching Details", "wait..");
+        showProgressDialog(null, "Fetching Orders..");
 
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
         fireBaseHandler.downloadSaloon(LoginActivity.saloonUID, new FireBaseHandler.OnSaloonDownload() {
@@ -143,9 +143,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        if (orderAdapter != null){
+        if (orderAdapter != null) {
             orderAdapter.notifyDataSetChanged();
         }
 
@@ -203,9 +203,9 @@ public class MainActivity extends AppCompatActivity
 
     }
 
-    private void setSaloonPoint( int saloonpoint) {
+    private void setSaloonPoint(int saloonpoint) {
 
-        PendingSaloonRequest pendingSaloonRequest =new PendingSaloonRequest(SALOON.getSaloonName() ,SALOON.getSaloonUID() ,SALOON.getSaloonAddress() ,true);
+        PendingSaloonRequest pendingSaloonRequest = new PendingSaloonRequest(SALOON.getSaloonName(), SALOON.getSaloonUID(), SALOON.getSaloonAddress(), true);
 
         new FireBaseHandler().uploadSaloonInfo(SALOON.getSaloonUID(), "saloonPoint", saloonpoint, pendingSaloonRequest, new FireBaseHandler.OnSaloonDownload() {
             @Override
@@ -215,7 +215,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onSaloonValueUploaded(boolean isSucessful) {
-                if (isSucessful){
+                if (isSucessful) {
                     mBackgroundImageview.setImageResource(R.drawable.pendingsaloon_bgdesign);
                     Toast.makeText(MainActivity.this, "Pending for approval", Toast.LENGTH_SHORT).show();
                 }
@@ -513,25 +513,21 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
+        if (id == R.id.nav_profile) {
             // Handle the camera action
             Intent intent = new Intent(MainActivity.this, SaloonProfile.class);
             startActivity(intent);
-        } else if (id == R.id.nav_gallery) {
+        } else if (id == R.id.nav_images) {
             Intent intent = new Intent(MainActivity.this, SaloonImageActivity.class);
             startActivity(intent);
-
-        } else if (id == R.id.nav_manage) {
-            Intent intent = new Intent(MainActivity.this, AddSaloonServiceActivity.class);
-            startActivity(intent);
-
-        } else if (id == R.id.nav_share) {
-
+        } else if (id == R.id.nav_servicetype) {
             Intent intent = new Intent(MainActivity.this, ServiceTypeActivity.class);
             startActivity(intent);
-        } else if (id == R.id.nav_send) {
+        } else if (id == R.id.nav_search_cusomer) {
             Intent intent = new Intent(MainActivity.this, SearchCustomerPhoneNo.class);
             startActivity(intent);
+        } else if (id == R.id.nav_share) {
+            Toast.makeText(this, "Share App", Toast.LENGTH_SHORT).show();
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

@@ -3,21 +3,27 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_profile"
             android:icon="@drawable/ic_profile"
             android:title="Update Profile" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_images"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Update Images" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_addservice"
             android:icon="@drawable/ic_service"
-            android:title="Add Services" />
+            android:title="Add Services"
+            android:visible="false" />
         <item
-            android:id="@+id/nav_share"
+            android:id="@+id/nav_servicetype"
             android:icon="@drawable/ic_displayservice"
             android:title="Services" />
+
+        <item
+            android:id="@+id/nav_search_cusomer"
+            android:icon="@drawable/ic_action_black_search"
+            android:title="Search Customer" />
 
     </group>
 
@@ -26,9 +32,9 @@
 
 
             <item
-                android:id="@+id/nav_send"
-                android:icon="@drawable/ic_menu_send"
-                android:title="Send" />
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
         </menu>
     </item>
 

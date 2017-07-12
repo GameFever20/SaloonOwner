@@ -66,15 +66,11 @@ public class ServiceTypeActivity extends AppCompatActivity {
     ArrayList<Service> serviceArrayList = new ArrayList<>();
 
 
-
-
-
-
     private ProgressDialog progressDialog;
 
     AppBarLayout appBarLayout;
 
-    Saloon saloon =MainActivity.SALOON;
+    Saloon saloon = MainActivity.SALOON;
 
     private static LinearLayout nextLinearLayout;
 
@@ -102,8 +98,6 @@ public class ServiceTypeActivity extends AppCompatActivity {
 
         progressDialog = new ProgressDialog(this);
         showProgressDialog("Fetching Service");
-
-
 
 
         tabLayout = (TabLayout) findViewById(R.id.serviceType_tabLayout);
@@ -134,12 +128,10 @@ public class ServiceTypeActivity extends AppCompatActivity {
 
 
         //createServiceHashMap();
-        nextLinearLayout=(LinearLayout)findViewById(R.id.serviceType_nextActivity_Linearlayout);
+        nextLinearLayout = (LinearLayout) findViewById(R.id.serviceType_nextActivity_Linearlayout);
 
 
     }
-
-
 
 
     public void initializeActivity() {
@@ -153,8 +145,31 @@ public class ServiceTypeActivity extends AppCompatActivity {
         tabLayout.setupWithViewPager(mViewPager);
 
         for (int i = 0; i < tabLayout.getTabCount(); i++) {
-            tabLayout.getTabAt(i).setIcon(R.drawable.ic_action_clock);
+
+            switch (i) {
+                case 0:
+                    tabLayout.getTabAt(i).setIcon(R.drawable.ic_action_haircare);
+                    break;
+                case 1:
+                    tabLayout.getTabAt(i).setIcon(R.drawable.ic_action_skincare);
+                    break;
+                case 2:
+                    tabLayout.getTabAt(i).setIcon(R.drawable.ic_action_manicure);
+                    break;
+                case 3:
+                    tabLayout.getTabAt(i).setIcon(R.drawable.ic_action_bodyscrub);
+                    break;
+                case 4:
+                    tabLayout.getTabAt(i).setIcon(R.drawable.ic_action_massage);
+                    break;
+                case 5:
+                    tabLayout.getTabAt(i).setIcon(R.drawable.ic_action_makeup);
+                    break;
+
+
+            }
         }
+
 
     }
 
@@ -261,15 +276,15 @@ public class ServiceTypeActivity extends AppCompatActivity {
     }
 
 
-    public static boolean  updateSaloonServiceUpdated(final boolean updated){
+    public static boolean updateSaloonServiceUpdated(final boolean updated) {
 
-        if (MainActivity.SALOON == null){
+        if (MainActivity.SALOON == null) {
             return false;
         }
 
-        final int saloonpoint =checkSaloonPoint(MainActivity.SALOON);
+        final int saloonpoint = checkSaloonPoint(MainActivity.SALOON);
 
-        new FireBaseHandler().uploadSaloonInfo(MainActivity.SALOON.getSaloonUID(), "saloonServiceUpdated",updated,saloonpoint, new FireBaseHandler.OnSaloonDownload() {
+        new FireBaseHandler().uploadSaloonInfo(MainActivity.SALOON.getSaloonUID(), "saloonServiceUpdated", updated, saloonpoint, new FireBaseHandler.OnSaloonDownload() {
             @Override
             public void onSaloon(Saloon saloon) {
 
@@ -286,12 +301,12 @@ public class ServiceTypeActivity extends AppCompatActivity {
 
                 nextLinearLayout.setVisibility(View.VISIBLE);
 
-                if (saloonpoint ==-100){
-                    PendingSaloonRequest pendingSaloonRequest =new PendingSaloonRequest(MainActivity.SALOON.getSaloonName() , MainActivity.SALOON.getSaloonUID() , MainActivity.SALOON.getSaloonAddress() ,true);
+                if (saloonpoint == -100) {
+                    PendingSaloonRequest pendingSaloonRequest = new PendingSaloonRequest(MainActivity.SALOON.getSaloonName(), MainActivity.SALOON.getSaloonUID(), MainActivity.SALOON.getSaloonAddress(), true);
                     new FireBaseHandler().uploadPendingSaloonRequest(pendingSaloonRequest, new FireBaseHandler.OnPendingSaloonRequest() {
                         @Override
                         public void onSaloonRequest(boolean isSuccessful) {
-                            if (isSuccessful){
+                            if (isSuccessful) {
 
                             }
                         }
@@ -306,7 +321,7 @@ public class ServiceTypeActivity extends AppCompatActivity {
     }
 
     public void onNextClick(View view) {
-        Intent intent =new Intent( ServiceTypeActivity.this , MainActivity.class);
+        Intent intent = new Intent(ServiceTypeActivity.this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
         finish();
@@ -334,14 +349,12 @@ public class ServiceTypeActivity extends AppCompatActivity {
 
             return i;
 
-        }else{
+        } else {
             return saloon.getSaloonPoint();
         }
 
 
-
     }
-
 
 
     /**
@@ -407,11 +420,11 @@ public class ServiceTypeActivity extends AppCompatActivity {
                     Service serviceSelected = mServiceHashMap.get(mServiceSubTypeList.get(groupPosition)).get(childPosition);
 
                     if ((serviceArrayList.size() - 1) == childPosition) {
-                        openAddServiceDialog(serviceSelected , 1);
+                        openAddServiceDialog(serviceSelected, 1);
 
 
                     } else {
-                        openAddServiceDialog(serviceSelected , 2);
+                        openAddServiceDialog(serviceSelected, 2);
                     }
 
 
@@ -443,8 +456,8 @@ public class ServiceTypeActivity extends AppCompatActivity {
             mServicePriceEditText = (EditText) dialog.findViewById(R.id.dialog_addService_servicePrice_editText);
 
             mServiceNameEditText.setText(service.getServiceName());
-            mServicePriceEditText.setText(service.getServicePrice()+"");
-            mServiceOfferPriceEditText.setText(service.getServiceOfferPrice()+"");
+            mServicePriceEditText.setText(service.getServicePrice() + "");
+            mServiceOfferPriceEditText.setText(service.getServiceOfferPrice() + "");
 
 
             dialog.show();
@@ -466,7 +479,7 @@ public class ServiceTypeActivity extends AppCompatActivity {
                     if (stringOfferPrice.isEmpty()) {
                         mServiceOfferPriceEditText.setError("Required");
                         return;
-                    }else if(Integer.valueOf(stringOfferPrice) == 0){
+                    } else if (Integer.valueOf(stringOfferPrice) == 0) {
                         mServiceOfferPriceEditText.setError("cannot be 0");
                         return;
                     }
@@ -475,7 +488,7 @@ public class ServiceTypeActivity extends AppCompatActivity {
                     if (stringPrice.isEmpty()) {
                         mServicePriceEditText.setError("Required");
                         return;
-                    }else if(Integer.valueOf(stringPrice) == 0){
+                    } else if (Integer.valueOf(stringPrice) == 0) {
                         mServiceOfferPriceEditText.setError("cannot be 0");
                         return;
                     }
@@ -485,9 +498,9 @@ public class ServiceTypeActivity extends AppCompatActivity {
                     service.setServicePrice(Integer.valueOf(stringPrice));
                     service.setServiceOfferPrice(Integer.valueOf(stringOfferPrice));
 
-                    if (typeOfAction ==1){
+                    if (typeOfAction == 1) {
                         addService(service);
-                    }else if (typeOfAction ==2){
+                    } else if (typeOfAction == 2) {
                         updateService(service);
                     }
 
@@ -535,11 +548,11 @@ public class ServiceTypeActivity extends AppCompatActivity {
                         FragmentTransaction ft = getFragmentManager().beginTransaction();
                         ft.detach(PlaceholderFragment.this).attach(PlaceholderFragment.this).commit();
 
-                        if (mServiceArrayList.size() >5 && !MainActivity.SALOON.isSaloonServiceUpdated()){
+                        if (mServiceArrayList.size() > 5 && !MainActivity.SALOON.isSaloonServiceUpdated()) {
 
-                            if (!updateSaloonServiceUpdated(true)){
+                            if (!updateSaloonServiceUpdated(true)) {
                                 Toast.makeText(getContext(), "Something went wrong ", Toast.LENGTH_SHORT).show();
-                            }else{
+                            } else {
                                 Toast.makeText(getContext(), "saloon updated ", Toast.LENGTH_SHORT).show();
 
                             }
