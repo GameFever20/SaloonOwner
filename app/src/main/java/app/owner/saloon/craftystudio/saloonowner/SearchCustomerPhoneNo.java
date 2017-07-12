@@ -61,12 +61,22 @@ public class SearchCustomerPhoneNo extends AppCompatActivity {
 initializeRecyclerView();
     }
 
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (orderAdapter != null){
+            orderAdapter.notifyDataSetChanged();
+        }
+
+    }
+
     public void searchOrdersByPhoneNo(View view) {
 
         if (mSearchPhoneNoEditText.getText().toString().isEmpty()) {
             Toast.makeText(this, "Enter Number First", Toast.LENGTH_SHORT).show();
         } else {
             mPhoneNumber = mSearchPhoneNoEditText.getText().toString();
+            mPhoneNumber ="+91"+mPhoneNumber;
             showProgressDialog("Fetching Detail...");
             downloadOrdersByPhoneSearch();
 
@@ -104,7 +114,7 @@ initializeRecyclerView();
 
                 Intent intent =new Intent(SearchCustomerPhoneNo.this ,FullDetailActivity.class);
 
-                MainActivity.ORDER =orderArrayList.get(position);
+                FullDetailActivity.ORDER =orderArrayList.get(position);
 
                 startActivity(intent);
             }

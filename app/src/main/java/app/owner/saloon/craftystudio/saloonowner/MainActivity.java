@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity
     boolean isRegistered = false;
     public static Saloon SALOON = null;
 
-    public static Order ORDER = null;
+    //public static Order ORDER = null;
 
 
     ArrayList<Order> orderArrayList = new ArrayList<>();
@@ -138,6 +138,15 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+        if (orderAdapter != null){
+            orderAdapter.notifyDataSetChanged();
+        }
 
     }
 
@@ -274,7 +283,7 @@ public class MainActivity extends AppCompatActivity
                 Bundle bundle = new Bundle();
 
                 //bundle.putParcelable("orderParcel", order);
-                ORDER = order;
+                FullDetailActivity.ORDER = order;
 
                 Intent intent = new Intent(MainActivity.this, FullDetailActivity.class);
                 intent.putExtras(bundle);

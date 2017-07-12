@@ -54,7 +54,7 @@ public class FullDetailActivity extends AppCompatActivity {
     //Imageview for showcasig saloon's image
     ImageView imageView;
 
-    static Order ORDER;
+     static Order ORDER;
     static Service SERVICE;
 
     String saloonUID, orderID;
@@ -70,8 +70,7 @@ public class FullDetailActivity extends AppCompatActivity {
 
         //ORDER = bundle.getParcelable("orderParcel");
 
-        ORDER = MainActivity.ORDER;
-
+//order is initialized from main activity
         if (ORDER == null) {
             saloonUID = getIntent().getStringExtra("SaloonUID");
             orderID = getIntent().getStringExtra("OrderID");
@@ -122,16 +121,28 @@ public class FullDetailActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(mViewPager);
 
+        updateUI(ORDER.getOrderStatus());
+
+    }
+
+    private void updateUI(int orderStatus) {
         if (ORDER.getOrderStatus() == 1) {
             View view = (View) findViewById(R.id.fullDetail_button_linearLayout);
             view.setVisibility(View.VISIBLE);
+        }else{
+            View view = (View) findViewById(R.id.fullDetail_button_linearLayout);
+            view.setVisibility(View.GONE);
         }
+
+
 
         if (ORDER.getOrderStatus() == 2) {
             View view = (View) findViewById(R.id.fullDetail_completed_button);
             view.setVisibility(View.VISIBLE);
+        }else{
+            View view = (View) findViewById(R.id.fullDetail_completed_button);
+            view.setVisibility(View.GONE);
         }
-
     }
 
 
@@ -139,8 +150,10 @@ public class FullDetailActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (saloonUID == null){
             super.onBackPressed();
+            ORDER =null;
 
         }else {
+            ORDER =null;
             Intent intent =new Intent(FullDetailActivity.this ,LoginActivity.class);
             intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
@@ -179,6 +192,7 @@ public class FullDetailActivity extends AppCompatActivity {
                     if (isSuccesful) {
                         Toast.makeText(FullDetailActivity.this, "Order accepted", Toast.LENGTH_SHORT).show();
                         ORDER.setOrderStatus(2);
+                        updateUI(2);
                     }
                 }
             });
@@ -187,6 +201,8 @@ public class FullDetailActivity extends AppCompatActivity {
 
         }
     }
+
+
 
     public void cancelOrderClick(View view) {
         if (ORDER.getOrderStatus() == 1) {
@@ -197,6 +213,7 @@ public class FullDetailActivity extends AppCompatActivity {
                     if (isSuccesful) {
                         Toast.makeText(FullDetailActivity.this, "Order Cancelled", Toast.LENGTH_SHORT).show();
                         ORDER.setOrderStatus(-1);
+                        updateUI(-1);
                     }
                 }
             });
@@ -214,6 +231,7 @@ public class FullDetailActivity extends AppCompatActivity {
                     if (isSuccesful) {
                         Toast.makeText(FullDetailActivity.this, "Order Completed ", Toast.LENGTH_SHORT).show();
                         ORDER.setOrderStatus(3);
+                        updateUI(3);
                     }
                 }
             });
