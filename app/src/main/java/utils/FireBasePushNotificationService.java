@@ -60,9 +60,9 @@ public class FireBasePushNotificationService extends FirebaseMessagingService {
 
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder = new NotificationCompat.Builder(this)
-                .setContentTitle("New Order: " + title)
+                .setContentTitle( title)
                 .setSmallIcon(R.mipmap.ic_launcher)
-                .setContentText("By " + author)
+                .setContentText(author)
                 .setAutoCancel(true)
                 .setSound(defaultSoundUri)
                 .setContentIntent(pendingIntent);
