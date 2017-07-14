@@ -230,7 +230,7 @@ public class FireBaseHandler {
 
 
 
-    public void uploadSaloonInfo(String saloonUID, String saloonKeyValue, int value ,PendingSaloonRequest pendingSaloonRequest, final OnSaloonDownload onSaloonDownload) {
+    public void uploadSaloonInfo(String saloonUID, String saloonKeyValue, long value ,PendingSaloonRequest pendingSaloonRequest, final OnSaloonDownload onSaloonDownload) {
 
         Map post = new HashMap();
         post.put("saloon/" + saloonUID + "/"+saloonKeyValue , value);
@@ -256,7 +256,7 @@ public class FireBaseHandler {
 
     }
 
-    public void uploadSaloonInfo(String saloonUID, String saloonKeyValue, int value, final OnSaloonDownload onSaloonDownload) {
+    public void uploadSaloonInfo(String saloonUID, String saloonKeyValue, long value, final OnSaloonDownload onSaloonDownload) {
 
         mDatabase.getReference().child("saloon/" + saloonUID + "/" + saloonKeyValue).setValue(value).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
@@ -295,7 +295,7 @@ public class FireBaseHandler {
 
     }
 
-    public void uploadSaloonInfo(String saloonUID, String saloonKeyValue, boolean value,int saloonPoint, final OnSaloonDownload onSaloonDownload) {
+    public void uploadSaloonInfo(String saloonUID, String saloonKeyValue, boolean value,long saloonPoint, final OnSaloonDownload onSaloonDownload) {
 
         Map post = new HashMap();
         post.put("saloon/" + saloonUID + "/"+saloonKeyValue , value);
@@ -529,7 +529,7 @@ public class FireBaseHandler {
         });
     }
 
-    public void updateOrderstatus( Order order, final int orderStatus, int saloonPoint, final OnOrderStatusUpdateListener onOrderStatusUpdate) {
+    public void updateOrderstatus( Order order, final int orderStatus, long saloonPoint, final OnOrderStatusUpdateListener onOrderStatusUpdate) {
 
         DatabaseReference ref = mDatabase.getReference();
 

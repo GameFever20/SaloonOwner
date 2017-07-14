@@ -96,6 +96,13 @@
         <item>Credit Card</item>
     </string-array>
 
+    <string-array name="city">
+        <item>kolkata</item>
+
+    </string-array>
+
+
+
 
 
     <string name="title_activity_service_list">Service List</string>

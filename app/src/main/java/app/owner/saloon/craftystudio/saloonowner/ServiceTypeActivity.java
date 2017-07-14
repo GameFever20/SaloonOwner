@@ -282,7 +282,7 @@ public class ServiceTypeActivity extends AppCompatActivity {
             return false;
         }
 
-        final int saloonpoint = checkSaloonPoint(MainActivity.SALOON);
+        final long saloonpoint = checkSaloonPoint(MainActivity.SALOON);
 
         new FireBaseHandler().uploadSaloonInfo(MainActivity.SALOON.getSaloonUID(), "saloonServiceUpdated", updated, saloonpoint, new FireBaseHandler.OnSaloonDownload() {
             @Override
@@ -327,7 +327,7 @@ public class ServiceTypeActivity extends AppCompatActivity {
         finish();
     }
 
-    private static int checkSaloonPoint(Saloon saloon) {
+    private static long checkSaloonPoint(Saloon saloon) {
         if (saloon.getSaloonPoint() < -1 && saloon.getSaloonPoint() > -100) {
 
             int i = -100;

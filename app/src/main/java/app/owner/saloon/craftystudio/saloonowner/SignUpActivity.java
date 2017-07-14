@@ -1,12 +1,14 @@
 package app.owner.saloon.craftystudio.saloonowner;
 
 import android.app.ProgressDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
@@ -39,6 +41,9 @@ public class SignUpActivity extends AppCompatActivity {
     EditText mEmailEditText, mPasswordEditText;
     Button mSignInButton;
     ProgressDialog progressDialog;
+
+    int mCitySelectedIndex;
+    String mCitySelected;
 
 
     // [START declare_auth]
@@ -143,6 +148,8 @@ public class SignUpActivity extends AppCompatActivity {
         saloon.setSaloonName(editText.getText().toString().trim());
         saloon.setSaloonUID(LoginActivity.saloonUID);
         saloon.setSaloonEmailID(mEmailEditText.getText().toString().trim());
+        saloon.setSaloonCity(mCitySelected);
+        saloon.setSaloonCityIndex(mCitySelectedIndex);
 
 
         FireBaseHandler fireBaseHandler = new FireBaseHandler();
@@ -192,7 +199,7 @@ public class SignUpActivity extends AppCompatActivity {
     private boolean validateForm() {
         boolean valid = true;
 
-        String email = mEmailEditText.getText().toString();
+        String email = mEmailEditText.getText().toString().trim();
         if (TextUtils.isEmpty(email)) {
             mEmailEditText.setError("Required.");
             valid = false;
@@ -200,13 +207,34 @@ public class SignUpActivity extends AppCompatActivity {
             mEmailEditText.setError(null);
         }
 
-        String password = mPasswordEditText.getText().toString();
+        String password = mPasswordEditText.getText().toString().trim();
         if (TextUtils.isEmpty(password)) {
             mPasswordEditText.setError("Required.");
             valid = false;
         } else {
             mPasswordEditText.setError(null);
         }
+
+
+        EditText editText = (EditText) findViewById(R.id.signup_saloonName_EditText);
+        String saloonName =editText.getText().toString().trim();
+        if (TextUtils.isEmpty(saloonName)) {
+            editText.setError("Required.");
+            valid = false;
+        } else {
+            editText.setError(null);
+        }
+
+        if (TextUtils.isEmpty(mCitySelected)) {
+            Toast.makeText(this, "City not selected", Toast.LENGTH_SHORT).show();
+            TextView textView = (TextView) findViewById(R.id.signup_saloonCity_textView);
+            textView.setText("Not selected");
+            valid = false;
+        } else {
+
+        }
+
+
 
         return valid;
     }
@@ -243,4 +271,29 @@ public class SignUpActivity extends AppCompatActivity {
     }
 
 
+    public void selectCity(View view) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Select your city")
+                .setItems(R.array.city, new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        // The 'which' argument contains the index position
+                        // of the selected item
+
+
+                        mCitySelected  = getResources().getStringArray(R.array.city)[which];
+                        mCitySelectedIndex =which;
+
+
+
+                        TextView textView = (TextView) findViewById(R.id.signup_saloonCity_textView);
+                        textView.setText(mCitySelected);
+
+
+                    }
+                });
+        builder.create();
+        builder.show();
+
+
+    }
 }

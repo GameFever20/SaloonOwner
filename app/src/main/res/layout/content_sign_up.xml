@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -9,6 +9,12 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="app.owner.saloon.craftystudio.saloonowner.SignUpActivity"
     tools:showIn="@layout/activity_sign_up">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
 
     <ImageView
         android:layout_width="wrap_content"
@@ -142,6 +148,38 @@
     </LinearLayout>
 
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
+        android:background="@drawable/imageviewbordercustomize"
+        android:onClick="selectCity"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Select City"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/signup_saloonCity_textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text=""
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="16sp" />
+
+
+    </LinearLayout>
+
+
+
     <Button
         android:id="@+id/signup_signUp_Button"
         android:layout_width="match_parent"
@@ -167,4 +205,7 @@
         android:layout_marginTop="15dp"/>
 
 
-</LinearLayout>
+    </LinearLayout>
+
+
+</ScrollView>

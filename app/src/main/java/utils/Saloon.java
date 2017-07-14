@@ -15,7 +15,7 @@ public class Saloon {
     private String saloonAddress;//input
     private String saloonLocation ;//input in background
     private String saloonEmailID;
-    private int saloonPoint ;
+    private long saloonPoint ;
     private int saloonRating ;
 
     private String saloonPaymentMode;
@@ -37,6 +37,9 @@ public class Saloon {
 
     //timing
     private int openingTimeHour , openingTimeMinute , closingTimeHour ,closingTimeMinute ;
+
+    private String saloonCity ;
+    private int saloonCityIndex ;
 
 
     public Saloon() {
@@ -83,11 +86,11 @@ public class Saloon {
         this.saloonLocation = saloonLocation;
     }
 
-    public int getSaloonPoint() {
+    public long getSaloonPoint() {
         return saloonPoint;
     }
 
-    public void setSaloonPoint(int saloonPoint) {
+    public void setSaloonPoint(long saloonPoint) {
         this.saloonPoint = saloonPoint;
     }
 
@@ -210,6 +213,22 @@ public class Saloon {
 
     public void setSaloonTotalRating(int saloonTotalRating) {
         this.saloonTotalRating = saloonTotalRating;
+    }
+
+    public String getSaloonCity() {
+        return saloonCity;
+    }
+
+    public void setSaloonCity(String saloonCity) {
+        this.saloonCity = saloonCity;
+    }
+
+    public int getSaloonCityIndex() {
+        return saloonCityIndex;
+    }
+
+    public void setSaloonCityIndex(int saloonCityIndex) {
+        this.saloonCityIndex = saloonCityIndex;
     }
 
     public boolean isSaloonUpdated(){
