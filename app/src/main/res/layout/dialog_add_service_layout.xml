@@ -19,6 +19,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:hint="Service Name "
+        android:inputType="text"
         android:textColor="@color/white"
         android:textColorHint="@color/whitish" />
 
@@ -30,6 +31,7 @@
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
         android:hint="Service Price "
+        android:inputType="number"
         android:textColor="@color/white"
         android:textColorHint="@color/whitish" />
 
@@ -40,6 +42,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="10dp"
+        android:inputType="number"
         android:hint="Service Offer Price "
         android:textColor="@color/white"
         android:textColorHint="@color/whitish" />

@@ -15,7 +15,7 @@ public class Saloon {
     private String saloonAddress;//input
     private String saloonLocation ;//input in background
     private String saloonEmailID;
-    private long saloonPoint ;
+    private int saloonPoint ;
     private int saloonRating ;
 
     private String saloonPaymentMode;
@@ -86,11 +86,11 @@ public class Saloon {
         this.saloonLocation = saloonLocation;
     }
 
-    public long getSaloonPoint() {
+    public int getSaloonPoint() {
         return saloonPoint;
     }
 
-    public void setSaloonPoint(long saloonPoint) {
+    public void setSaloonPoint(int saloonPoint) {
         this.saloonPoint = saloonPoint;
     }
 
@@ -233,10 +233,10 @@ public class Saloon {
 
     public boolean isSaloonUpdated(){
 
-        if(saloonPhoneNumber == null || saloonAddress==null ){
+        if( saloonAddress==null ){
             return false;
         }
-        if(saloonPhoneNumber.isEmpty() ||saloonAddress.isEmpty() ){
+        if(saloonAddress.isEmpty() ){
 
             return  false;
         }

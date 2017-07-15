@@ -25,6 +25,14 @@
             android:background="@color/colorPrimary"
             android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="+91"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                />
+
             <EditText
                 android:id="@+id/search_phone_no_edittext"
                 android:layout_width="wrap_content"
@@ -32,6 +40,7 @@
                 android:layout_marginBottom="2dp"
                 android:layout_marginLeft="15dp"
                 android:hint="Search Phone Number"
+                android:inputType="number"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="2dp"
                 android:layout_weight="1"

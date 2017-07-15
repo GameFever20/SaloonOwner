@@ -15,18 +15,26 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SaloonProfile"
             android:label="@string/title_activity_saloon_profile"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SaloonImageActivity"
             android:label="@string/title_activity_saloon_image"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".LoginActivity"
             android:label="@string/title_activity_login"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -37,10 +45,14 @@
         <activity
             android:name=".AddSaloonServiceActivity"
             android:label="@string/title_activity_add_saloon_service"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".ServiceListActivity"
             android:label="@string/title_activity_service_list"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar" />
 
         <meta-data
@@ -50,24 +62,34 @@
         <activity
             android:name=".FullDetailActivity"
             android:label="@string/title_activity_full_detail"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SignUpActivity"
             android:label="@string/title_activity_sign_up"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".PhoneNumerActivity"
             android:label="@string/title_activity_phone_numer"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
             android:name=".SearchCustomerPhoneNo"
             android:label="@string/title_activity_search_customer_phone_no"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
 
         <activity
             android:name=".ServiceTypeActivity"
             android:label="@string/title_activity_service_type"
+            android:screenOrientation="portrait"
+
             android:theme="@style/AppTheme.NoActionBar" />
 
         <service

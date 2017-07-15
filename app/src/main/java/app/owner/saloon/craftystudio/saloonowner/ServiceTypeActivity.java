@@ -16,7 +16,9 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -73,6 +75,7 @@ public class ServiceTypeActivity extends AppCompatActivity {
     Saloon saloon = MainActivity.SALOON;
 
     private static LinearLayout nextLinearLayout;
+    private static CardView noticeCardView;
 
 
     @Override
@@ -166,6 +169,14 @@ public class ServiceTypeActivity extends AppCompatActivity {
                     tabLayout.getTabAt(i).setIcon(R.drawable.ic_action_makeup);
                     break;
 
+            }
+        }
+        if (MainActivity.SALOON.getSaloonPoint() < -1 && MainActivity.SALOON.getSaloonPoint() > -100) {
+            if (serviceArrayList.size() < 5 && !MainActivity.SALOON.isSaloonServiceUpdated()) {
+
+
+                noticeCardView = (CardView) findViewById(R.id.serviceType_notice_cardView);
+                noticeCardView.setVisibility(View.VISIBLE);
 
             }
         }
@@ -282,7 +293,7 @@ public class ServiceTypeActivity extends AppCompatActivity {
             return false;
         }
 
-        final long saloonpoint = checkSaloonPoint(MainActivity.SALOON);
+        final int saloonpoint = checkSaloonPoint(MainActivity.SALOON);
 
         new FireBaseHandler().uploadSaloonInfo(MainActivity.SALOON.getSaloonUID(), "saloonServiceUpdated", updated, saloonpoint, new FireBaseHandler.OnSaloonDownload() {
             @Override
@@ -300,6 +311,7 @@ public class ServiceTypeActivity extends AppCompatActivity {
                 MainActivity.SALOON.setSaloonPoint(saloonpoint);
 
                 nextLinearLayout.setVisibility(View.VISIBLE);
+                noticeCardView.setVisibility(View.GONE);
 
                 if (saloonpoint == -100) {
                     PendingSaloonRequest pendingSaloonRequest = new PendingSaloonRequest(MainActivity.SALOON.getSaloonName(), MainActivity.SALOON.getSaloonUID(), MainActivity.SALOON.getSaloonAddress(), true);
@@ -327,7 +339,7 @@ public class ServiceTypeActivity extends AppCompatActivity {
         finish();
     }
 
-    private static long checkSaloonPoint(Saloon saloon) {
+    private static int checkSaloonPoint(Saloon saloon) {
         if (saloon.getSaloonPoint() < -1 && saloon.getSaloonPoint() > -100) {
 
             int i = -100;
@@ -356,6 +368,43 @@ public class ServiceTypeActivity extends AppCompatActivity {
 
     }
 
+
+    @Override
+    public void onBackPressed() {
+
+        if (saloon != null) {
+            if (saloon.isSaloonServiceUpdated()) {
+                super.onBackPressed();
+            } else {
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setCancelable(false)
+                        .setTitle("Exit")
+                        .setMessage("Are you sure you want to exit")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                finish();
+                                ServiceTypeActivity.super.onBackPressed();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                            }
+                        });
+
+                // Create the AlertDialog object and return it
+
+                builder.create();
+                builder.show();
+
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
 
     /**
      * A placeholder fragment containing a simple view.
@@ -428,7 +477,7 @@ public class ServiceTypeActivity extends AppCompatActivity {
                     }
 
 
-                    Toast.makeText(getContext(), "Selected service is " + serviceSelected.getServiceName(), Toast.LENGTH_SHORT).show();
+                    //Toast.makeText(getContext(), "Selected service is " + serviceSelected.getServiceName(), Toast.LENGTH_SHORT).show();
 
 
                     return false;
@@ -456,10 +505,10 @@ public class ServiceTypeActivity extends AppCompatActivity {
             mServicePriceEditText = (EditText) dialog.findViewById(R.id.dialog_addService_servicePrice_editText);
 
             mServiceNameEditText.setText(service.getServiceName());
-            if (service.getServicePrice() >0) {
+            if (service.getServicePrice() > 0) {
                 mServicePriceEditText.setText(service.getServicePrice() + "");
             }
-            if (service.getServiceOfferPrice() >0) {
+            if (service.getServiceOfferPrice() > 0) {
                 mServiceOfferPriceEditText.setText(service.getServiceOfferPrice() + "");
             }
 

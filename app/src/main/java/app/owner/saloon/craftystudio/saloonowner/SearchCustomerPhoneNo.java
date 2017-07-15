@@ -58,13 +58,14 @@ public class SearchCustomerPhoneNo extends AppCompatActivity {
 
         mSearchPhoneNoEditText = (EditText) findViewById(R.id.search_phone_no_edittext);
 
-initializeRecyclerView();
+
+        initializeRecyclerView();
     }
 
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
-        if (orderAdapter != null){
+        if (orderAdapter != null) {
             orderAdapter.notifyDataSetChanged();
         }
 
@@ -74,9 +75,10 @@ initializeRecyclerView();
 
         if (mSearchPhoneNoEditText.getText().toString().isEmpty()) {
             Toast.makeText(this, "Enter Number First", Toast.LENGTH_SHORT).show();
+            mSearchPhoneNoEditText.setError("Required");
         } else {
             mPhoneNumber = mSearchPhoneNoEditText.getText().toString();
-            mPhoneNumber ="+91"+mPhoneNumber;
+            mPhoneNumber = "+91" + mPhoneNumber;
             showProgressDialog("Fetching Detail...");
             downloadOrdersByPhoneSearch();
 
@@ -90,18 +92,26 @@ initializeRecyclerView();
         fireBaseHandler.downloadOrderList(LoginActivity.saloonUID, mPhoneNumber, 20, new FireBaseHandler.OnOrderListener() {
             @Override
             public void onOrderList(ArrayList<Order> orderArrayList) {
-                SearchCustomerPhoneNo.this.orderArrayList =orderArrayList ;
+                SearchCustomerPhoneNo.this.orderArrayList = orderArrayList;
 
                 orderAdapter = new OrderAdapter(SearchCustomerPhoneNo.this.orderArrayList, SearchCustomerPhoneNo.this);
                 recyclerView.setAdapter(orderAdapter);
-
+                if (orderArrayList.size() > 0) {
+                    Snackbar snackbar = Snackbar
+                            .make(mSearchPhoneNoEditText, "Total " + orderArrayList.size() + " Orders", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                } else {
+                    Snackbar snackbar = Snackbar
+                            .make(mSearchPhoneNoEditText, "No order found", Snackbar.LENGTH_LONG);
+                    snackbar.show();
+                }
                 closeProgressDialog();
             }
         });
 
     }
 
-    public void initializeRecyclerView(){
+    public void initializeRecyclerView() {
         RecyclerView.LayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
@@ -112,9 +122,9 @@ initializeRecyclerView();
             public void onClick(View view, int position) {
 
 
-                Intent intent =new Intent(SearchCustomerPhoneNo.this ,FullDetailActivity.class);
+                Intent intent = new Intent(SearchCustomerPhoneNo.this, FullDetailActivity.class);
 
-                FullDetailActivity.ORDER =orderArrayList.get(position);
+                FullDetailActivity.ORDER = orderArrayList.get(position);
 
                 startActivity(intent);
             }

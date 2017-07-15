@@ -388,6 +388,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        builder.setCancelable(false);
         builder.create();
         builder.show();
     }
@@ -403,6 +404,7 @@ public class MainActivity extends AppCompatActivity
                 });
 
         // Create the AlertDialog object and return it
+        builder.setCancelable(false);
         builder.create();
         builder.show();
 
@@ -421,6 +423,7 @@ public class MainActivity extends AppCompatActivity
                 });
 
         // Create the AlertDialog object and return it
+        builder.setCancelable(false);
         builder.create();
         builder.show();
 

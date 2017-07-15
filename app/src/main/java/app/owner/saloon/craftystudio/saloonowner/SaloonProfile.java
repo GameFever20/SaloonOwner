@@ -96,6 +96,8 @@ public class SaloonProfile extends EasyLocationActivity {
                     // saloonLocationEditText.setText(saloon.getSaloonLocation());
                     saloonAddressEditText.setText(saloon.getSaloonAddress());
 
+                    saloonYearofEstablishment.setText(saloon.getSaloonYearOfEstablishment());
+
                     TextView textView = (TextView) findViewById(R.id.saloonProfile_openingTime_textView);
                     textView.setText(saloon.getOpeningTimeHour() + ":" + saloon.getOpeningTimeMinute());
 
@@ -105,6 +107,9 @@ public class SaloonProfile extends EasyLocationActivity {
                     textView = (TextView) findViewById(R.id.saloonProfile_saloonLocation_textView);
                     textView.setText(saloon.getSaloonLocationLatitude() + "," + saloon.getSaloonLocationLongitude());
 
+
+                    TextView paymentModeTextView =(TextView)findViewById(R.id.saloonProfile_saloonPaymentMode_textView);
+                    paymentModeTextView.setText(saloon.getSaloonPaymentMode());
 
                 } catch (Exception e) {
                     Toast.makeText(this, "Something went wrong ", Toast.LENGTH_SHORT).show();
@@ -375,9 +380,9 @@ public class SaloonProfile extends EasyLocationActivity {
 
         if (string.isEmpty()) {
             // saloonPhoneNumberEditText.setError("Required");
-            Toast.makeText(this, "Phone Number required", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, "Phone Number required", Toast.LENGTH_SHORT).show();
 
-            valid = false;
+            //valid = false;
         } else {
 
         }
@@ -433,6 +438,43 @@ public class SaloonProfile extends EasyLocationActivity {
          builder.create();
         builder.show();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (saloon != null) {
+            if (saloon.isSaloonUpdated()) {
+                super.onBackPressed();
+            } else {
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setCancelable(false)
+                        .setTitle("Exit")
+                        .setMessage("Are you sure you want to exit")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                finish();
+                                SaloonProfile.super.onBackPressed();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                            }
+                        });
+
+                // Create the AlertDialog object and return it
+
+                builder.create();
+                builder.show();
+
+            }
+        } else {
+            super.onBackPressed();
+        }
     }
 
 

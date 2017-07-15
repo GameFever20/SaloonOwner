@@ -733,6 +733,43 @@ public class SaloonImageActivity extends AppCompatActivity implements EasyPermis
     }
 
 
+    @Override
+    public void onBackPressed() {
+
+        if (saloon != null) {
+            if (saloon.checkSaloonImageUpdated()) {
+                super.onBackPressed();
+            } else {
+
+                final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setCancelable(false)
+                        .setTitle("Exit")
+                        .setMessage("Are you sure you want to exit")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                finish();
+                                SaloonImageActivity.super.onBackPressed();
+                            }
+                        })
+                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+
+
+                            }
+                        });
+
+                // Create the AlertDialog object and return it
+
+                builder.create();
+                builder.show();
+
+            }
+        } else {
+            super.onBackPressed();
+        }
+    }
+
     public void showHireUsInfoDialog(){
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Hire us For Photograph")
