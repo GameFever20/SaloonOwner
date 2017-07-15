@@ -34,7 +34,6 @@
                 android:id="@+id/saloonprofile_saloonName_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:layout_marginTop="50dp"
@@ -43,6 +42,24 @@
                 android:textAlignment="center"
                 android:textColor="@color/white"
                 android:textSize="20sp"
+                android:textStyle="bold"
+                android:typeface="serif"
+
+                />
+
+
+            <TextView
+                android:id="@+id/saloonprofile_saloonCity_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:fontFamily="serif"
+                android:text="Saloon Name"
+                android:textAlignment="center"
+                android:textColor="@color/white"
+                android:textSize="14sp"
                 android:textStyle="bold"
                 android:typeface="serif"
 

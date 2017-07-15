@@ -1,6 +1,7 @@
 package utils;
 
 import android.content.Context;
+import android.graphics.Paint;
 import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -115,6 +116,8 @@ public class ServiceTypeExpandableAdapter extends BaseExpandableListAdapter {
             TextView serviceSubTypePriceTextview = (TextView) convertView.findViewById(R.id.serviceType_adapter_child_subTypeprice_textview);
             TextView serviceSubTypeOfferPriceTextview = (TextView) convertView.findViewById(R.id.serviceType_adapter_child_subTypeOfferprice_textview);
 
+
+
             serviceSubTypePriceTextview.setText(null);
             serviceSubTypeOfferPriceTextview.setText(null);
             serviceNameTextview.setText("Add More Service");
@@ -139,6 +142,8 @@ public class ServiceTypeExpandableAdapter extends BaseExpandableListAdapter {
             serviceNameTextview.setText(service.getServiceName());
 
             serviceSubTypeOfferPriceTextview.setText(service.getServiceOfferPrice() + "");
+            serviceSubTypePriceTextview.setPaintFlags(serviceSubTypePriceTextview.getPaintFlags() | Paint.STRIKE_THRU_TEXT_FLAG);
+
 
         }
 

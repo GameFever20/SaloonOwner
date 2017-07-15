@@ -40,7 +40,7 @@ public class SaloonProfile extends EasyLocationActivity {
     EditText saloonNameEditText, saloonAddressEditText, saloonLocationEditText, saloonPhoneNumberEditText, saloonYearofEstablishment;
     String saloonName, saloonAddress, saloonLocation, saloonPhoneNumber;
 
-    TextView saloonNameTextView;
+    TextView saloonNameTextView ,saloonCityTextView;
 
 
     FireBaseHandler fireBaseHandler;
@@ -86,12 +86,15 @@ public class SaloonProfile extends EasyLocationActivity {
             // saloonLocationEditText = (EditText) findViewById(R.id.saloonprofile_saloonLocation_editText);
             saloonPhoneNumberEditText = (EditText) findViewById(R.id.saloonprofile_saloonPhoneNumber_editText);
             saloonNameTextView = (TextView) findViewById(R.id.saloonprofile_saloonName_textView);
+            saloonCityTextView =(TextView)findViewById(R.id.saloonprofile_saloonCity_textView);
+
             saloonYearofEstablishment = (EditText) findViewById(R.id.saloonprofile_saloonYearOfEstablishment_editText);
 
             if (saloon.getSaloonPoint() != 0) {
                 try {
                     // saloonNameEditText.setText(saloon.getSaloonName());
                     saloonNameTextView.setText(saloon.getSaloonName());
+                    saloonCityTextView.setText(saloon.getSaloonCity());
                     saloonPhoneNumberEditText.setText(saloon.getSaloonPhoneNumber());
                     // saloonLocationEditText.setText(saloon.getSaloonLocation());
                     saloonAddressEditText.setText(saloon.getSaloonAddress());
