@@ -58,6 +58,7 @@ public class MainActivity extends AppCompatActivity
     boolean isRegistered = false;
     public static Saloon SALOON = null;
 
+
     //public static Order ORDER = null;
 
 
