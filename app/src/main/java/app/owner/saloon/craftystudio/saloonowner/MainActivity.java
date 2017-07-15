@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         if (orderAdapter != null) {
             orderAdapter.notifyDataSetChanged();
+
         }
 
     }
